@@ -1,0 +1,28 @@
+<html>
+
+<head>
+</head>
+
+<body>
+
+<div id="top">
+  {% if user.is_authenticated %} <p>Hello {{user.username}}!</p> {% endif %}
+	<ul id="nav">
+		<li> <a href="{% url 'index' %}">Home</a> </li>
+		<li> <a href="{% url 'problems' %}">Problems</a> </li>
+		{% if not user.is_authenticated %}
+			<li> <a href="{% url 'login' %}">Login</a> </li>
+		{% else %}
+			<li> <a href="{% url 'logout' %}">Logout</a> </li>
+		{% endif %}
+	</ul>
+</div>
+
+<div id="body">
+{% block body %}
+{% endblock %}
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+{% extends "program/base.html" %}
+{% load dictionary_access %}
+
+{%block body %}
+
+<table id="problems" border="1">
+	<tr>
+		<th>ID</th>
+		<th>Solved</th>
+		<th>Name</th>
+		<th>Submission Time</th>
+	</tr>
+	{% for pr, result in data %}
+		<tr>
+			
+			<td>{{pr.id}}</td>
+			{% if result == None %}
+				<td class="null"></td>
+			{% elif result.successful %}
+				<td class="correct"> &#10004; </td>
+			{% else %}
+				<td class="notCorrect"> &#x2718; </td>
+			{% endif %}
+			<td><a href="{{pr.id}}">{{pr.name}}</a></td>
+			{% if result != None %}
+				<td>{{ result.submissionTime }} </td>
+			{% else %}
+				<td class="null"></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

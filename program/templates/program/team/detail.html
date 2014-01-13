@@ -1,0 +1,54 @@
+{% extends "program/base.html" %}
+
+{%block body %}
+
+<h1> {{problem.name}} </h1>
+
+<h2>Description:</h2>
+
+<p> {{problem.description}} </p>
+
+{% if problem.inputDescription != None %}
+	<h2>Input Description:</h2>
+	<p>{{ problem.inputDescription }}</p>
+{% endif %}
+{% if problem.outputDescription != None %}
+	<h2>Output Description:</h2>
+	<p>{{ problem.outputDescription }}</p>
+{% endif %}
+
+
+{% if submissions %}
+<hr />
+<h2>Submissions:</h2>
+	<table border="1">
+		<tr>
+			<th>Correct</th>
+			<th>Submission Time</th>
+		</tr>
+
+		{% for submission in submissions %} {% with t=submission.submissionTime %}
+			<tr>
+				{% if submission.successful %}
+					<td class="correct"> &#10004; </td>
+				{% else %}
+					<td class="notCorrect"> &#x2718; </td>
+				{% endif %}
+				<td>{{t}}</td>
+			</tr>
+		{% endwith %} {% endfor %}
+	</table>
+{% endif %}
+
+{% if not latestSubmission.successful %}
+
+<hr />
+
+<form method="POST" enctype="multipart/form-data">{% csrf_token %}
+	{{ testForm.as_p}}
+	<input type="submit" value="Test" />
+</form>
+
+{% endif %}
+
+{% endblock %}
