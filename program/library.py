@@ -15,4 +15,8 @@ class SolutionValidator:
 		returnVal = cleanActual == cleanExpected
 		return returnVal
 
+# Site-wide Context Processor
+def programSiteContext(request):
+	return {'test':'test text'}
+
 

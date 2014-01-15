@@ -17,9 +17,10 @@ team/problem/submit/<INT>?fileId=<INT>:
 
 account/login/:
 	- Add redirect check to set initial user settings.
+	- Fix redirect on login.
 
 account/settings/:
-	- Write this page.
+	- Write this view.
 
 
 MODELS =================================================

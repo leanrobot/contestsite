@@ -51,5 +51,24 @@ def get_uploaded_path(instance, filename):
 	return os.path.join(instance.owner.username, filename)
 
 class ProblemSolution(models.Model):
-	owner = models.ForeignKey(User)
-	solution = models.FileField(upload_to=get_uploaded_path)
+	owner 				= models.ForeignKey(User)
+	solution 			= models.FileField(upload_to=get_uploaded_path)
+
+class Compiler(models.Model):
+	compiled = models.BooleanField()
+	compileCmd = models.TextField(blank=True)
+	runCmd = models.TextField()
+
+class ContestSettings(models.Model):
+	startTime 			= models.DateTimeField()
+	endTime 			= models.DateTimeField()
+	paused				= models.BooleanField()
+
+	name 				= models.TextField()
+	deduction 			= models.IntegerField(default=0)
+
+class UserSettings(models.Model):
+	user = models.OneToOneField(User, primary_key=True)
+	teamName = models.CharField(max_length=30)
+	compiler = models.ForeignKey(Compiler)
+
