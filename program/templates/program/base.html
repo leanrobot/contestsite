@@ -6,7 +6,15 @@
 <body>
 
 <div id="top">
-  {% if user.is_authenticated %} <p>Hello {{user.username}}!</p> {% endif %}
+	{% if user.is_authenticated %} 
+		<p>Hello {{user.username}}!</p> 
+		<ul>
+			<li>team-name: {{settings.teamName}}</li>
+			<li>compiler: {{settings.compiler}}</li>
+		</ul>
+		<hr />
+	{% endif %}
+
 	<ul id="nav">
 		<li> <a href="{% url 'index' %}">Home</a> </li>
 		<li> <a href="{% url 'problems' %}">Problems</a> </li>

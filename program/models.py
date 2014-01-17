@@ -55,9 +55,35 @@ class ProblemSolution(models.Model):
 	solution 			= models.FileField(upload_to=get_uploaded_path)
 
 class Compiler(models.Model):
-	compiled = models.BooleanField()
-	compileCmd = models.TextField(blank=True)
-	runCmd = models.TextField()
+	name 				= models.CharField(max_length=30)
+	compiled 			= models.BooleanField()
+	compileCmd 			= models.TextField(blank=True)
+	runCmd 				= models.TextField()
+
+	def _getCmd(self, commandStr, solutionFile):
+		pass
+		full = solutionFile.path # Testing Phase
+		directory = os.path.dirname(solutionFile.path)
+		filename = os.path.basename(solutionFile.path)
+		basename = os.path.splitext(solutionFile.path)[0]
+		command = commandStr.split(' ')
+		def replace(c):
+			c = c.replace('{{fullname}}', full)
+			c = c.replace('{{filename}}', filename)
+			c = c.replace('{{directory}}', directory)
+			c = c.replace('{{basename}}', basename)
+			return c
+
+
+		return	map(replace, command)
+
+	def getCompileCmd(self, solutionFile):
+		return self._getCmd(self.compileCmd, solutionFile)
+	def getRunCmd(self, solutionFile):
+		return self._getCmd(self.runCmd, solutionFile)
+
+	def __unicode__(self):
+		return self.name
 
 class ContestSettings(models.Model):
 	startTime 			= models.DateTimeField()
@@ -71,4 +97,7 @@ class UserSettings(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
 	teamName = models.CharField(max_length=30)
 	compiler = models.ForeignKey(Compiler)
+
+	def __unicode__(self):
+		return ("%s's Settings" % (self.user,))
 

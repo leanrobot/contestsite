@@ -167,11 +167,11 @@ class ProblemExecutionView(View):
 					thread.join()
 		"""
 
-		pass
 		solution = ProblemSolution.objects.get(pk=request.GET['fileId'])
 		problem = Problem.objects.get(pk=problemId)
+		userSettings = UserSettings.objects.get(user=request.user)
 
-		command = ["python", solution.solution.path]
+		command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
 		osProcess = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 		startTime = datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
@@ -203,6 +203,8 @@ class ProblemExecutionView(View):
 		executionResult.problemResult = problemResult
 
 		executionResult.save()
+
+
 		return redirect('problems')
 
 

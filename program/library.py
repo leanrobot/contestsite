@@ -1,4 +1,4 @@
-
+from program.models import UserSettings
 class SolutionValidator:
 	@staticmethod
 	def validate(problem, executionResult):
@@ -9,7 +9,6 @@ class SolutionValidator:
 
 	@staticmethod
 	def _compareStdout(actual, expected):
-		pass
 		cleanActual = unicode(actual.replace("\r", u""))
 		cleanExpected = unicode(expected.replace("\r", u""))
 		returnVal = cleanActual == cleanExpected
@@ -17,6 +16,10 @@ class SolutionValidator:
 
 # Site-wide Context Processor
 def programSiteContext(request):
-	return {'test':'test text'}
+	siteContext = {}
+	if request.user.is_authenticated():
+		siteContext['settings'] = UserSettings.objects.get(user=request.user)
+
+	return siteContext
 
 
