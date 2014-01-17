@@ -172,10 +172,10 @@ class ProblemExecutionView(View):
 		userSettings = UserSettings.objects.get(user=request.user)
 
 		command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
-		osProcess = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 		startTime = datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
-		stdout, stderr = osProcess.communicate()
+		stdout, stderr = osProcess.communicate(input=problem.inputSubmit)
 		endTime = datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
 		#osProcess = ThreadedCommand(["python", solution.solution.path])
 		#osProcess.run(5)
@@ -189,7 +189,7 @@ class ProblemExecutionView(View):
 		executionResult = ExecutionResult(
 			startTime = startTime,
 			endTime = endTime,
-			stdin = "NOT SUPPORTED",
+			stdin = problem.inputSubmit,
 			stdout = stdout,
 			stderr = stderr,
 			command = "".join(command),
