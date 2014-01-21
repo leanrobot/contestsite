@@ -127,7 +127,7 @@ class ProblemDetailView(View):
 		if form.is_valid:
 			solution = ProblemSolution(solution=request.FILES['solution'], owner=request.user)
 			solution.save()
-			return redirect("/program/team/problem/submit/%s?fileId=%s" % (problemId, solution.id))
+			return redirect("/program/problem/%s/submit/%s" % (problemId, solution.id))
 		return HttpResponseRedirect("index")
 		"""
 		form = TestForm(request.POST)
@@ -140,7 +140,7 @@ class ProblemDetailView(View):
 	
 
 class ProblemExecutionView(View):
-	def get(self, request, problemId):
+	def get(self, request, problemId, fileId):
 		"""
 		class ThreadedCommand:
 			def __init__(self, cmd):
@@ -168,7 +168,7 @@ class ProblemExecutionView(View):
 					thread.join()
 		"""
 
-		solution = ProblemSolution.objects.get(pk=request.GET['fileId'])
+		solution = ProblemSolution.objects.get(pk=fileId)
 		problem = Problem.objects.get(pk=problemId)
 		userSettings = UserSettings.objects.get(user=request.user)
 

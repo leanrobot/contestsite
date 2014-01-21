@@ -14,7 +14,7 @@ urlpatterns = patterns('',
 
     url(r'problem/$', login_required( views.TeamProblemPage.as_view() ), name="problems"),
     url(r'problem/(\d+)$', views.ProblemDetailView.as_view(), name="problem detail"),
-    url(r'problem/submit/(\d+)', views.ProblemExecutionView.as_view(), name="problem execution")
+    url(r'problem/(\d+)/submit/(\d+)$', views.ProblemExecutionView.as_view(), name="problem execution")
 )
 
 
