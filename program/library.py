@@ -1,4 +1,7 @@
-from program.models import UserSettings
+
+from program.models import UserSettings, ContestSettings
+
+
 class SolutionValidator:
 	@staticmethod
 	def validate(problem, executionResult):
@@ -17,9 +20,16 @@ class SolutionValidator:
 # Site-wide Context Processor
 def programSiteContext(request):
 	siteContext = {}
+
+	# Wire in UserSettings Object
 	if request.user.is_authenticated():
 		siteContext['settings'] = UserSettings.objects.get(user=request.user)
 
+	# Wire in ContestSettings Object
+	siteContext['contest'] = ContestSettings.objects.get(pk=1)
+
 	return siteContext
+
+
 
 

@@ -93,6 +93,12 @@ class ContestSettings(models.Model):
 	name 				= models.TextField()
 	deduction 			= models.IntegerField(default=0)
 
+	def inSession(self, time):
+		return self.startTime <= time and time <= self.endTime and not self.paused
+
+	def __unicode__(self):
+		return "%s -- Start: %s. End: %s. Paused? %s" % (self.name, self.startTime, self.endTime, self.paused)
+
 class UserSettings(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
 	teamName = models.CharField(max_length=30)

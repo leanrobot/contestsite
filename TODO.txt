@@ -4,6 +4,7 @@ TODO list for ContestSite Django app ===========================================
 
 - Make sure that file is deleted when ProblemSolution is deleted.
 - Add test to make sure competition if competition is paused OR in progress.
+- Write Execution/Problem Result view page.
 
 VIEWS ==================================================
 

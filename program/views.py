@@ -7,6 +7,7 @@ from django import forms
 import django.contrib.auth as auth
 from django.conf import settings
 
+
 from pytz import timezone
 
 from program.models import *
@@ -206,6 +207,10 @@ class ProblemExecutionView(View):
 
 
 		return redirect('problems')
+
+class WaitView(View):
+	def get(self, request):
+		return HttpResponse("Contest is not in session, you must wait!")
 
 
 
