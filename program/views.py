@@ -210,7 +210,8 @@ class ProblemExecutionView(View):
 
 class WaitView(View):
 	def get(self, request):
-		return HttpResponse("Contest is not in session, you must wait!")
-
+		return render(request, "program/contestNotInSession.html", {
+			'now' : datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
+			})
 
 

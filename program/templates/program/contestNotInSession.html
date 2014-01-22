@@ -1,0 +1,7 @@
+{% if now < contest.startTime %}
+	{% include 'program/contestStates/notStarted.html' %}
+{% elif contest.paused %}
+	{% include 'program/contestStates/paused.html' %}
+{% elif contest.endTime <= now %}
+	{% include 'program/contestStates/ended.html' %}
+{% endif %}
