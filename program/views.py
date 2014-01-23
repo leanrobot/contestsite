@@ -31,12 +31,17 @@ class LoginForm(forms.Form):
 class TestForm(forms.Form):
 	solution = forms.FileField(label="Select a solution")
 
-# Create your views here.
+class UserSettingsForm(forms.ModelForm):
+	class Meta:
+		model = UserSettings
+		fields = ['teamName', 'compiler']
+
+# Views ==========================================================
+
 class IndexView(View):
 	def get(self, request):
 		return render(request, "program/index.html", {})
-
-
+# ============
 
 class LoginPage(View):
 	def get(self, request):
@@ -53,7 +58,7 @@ class LoginPage(View):
 				{'form':LoginForm()})
 
 	def post(self, request):
-		response = redirect('/')
+		response = redirect("index")
 
 		if not request.user.is_authenticated():
 			usernm = request.POST['username']
@@ -63,9 +68,11 @@ class LoginPage(View):
 			response = redirect('login')
 			if user is not None and user.is_active:
 				auth.login(request, user)
-				response = HttpResponse(request.POST['next'])
+				if request.POST['next']:
+					response = redirect(request.POST['next'])
 
 		return response
+# ============
 
 class LogoutPage(View):
 	def get(self, request):
@@ -76,6 +83,7 @@ class LogoutPage(View):
 			redirectUrl = request.GET['next']
 
 		return redirect(redirectUrl)
+# ============
 
 class TeamProblemPage(View):
 	def get(self, request):
@@ -108,6 +116,7 @@ class TeamProblemPage(View):
 		return render(request, 'program/team/problems.html', {
 			'data': data
 			})
+# ============
 
 class ProblemDetailView(View):
 	def get(self, request, problemId):
@@ -137,7 +146,7 @@ class ProblemDetailView(View):
 			solution.save()
 			return HttpResponseRedirect("problems")
 		"""
-	
+# ============	
 
 class ProblemExecutionView(View):
 	def get(self, request, problemId, fileId):
@@ -207,11 +216,42 @@ class ProblemExecutionView(View):
 
 
 		return redirect('problems')
+# ============
 
 class WaitView(View):
 	def get(self, request):
 		return render(request, "program/contestNotInSession.html", {
 			'now' : datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
 			})
+# ============
+
+class UserSettingsView(View):
+	def get(self, request):
+		form = UserSettingsForm()
+		settings = None
+
+		try:
+			settings = UserSettings.objects.get(user=request.user)
+		except UserSettings.DoesNotExist:
+			settings = None
+		if settings:
+			form = UserSettingsForm(instance=settings)
+		return render(request, "program/accounts/settings.html", {
+			'userSettingsForm' : form,
+			})
+
+	def post(self, request):
+		pass
+		# TODO write this
+		userSettings = UserSettings(user=request.user)
+		form = UserSettingsForm(request.POST, instance=userSettings)
+		if form.is_valid():
+			form.save()
+			return redirect('index')
+		else:
+			fdsafds
+			return redirect('user settings')
+# ============
+
 
 

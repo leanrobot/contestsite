@@ -7,17 +7,15 @@
 
 <div id="top">
 	{% if user.is_authenticated %} 
-		<p>Hello {{user.username}}!</p> 
-		<ul>
-			<li>team-name: {{settings.teamName}}</li>
-			<li>compiler: {{settings.compiler}}</li>
-		</ul>
+		<h1>{{contest.name}}</h1>
+		<h2>Team: {{settings.teamName}}</h2>
 		<hr />
 	{% endif %}
 
 	<ul id="nav">
 		<li> <a href="{% url 'index' %}">Home</a> </li>
 		<li> <a href="{% url 'problems' %}">Problems</a> </li>
+		<li> <a href="{% url 'user settings' %}">Settings</a> </li>
 		{% if not user.is_authenticated %}
 			<li> <a href="{% url 'login' %}">Login</a> </li>
 		{% else %}

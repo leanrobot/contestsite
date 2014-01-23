@@ -47,7 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'program.middleware.ContestInSession',
+    'program.middleware.ContestSiteMiddleware',
 )
 
 ROOT_URLCONF = 'ContestSite.urls'

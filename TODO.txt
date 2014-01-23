@@ -3,8 +3,8 @@
 TODO list for ContestSite Django app ===========================================================
 
 - Make sure that file is deleted when ProblemSolution is deleted.
-- Add test to make sure competition if competition is paused OR in progress.
 - Write Execution/Problem Result view page.
+- Add javascript tidbit to expose the django context variables for debugging.
 
 VIEWS ==================================================
 
@@ -13,9 +13,7 @@ team/problem/:
 team/problem/<INT>/:
 
 team/problem/submit/<INT>?fileId=<INT>:
-	- Add Ability to pipe stdin and store stdin.
-	- Add timeout ability for executing software
-	- Add support for multiple compilers
+	- Add timeout & threading ability for executing software
 
 account/login/:
 	- Add redirect check to set initial user settings.
