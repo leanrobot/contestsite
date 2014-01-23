@@ -1,0 +1,8 @@
+{% extends 'program/base.html' %}
+
+{% block body %}
+<form method="POST" action="{% url 'user settings' %}"> {% csrf_token %}
+	{{ userSettingsForm.as_p }}
+	<input type="submit" value="Save" />
+</form>
+{% endblock %}
