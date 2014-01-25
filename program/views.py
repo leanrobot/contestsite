@@ -1,4 +1,5 @@
-import subprocess, threading, datetime
+import subprocess, threading
+from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
@@ -146,6 +147,30 @@ class ProblemDetailView(View):
 			solution.save()
 			return HttpResponseRedirect("problems")
 		"""
+# ============
+
+class ProblemResultView(View):
+	def get(self, request, problemId, resultId):
+		pass
+		try:
+			problem = Problem.objects.get(pk=problemId)
+			result 	= ProblemResult.objects.get(pk=resultId)
+			execution = result.executionresult
+			minutesAgo = (datetime.now(tz=timezone(settings.TIME_ZONE)) - result.submissionTime).total_seconds() // 60
+			runningTime = (execution.endTime - execution.startTime).total_seconds()
+
+			return render(request, "program/team/result.html", {
+					"problem"	: problem,
+					"result"	: result,
+					"execution"	: result.executionresult,
+
+					"minutesAgo" : int(minutesAgo),
+					"runningTime": runningTime,
+					"test"		: True,
+
+				})
+		except (Problem.DoesNotExist, ProblemResult.DoesNotExist):
+			pass
 # ============	
 
 class ProblemExecutionView(View):
@@ -184,9 +209,9 @@ class ProblemExecutionView(View):
 		command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
 		osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-		startTime = datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
+		startTime = datetime.now(tz=timezone(settings.TIME_ZONE))
 		stdout, stderr = osProcess.communicate(input=problem.inputSubmit)
-		endTime = datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
+		endTime = datetime.now(tz=timezone(settings.TIME_ZONE))
 		#osProcess = ThreadedCommand(["python", solution.solution.path])
 		#osProcess.run(5)
 
@@ -202,7 +227,7 @@ class ProblemExecutionView(View):
 			stdin = problem.inputSubmit,
 			stdout = stdout,
 			stderr = stderr,
-			command = "".join(command),
+			command = " ".join(command),
 			exitCode = osProcess.returncode,
 			problemResult = problemResult,
 			)
@@ -221,7 +246,7 @@ class ProblemExecutionView(View):
 class WaitView(View):
 	def get(self, request):
 		return render(request, "program/contestNotInSession.html", {
-			'now' : datetime.datetime.now(tz=timezone(settings.TIME_ZONE))
+			'now' : datetime.now(tz=timezone(settings.TIME_ZONE))
 			})
 # ============
 

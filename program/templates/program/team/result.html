@@ -1,0 +1,47 @@
+{% extends 'program/base.html' %}
+
+{% block body %}
+	
+	<h2>
+		{% if result.successful %}
+			<span class="correct">&#10004;</span>
+		{% else %}
+			<span class="notCorrect">&#x2718;</span>
+		{% endif %}
+		#{{problem.id}} - {{problem.name}}
+	</h2>
+	<p><strong>{{minutesAgo}} mins ago</strong> by {{user.username}}</p>
+
+	{% if test %}
+		<h3>Output</h3>
+		<pre><samp>{{execution.stdout}}</samp></pre>
+
+		<h3>Expected Output</h3>
+		<pre><samp>{{problem.outputTest}}</samp></pre>
+
+		<hr />
+	{% endif %}
+	
+	<h3>Execution Details</h3>
+
+	<h4>Command</h4>
+	<code>{{execution.command}}</code>
+
+	<h4>Running Time</h4>
+	<p>{{runningTime}} seconds</p>
+
+	<h4>stdin</h4>
+	{% if execution.stdin %}
+		<pre><kbd>{{execution.stdin}}</kbd></pre>
+	{% else %}
+		<p>No stdin.</p>
+	{% endif %}
+
+	<h4>stderr</h4>
+	{% if execution.stderr %}
+		<pre><samp>{{execution.stderr}}</samp></pre>
+	{% else %}
+		<p>No stdin.</p>
+	{% endif %}
+
+{% endblock %}

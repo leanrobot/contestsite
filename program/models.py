@@ -43,7 +43,7 @@ class ExecutionResult(models.Model):
 	stderr				= models.TextField(blank=True)
 	command				= models.CharField(max_length=200)
 	exitCode			= models.IntegerField()
-	problemResult 		= models.ForeignKey(ProblemResult)
+	problemResult 		= models.OneToOneField(ProblemResult, primary_key=True)
 
 	#TODO WRITE __UNICODE__
 

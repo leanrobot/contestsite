@@ -27,14 +27,14 @@
 			<th>Submission Time</th>
 		</tr>
 
-		{% for submission in submissions %} {% with t=submission.submissionTime %}
+		{% for submission in submissions %} {% with time=submission.submissionTime %}
 			<tr>
 				{% if submission.successful %}
 					<td class="correct"> &#10004; </td>
 				{% else %}
 					<td class="notCorrect"> &#x2718; </td>
 				{% endif %}
-				<td>{{t}}</td>
+				<td><a href="{% url 'problem result' problem.id submission.id %}">{{time}}</a></td>
 			</tr>
 		{% endwith %} {% endfor %}
 	</table>
@@ -46,7 +46,7 @@
 
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
 	{{ testForm.as_p}}
-	<input type="submit" value="Test" />
+	<input type="submit" value="Submit Solution" />
 </form>
 
 {% endif %}

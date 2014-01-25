@@ -2,29 +2,35 @@
 
 TODO list for ContestSite Django app ===========================================================
 
+New Features
+====================
+- Add javascript tidbit to expose the django context variables for debugging. (Django-Introspect)
+- Index page is scoreboard.
+
+
+
+
+Upgrades
+====================
+- Add file extension detection for compilation / language detection.
+- Add possible scoring points to problem table.
+- New data fields for UserSettings [team members, school of origin, competition division]
+- Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
+- Add score to the header.
+- Add last correct submission time to header.
+- Rework problems table on TeamProblemPage
+	- Remove submission time (replace with x mins ago..)
+	- Add 'possible score' to the table.
+
+
+
+
+Bugs / Issues
+====================
 - Make sure that file is deleted when ProblemSolution is deleted.
-- Write Execution/Problem Result view page.
-- Add javascript tidbit to expose the django context variables for debugging.
-
-VIEWS ==================================================
-
-team/problem/:
-
-team/problem/<INT>/:
-
-team/problem/submit/<INT>?fileId=<INT>:
-	- Add timeout & threading ability for executing software
-
-account/login/:
-	- Add redirect check to set initial user settings.
-	- Fix redirect on login.
-
-account/settings/:
-	- Write this view.
+- Add timeout & threading ability for executing software
+- In ProblemDetailView, if there are no submissions, clearly state "No Submissions"
 
 
-MODELS =================================================
 
-- Write UserSettings model.
-- Create Compiler Model, which holds all the different compiler settings
-- Tie ProblemSolution to ProblemResult
+
