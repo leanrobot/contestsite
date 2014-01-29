@@ -1,5 +1,5 @@
 
-from program.models import UserSettings, ContestSettings
+from program.models import UserSettings, ContestSettings, ProblemResult
 
 
 class SolutionValidator:

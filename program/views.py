@@ -256,8 +256,17 @@ class ProblemExecutionView(View):
 
 class WaitView(View):
 	def get(self, request):
+		submission = ProblemResult.objects.filter(user=request.user, successful=True).first()
+		subDate = None
+		subTime = None
+		if submission:
+			subDate = submission.submissionTime.date()
+			subTime = submission.submissionTime.astimezone(timezone(settings.TIME_ZONE)).timetz().strftime("%I:%M:%S %p")
 		return render(request, "program/contestNotInSession.html", {
-			'now' : datetime.now(tz=timezone(settings.TIME_ZONE))
+			'now'				: datetime.now(tz=timezone(settings.TIME_ZONE)),
+			'submission'		: submission,
+			'subDate'			: subDate,
+			'subTime'			: subTime,
 			})
 # ============
 
