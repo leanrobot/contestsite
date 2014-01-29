@@ -5,15 +5,17 @@
 
 <table id="problems" border="1">
 	<tr>
-		<th>ID</th>
+		<th>&nbsp;#&nbsp;</th>
 		<th>Solved</th>
+		<th>Score / Possible</th>
 		<th>Name</th>
 		<th>Submission Time</th>
 	</tr>
-	{% for pr, result in data %}
-		<tr>
+	{% for pr,possibleScore,result in data %}
+		<tr class="{{result.successful}}">
 			
 			<td>{{pr.id}}</td>
+
 			{% if result == None %}
 				<td class="null"></td>
 			{% elif result.successful %}
@@ -21,12 +23,17 @@
 			{% else %}
 				<td class="notCorrect"> &#x2718; </td>
 			{% endif %}
+
+			<td>{{possibleScore}}</td>
+
 			<td><a href="{{pr.id}}">{{pr.name}}</a></td>
+
 			{% if result != None %}
 				<td>{{ result.submissionTime }} </td>
 			{% else %}
 				<td class="null"></td>
 			{% endif %}
+
 		</tr>
 	{% endfor %}
 </table>

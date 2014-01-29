@@ -13,14 +13,11 @@ New Features
 Upgrades
 ====================
 - Add file extension detection for compilation / language detection.
-- Add possible scoring points to problem table.
 - New data fields for UserSettings [team members, school of origin, competition division]
 - Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
-- Add score to the header.
 - Add last correct submission time to header.
 - Rework problems table on TeamProblemPage
 	- Remove submission time (replace with x mins ago..)
-	- Add 'possible score' to the table.
 
 
 
@@ -30,6 +27,8 @@ Bugs / Issues
 - Make sure that file is deleted when ProblemSolution is deleted.
 - Add timeout & threading ability for executing software
 - In ProblemDetailView, if there are no submissions, clearly state "No Submissions"
+- Give the submissions more importance on the page on ProblemDetailView
+- Enforce only one correct submissions for each problem.
 
 
 

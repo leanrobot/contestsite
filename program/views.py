@@ -86,7 +86,7 @@ class LogoutPage(View):
 		return redirect(redirectUrl)
 # ============
 
-class TeamProblemPage(View):
+class ProblemListView(View):
 	def get(self, request):
 		problems = Problem.objects.all()
 
@@ -100,8 +100,10 @@ class TeamProblemPage(View):
 			problemResults.append(problemResultsDict.get(p.id, None))
 
 		'''
+		userdata = UserSettings.objects.get(user=request.user)
 		problemResultsAll = ProblemResult.objects.filter(user=request.user)
 
+		# compile all successful problem results for each problem
 		problemResults = []
 		for p in problems:
 			prp = problemResultsAll.filter(problem=p)
@@ -112,8 +114,12 @@ class TeamProblemPage(View):
 				pass
 			problemResults.append(result)
 
+		# compile possible scores
+		possibleScores = []
+		for p in problems:
+			possibleScores.append(ProblemScore.possibleScore(userdata, p))
 
-		data = zip(problems, problemResults)
+		data = zip(problems, possibleScores, problemResults)
 		return render(request, 'program/team/problems.html', {
 			'data': data
 			})
