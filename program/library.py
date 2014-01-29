@@ -24,7 +24,7 @@ def programSiteContext(request):
 	# Wire in UserSettings Object
 	if request.user.is_authenticated():
 		try:
-			siteContext['settings'] = UserSettings.objects.get(user=request.user)
+			siteContext['userdata'] = UserSettings.objects.get(user=request.user)
 		except UserSettings.DoesNotExist:
 			pass
 

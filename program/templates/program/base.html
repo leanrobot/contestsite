@@ -8,7 +8,8 @@
 <div id="top">
 	{% if user.is_authenticated %} 
 		<h1>{{contest.name}}</h1>
-		<h2>Team: {{settings.teamName}}</h2>
+		<h2>Team: {{userdata.teamName}}</h2>
+		<h2>Score: {{userdata.score}}</h2>
 		<hr />
 	{% endif %}
 

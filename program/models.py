@@ -33,6 +33,19 @@ class ProblemResult(models.Model):
 	def __unicode__(self):
 		return self.problem.name + " correct? " + unicode(self.successful) + " @ " + unicode(self.submissionTime)
 
+class ProblemScore(models.Model):
+	user 			= models.ForeignKey(User)
+	problem 		= models.ForeignKey(Problem)
+	score 			= models.IntegerField()
+
+	@staticmethod
+	def possibleScore(userdata, problem):
+		incorrect = ProblemResult.objects.filter(user=userdata.user, problem=problem,
+								 successful=False)
+		score = problem.score
+		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
+		return score
+
 class ExecutionResult(models.Model):
 	class Meta:
 		ordering = ['-startTime']
@@ -103,6 +116,7 @@ class UserSettings(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
 	teamName = models.CharField(max_length=30)
 	compiler = models.ForeignKey(Compiler)
+	score = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return ("%s's Settings" % (self.user,))
