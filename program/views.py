@@ -129,12 +129,14 @@ class ProblemDetailView(View):
 	def get(self, request, problemId):
 		problem = Problem.objects.get(pk=problemId)
 		submissions = ProblemResult.objects.filter(user=request.user, problem=problem)
+		userdata = UserSettings.objects.get(user=request.user)
 		return render(request, "program/team/detail.html", 
 			{
 				'problem' 		: problem,
 				'testForm'		: TestForm(),
 				'submissions'	: submissions,
-				'latestSubmission' : submissions[0] if len(submissions) > 0 else False
+				'possibleScore' : ProblemScore.possibleScore(userdata, problem),
+				'latestSubmission' : submissions[0] if len(submissions) > 0 else False,
 			})
 
 	def post(self, request, problemId):
@@ -170,7 +172,6 @@ class ProblemResultView(View):
 					"result"	: result,
 					"execution"	: result.executionresult,
 
-					"minutesAgo" : int(minutesAgo),
 					"runningTime": runningTime,
 					"test"		: True,
 

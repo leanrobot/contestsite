@@ -10,7 +10,6 @@
 		<h1>{{contest.name}}</h1>
 		<h2>Team: {{userdata.teamName}}</h2>
 		<h2>Score: {{userdata.score}}</h2>
-		<hr />
 	{% endif %}
 
 	<ul id="nav">
@@ -23,6 +22,7 @@
 			<li> <a href="{% url 'logout' %}">Logout</a> </li>
 		{% endif %}
 	</ul>
+	<hr/>
 </div>
 
 <div id="body">

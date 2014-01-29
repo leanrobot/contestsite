@@ -10,7 +10,7 @@
 		{% endif %}
 		#{{problem.id}} - {{problem.name}}
 	</h2>
-	<p><strong>{{minutesAgo}} mins ago</strong> by {{user.username}}</p>
+	<p><strong>{{result.minsAgo}} min(s) ago</strong> by {{user.username}}</p>
 
 	{% if test %}
 		<h3>Output</h3>
@@ -41,7 +41,7 @@
 	{% if execution.stderr %}
 		<pre><samp>{{execution.stderr}}</samp></pre>
 	{% else %}
-		<p>No stdin.</p>
+		<p>No stderr.</p>
 	{% endif %}
 
 {% endblock %}

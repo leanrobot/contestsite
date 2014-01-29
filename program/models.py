@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 import os
+from django.conf import settings
+
+
+from datetime import timedelta,datetime
+
+from pytz import timezone
+
 
 # Create your models here.
 class Problem(models.Model):
@@ -28,6 +35,12 @@ class ProblemResult(models.Model):
 	successful			= models.BooleanField(default=False)
 	user 				= models.ForeignKey(User)
 	problem 			= models.ForeignKey(Problem)
+
+	def minsAgo(self):
+		now = datetime.now(tz=timezone(settings.TIME_ZONE))
+		delta = now - self.submissionTime
+		minsAgo = delta.total_seconds() /60
+		return int(minsAgo)
 
 	#TODO WRITE __UNICODE__
 	def __unicode__(self):
