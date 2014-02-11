@@ -7,6 +7,8 @@ New Features
 - Add javascript tidbit to expose the django context variables for debugging. (Django-Introspect)
 - Index page is scoreboard.
 - Write contest administration page.
+- Add judge(staff) account.
+	- use socket.io to implement "call judge" button directly to the judge.
 
 
 
@@ -16,7 +18,6 @@ Upgrades
 - Add file extension detection for compilation / language detection.
 - New data fields for UserSettings [team members, school of origin, competition division]
 - Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
-- Add last correct submission time to header.
 - Rework problems table on TeamProblemPage
 	- any more changes?
 

@@ -82,22 +82,23 @@ class ProblemSolution(models.Model):
 
 class Compiler(models.Model):
 	name 				= models.CharField(max_length=30)
+	extension			= models.CharField(max_length=10)
 	compiled 			= models.BooleanField()
 	compileCmd 			= models.TextField(blank=True)
 	runCmd 				= models.TextField()
 
 	def _getCmd(self, commandStr, solutionFile):
 		pass
-		full = solutionFile.path # Testing Phase
+		fullname = solutionFile.path # Testing Phase
 		directory = os.path.dirname(solutionFile.path)
 		filename = os.path.basename(solutionFile.path)
 		basename = os.path.splitext(solutionFile.path)[0]
 		command = commandStr.split(' ')
 		def replace(c):
-			c = c.replace('{{fullname}}', full)
-			c = c.replace('{{filename}}', filename)
-			c = c.replace('{{directory}}', directory)
-			c = c.replace('{{basename}}', basename)
+			c = c.replace('{{fullname}}', fullname) 	# /Users/test/programming/test.py
+			c = c.replace('{{filename}}', filename)		# test.py
+			c = c.replace('{{directory}}', directory)	# /Users/test/programming
+			c = c.replace('{{basename}}', basename)		# test
 			return c
 
 
