@@ -10,10 +10,18 @@ from pytz import timezone
 
 
 # Create your models here.
+inputTypes = (
+	('none', 'None'),
+	('file', 'File'),
+	('stdin', 'Stdin'),
+)
+
+
 class Problem(models.Model):
 	name 				= models.CharField(max_length=100)
 	score 				= models.IntegerField()
 
+	inputType 			= models.CharField(max_length=5, choices=inputTypes)
 	inputTest			= models.TextField(blank=True)
 	outputTest			= models.TextField()
 

@@ -47,15 +47,15 @@
 
 <h2>Description:</h2>
 
-<p> {{problem.description}} </p>
+<pre><p>{{problem.description}}</p></pre>
 
 {% if problem.inputDescription != None %}
 	<h2>Input Description:</h2>
-	<p>{{ problem.inputDescription }}</p>
+	<pre><p>{{ problem.inputDescription }}</p></pre>
 {% endif %}
 {% if problem.outputDescription != None %}
 	<h2>Output Description:</h2>
-	<p>{{ problem.outputDescription }}</p>
+	<pre><p>{{ problem.outputDescription }}</p></pre>
 {% endif %}
 
 
