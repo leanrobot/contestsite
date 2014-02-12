@@ -294,9 +294,30 @@ class UserSettingsView(View):
 			form.save()
 			return redirect('index')
 		else:
-			fdsafds
+			fdsafds # TODO
 			return redirect('user settings')
 # ============
 
+class ScoreboardView(View):
+	def get(self, request):
+		pass
+		users = UserSettings.objects.all().order_by('-score')
+		problems = Problem.objects.all()
+		results = ProblemResult.objects.all()
 
+		tableData = []
+		rank = 1
+		for u in users:
+			resultsList = []
+			userQuerySet = results.filter(user=u.user)
+			for p in problems:
+				resultsList.append( userQuerySet.filter(problem=p).first() )
+			tableData.append( (rank, u, resultsList) )
+			rank += 1
+
+		return render(request, "program/scoreboards/scoreboard.html", {
+			"tableData" : tableData,
+			"problems"	: problems,
+			})
+# ============
 
