@@ -1,5 +1,9 @@
+from django.conf import settings
 
 from program.models import UserSettings, ContestSettings, ProblemResult
+
+from pytz import timezone
+
 
 
 class SolutionValidator:
@@ -30,6 +34,9 @@ def programSiteContext(request):
 
 	# Wire in ContestSettings Object
 	siteContext['contest'] = ContestSettings.objects.get(pk=1)
+
+	#wire contest end time
+	siteContext['contestEndTimestamp'] = siteContext['contest'].endTime.astimezone(timezone(settings.TIME_ZONE)).isoformat()
 
 	return siteContext
 

@@ -9,7 +9,7 @@ New Features
 - Write contest administration page.
 - Add judge(staff) account.
 	- use socket.io to implement "call judge" button directly to the judge.
-
+- front-end Countdown clock (coffescript) 
 
 
 
