@@ -216,9 +216,10 @@ class ProblemExecutionView(View):
 		command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
 		osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-		startTime = datetime.now(tz=timezone(settings.TIME_ZONE))
+		tz = timezone(settings.TIME_ZONE)
+		startTime = datetime.now(tz=tz)
 		stdout, stderr = osProcess.communicate(input=problem.inputSubmit)
-		endTime = datetime.now(tz=timezone(settings.TIME_ZONE))
+		endTime = datetime.now(tz=tz)
 		#osProcess = ThreadedCommand(["python", solution.solution.path])
 		#osProcess.run(5)
 
