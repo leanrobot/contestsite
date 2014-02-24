@@ -4,12 +4,13 @@ TODO list for ContestSite Django app ===========================================
 
 New Features
 ====================
+- Customize the admin interface
 - Add javascript tidbit to expose the django context variables for debugging. (Django-Introspect)
-- Index page is scoreboard.
 - Write contest administration page.
 - Add judge(staff) account.
 	- use socket.io to implement "call judge" button directly to the judge.
 - front-end Countdown clock (coffescript) 
+- Post for Login next page.
 
 
 
@@ -25,12 +26,14 @@ Upgrades
 
 Bugs / Issues
 ====================
+- Add reliable score calculation
 - Make sure that file is deleted when ProblemSolution is deleted.
 - Add timeout & threading ability for executing software
 - In ProblemDetailView, if there are no submissions, clearly state "No Submissions"
 - Give the submissions more importance on the page on ProblemDetailView
 - Enforce only one correct submissions for each problem.
 - Create score objects??
+- Only allow one submission per file.
 
 
 

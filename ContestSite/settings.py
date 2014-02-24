@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'djcelery',
     'program',
 )
 
@@ -102,3 +103,6 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 "django.contrib.messages.context_processors.messages",
 "program.library.programSiteContext",)
 
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = "amqp://guest@localhost"
