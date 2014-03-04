@@ -2,23 +2,30 @@
 
 TODO list for ContestSite Django app ===========================================================
 
+High Priority
+=====================
+- COMPILATION SUPPORT
+- [branch InputSupport] Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
+- Add reliable score calculation
+
+
+
 New Features
 ====================
 - Customize the admin interface
 - Add javascript tidbit to expose the django context variables for debugging. (Django-Introspect)
 - Write contest administration page.
 - Add judge(staff) account.
-	- use socket.io to implement "call judge" button directly to the judge.
-- front-end Countdown clock (coffescript) 
+	- use socket.io to implement "call judge" button directly to the judge.\
 - Post for Login next page.
+- Make Problem Submissions show up as pending while they are in the queue.
 
 
 
 Upgrades
 ====================
-- Add file extension detection for compilation / language detection.
+- Add file extension detection for compilation / language detection. 
 - New data fields for UserSettings [team members, school of origin, competition division]
-- Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
 - Rework problems table on TeamProblemPage
 	- any more changes?
 
@@ -26,12 +33,8 @@ Upgrades
 
 Bugs / Issues
 ====================
-- Add reliable score calculation
 - Make sure that file is deleted when ProblemSolution is deleted.
-- Add timeout & threading ability for executing software
-- In ProblemDetailView, if there are no submissions, clearly state "No Submissions"
-- Give the submissions more importance on the page on ProblemDetailView
-- Enforce only one correct submissions for each problem.
+- Enforce only one correct submissions for each problem. (Minor fix, currently dialog is prevented. Make sure that submissions cannot be run at all with execution testing.)
 - Create score objects??
 - Only allow one submission per file.
 
