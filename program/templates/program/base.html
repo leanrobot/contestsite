@@ -1,40 +1,58 @@
 {% load staticfiles %}
 <head>
-	<script src="{% static "program/jQuery-2.1.0.js"%}"></script>
-	<script src="{% static "program/clock.js" %}"></script>
+	<script src="{% static "program/js/jQuery-2.1.0.js"%}"></script>
+	<script src="{% static "program/js/bootstrap.js" %}"></script>
+	<script src="{% static "program/js/clock.js" %}"></script>
+
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{contest.name}}</title>
+    <link href="{% static "program/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "program/css/style.css" %}" rel="stylesheet">
 </head>
 
 <body>
 
-<div id="top">
-	{% if user.is_authenticated %} 
-		<h1>{{contest.name}}</h1>
-		<h2>Team: {{userdata.teamName}}</h2>
-		<h2>Score: {{userdata.score}}</h2>
-	{% endif %}
-
-	<ul id="nav">
-		<li> <a href="{% url 'index' %}">Home</a> </li>
-		<li> <a href="{% url 'problems' %}">Problems</a> </li>
-		<li> <a href="{% url 'user settings' %}">Settings</a> </li>
-		{% if not user.is_authenticated %}
-			<li> <a href="{% url 'login' %}">Login</a> </li>
-		{% else %}
-			<li> <a href="{% url 'logout' %}">Logout</a> </li>
-		{% endif %}
-	</ul>
-
-	<div id="clock"> <!-- controlled by timing.(js|coffee). Implements a countdown timer to the end of the competition -->
-		<span id="timestamp" style="display:none">{{contestEndTimestamp}}</span>
-		<p>Time Remaining: <span id="time"></span></p>
-	</div>
-	<hr/>
-</div>
-
-<div id="body">
-{% block body %}
-{% endblock %}
-</div>
+<div class="container">
+	<div class="navbar navbar-default" role="navigation">
+    	<div class="container-fluid">
+      		<div class="navbar-header">
+            	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	              	<span class="sr-only">Toggle navigation</span>
+	              	<span class="icon-bar"></span>
+	              	<span class="icon-bar"></span>
+	              	<span class="icon-bar"></span>
+            	</button>
+            	<a class="navbar-brand" href="{% url 'index' %}">{{contest.name}}</a>
+      		</div>
+      		<div class="navbar-collapse collapse">
+        		<ul class="nav navbar-nav">
+              		<li class="active"><a href="{% url 'index' %}">Teams</a></li>
+              		<li><a href="{% url 'problems' %}">Problems</a></li>
+        		</ul>
+        		<ul class="nav navbar-nav navbar-right">
+        			
+      				{% if user.is_authenticated %}
+      					<li><a href="#">
+	      					<span id="clock"> 
+	            				<span id="timestamp" style="display:none">{{contestEndTimestamp}}</span>
+								<span id="time"></span>
+							</span>
+						</a></li>
+	      				<li><a href="">{{userdata.score}} points</a></li>
+	          			<li class="active"><a href="{% url 'user settings' %}">{{userdata.teamName}}</a></li>
+		      			<li><a href="{% url 'logout' %}">Sign Out</a></li>
+		      		{% else %}
+		      			<li><a href="{% url 'login' %}">Sign In</a></li>
+		      		{% endif %}
+        		</ul>
+      		</div>
+    	</div>
+	</div> <!-- Navbar close div -->
+	{% block body %}
+	{% endblock %}
+</div> <!-- Container close div -->
 
 </body>
 
