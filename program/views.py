@@ -132,7 +132,7 @@ class ProblemDetailView(View):
 		problem = Problem.objects.get(pk=problemId)
 		submissions = ProblemResult.objects.filter(user=request.user, problem=problem)
 		userdata = UserSettings.objects.get(user=request.user)
-		return render(request, "program/team/detail.html", 
+		return render(request, "program/team/problem_detail.html", 
 			{
 				'problem' 		: problem,
 				'testForm'		: TestForm(),

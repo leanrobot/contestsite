@@ -1,0 +1,95 @@
+{% extends "program/base.html" %}
+
+{% block body %}
+<div class="row content">
+  <div class="col-md-12">
+    <h2>
+      {% if latestSubmission.sucessful %}
+      <span class="glyphicon glyphicon-ok"></span>
+      {% elif not latestSubmission %}
+      {% else %}
+      <span class="glyphicon glyphicon-remove"></span> 
+      {%endif%}
+      {{problem.name}} - {{possibleScore}}/{{problem.score}} points {%if possibleScore > 0 %}possible{%endif%}
+    </h2>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Description</h3>
+        <p>{{problem.description}}</p>
+        {% if problem.inputDescription != None %}
+          <h3>Input</h3>
+          <p>{{ problem.inputDescription }}</p>
+        {% endif %}
+        {% if problem.outputDescription != None %}
+          <h3>Output</h3>
+          <p>{{ problem.outputDescription }}</p>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        {% if possibleScore <= 0 %}
+          <h3>Problem Failed</h3>
+        {% elif not latestSubmission.successful %}
+        <h3>New Submission</h3>
+        <!--
+        <form role="form">
+          <div class="form-group">
+            <label for="InputFile">Select a file:</label>
+            <input type="file" id="InputFile">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        -->
+        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+          {{ testForm.as_p}}
+          <input type="submit" class="btn btn-default" value="Submit Solution" />
+        </form>
+        {% endif %}
+        {% if submissions %}
+        <h3>Previous Submissions</h3>
+        <table class="table table-hover table-striped">
+          <tr>
+            <th>Status</th>
+            <th>Submission Time</th>
+            <th>Details</th>
+          </tr>
+          {% for submission in submissions %} {% with time=submission.submissionTime %}
+            {% if submission.successful %}
+            <tr class="success">
+            {%else%}
+            <tr class="danger">
+            {%endif%}
+              {% if submission.successful %}
+                <td><p class="glyphicon glyphicon-ok"></p></td>
+              {% else %}
+                <td> <p class="glyphicon glyphicon-remove"></p></td>
+              {% endif %}
+              <td>{{submission.minsAgo}} mins ago</td>
+              <td><a href="{% url 'problem result' problem.id submission.id %}" class="glyphicon glyphicon-arrow-right"> View</a></td>
+            </tr>
+          {% endwith %} {% endfor %}
+          <!--
+          <tr class="warning">
+            <td><p class="glyphicon glyphicon-remove"></p></td>
+            <td>10 min ago</td>
+            <td><a href="" class="glyphicon glyphicon-arrow-right"> View</a></td>
+          </tr>
+          <tr class="danger">
+            <td><p class="glyphicon glyphicon-remove"></p></td>
+            <td>10 min ago</td>
+            <td><a href="" class="glyphicon glyphicon-arrow-right"> View</a></td>
+          </tr>
+          <tr class="success">
+            <td><p class="glyphicon glyphicon-ok"></p></td>
+            <td>10 min ago</td>
+            <td><a href="" class="glyphicon glyphicon-arrow-right"> View</a></td>
+          </tr>
+          -->
+        </table>
+        {% else %}
+          <p>No Submissions</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
