@@ -27,8 +27,8 @@ def checkCorrectSolution(problem, stdin, stdout, stderr, exitCode):
 # Forms ========================================================
 
 class LoginForm(forms.Form):
-	username 	= forms.CharField()
-	password 	= forms.CharField(widget=forms.PasswordInput)
+	username 	= forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter username'}))
+	password 	= forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter password'}))
 	next		= forms.CharField(widget=forms.HiddenInput)
 
 class TestForm(forms.Form):
@@ -57,7 +57,7 @@ class LoginPage(View):
 		if request.user.is_authenticated():
 			return redirect(redirect_url)
 		else:
-			return render(request, 'program/accounts/login.html', 
+			return render(request, 'program/accounts/login_styled.html', 
 				{'form':LoginForm()})
 
 	def post(self, request):
