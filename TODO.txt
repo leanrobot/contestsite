@@ -41,5 +41,8 @@ Bugs / Issues
 - Only allow one submission per file.
 
 
-
+CSS Issues
+=====================
+- On problem style page, the glyph icon changes the row size.
+- In header, points & time are anchor <a>'s. fix this.
 

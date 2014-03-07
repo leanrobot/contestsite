@@ -1,0 +1,76 @@
+{% extends "program/base.html" %}
+
+{% block body %}
+<div class="row content">
+  <div class="col-md-6">
+    <h2>{{userdata.teamName}}</h2>
+    <table class="table table-striped">
+      <tr>
+        <th>Problem</th>
+        <th>Solved</th>
+        <th>Score</th>
+        <th>Attempts</th>
+        <th>Name</th>
+        <th>Time</th>
+      </tr>
+	  {% for pr,possibleScore,result in data %}
+	  	{% if result.successful %}
+      	<tr class="success">
+      	{% else %}
+	  	<tr>
+	  	{% endif %}
+			
+			<td>{{pr.id}}</td>
+
+			{% if result == None %}
+				<td></td>
+			{% elif result.successful %}
+       		    <td><p class="glyphicon glyphicon-ok"></p></td>
+			{% else %}
+        		<td><p class="glyphicon glyphicon-remove"></p></td>
+			{% endif %}
+
+			<td>{{possibleScore}}/{{pr.score}}</td>
+
+			<td><!--ATTEMPTS-->----</td>
+
+			<td><a href="{{pr.id}}">{{pr.name}}</a></td>
+
+			{% if result != None %}
+				<td>{{ result.submissionTime }} </td>
+			{% else %}
+				<td class="null"></td>
+			{% endif %}
+
+		</tr>
+	  {% endfor %}
+	  <!--
+      <tr>
+        <td>1</td>
+        <td><p class="glyphicon glyphicon-remove"></p></td>
+        <td>0/30</td>
+        <td>2/5</td>
+        <td><a href="">Problem 1</a></td>
+        <td>Feb 22 2014 4:20pm</td>
+      </tr>
+      <tr class="success">
+        <td>2</td>
+        <td><p class="glyphicon glyphicon-ok"></p></td>
+        <td>25/30</td>
+        <td>1/5</td>
+        <td><a href="">Problem 2</a></td>
+        <td>Feb 22 2014 4:20pm</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><p class="glyphicon glyphicon-remove"></p></td>
+        <td>0/30</td>
+        <td>4/5</td>
+        <td><a href="">Problem 3</a></td>
+        <td>Feb 22 2014 4:20pm</td>
+      </tr>
+      -->
+    </table>
+  </div>
+</div>
+{% endblock %}

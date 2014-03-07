@@ -122,7 +122,7 @@ class ProblemListView(View):
 			possibleScores.append(ProblemScore.possibleScore(userdata, p))
 
 		data = zip(problems, possibleScores, problemResults)
-		return render(request, 'program/team/problems.html', {
+		return render(request, 'program/team/problem_list.html', {
 			'data': data
 			})
 # ============
