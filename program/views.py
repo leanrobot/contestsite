@@ -281,7 +281,7 @@ class ScoreboardView(View):
 			tableData.append( (rank, u, resultsList) )
 			rank += 1
 
-		return render(request, "program/scoreboards/scoreboard.html", {
+		return render(request, "program/scoreboards/scoreboard_styled.html", {
 			"tableData" : tableData,
 			"problems"	: problems,
 			})

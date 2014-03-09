@@ -18,9 +18,10 @@ New Features
 - Add javascript tidbit to expose the django context variables for debugging. (Django-Introspect)
 - Write contest administration page.
 - Add judge(staff) account.
-	- use socket.io to implement "call judge" button directly to the judge.\
+	- use socket.io to implement "call judge" button directly to the judge.
 - Post for Login next page.
 - Make Problem Submissions show up as pending while they are in the queue.
+- Create problem breakdown page to augment scoreboard view.
 
 
 
@@ -45,4 +46,5 @@ CSS Issues
 =====================
 - On problem style page, the glyph icon changes the row size.
 - In header, points & time are anchor <a>'s. fix this.
+- Progress bar on scoreboard doesn't work.
 
