@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import subprocess, threading
 from datetime import datetime
 
@@ -11,8 +13,8 @@ from django.conf import settings
 
 from pytz import timezone
 
-from program.models import *
-from program.library import SolutionValidator
+from .models import *
+from .library import SolutionValidator
 
 # Helper Functions =============================================
 
@@ -211,45 +213,9 @@ class ProblemExecutionView(View):
 
 		solution = ProblemSolution.objects.get(pk=fileId)
 		problem = Problem.objects.get(pk=problemId)
-		userSettings = UserSettings.objects.get(user=request.user)
-
-		command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
-		osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-		startTime = datetime.now(tz=timezone(settings.TIME_ZONE))
-		stdout, stderr = osProcess.communicate(input=problem.inputSubmit)
-		endTime = datetime.now(tz=timezone(settings.TIME_ZONE))
-		#osProcess = ThreadedCommand(["python", solution.solution.path])
-		#osProcess.run(5)
-
-		problemResult = ProblemResult(
-			submissionTime = startTime,
-			successful = False,
-			user = request.user,
-			problem = problem
-			)
-		executionResult = ExecutionResult(
-			startTime = startTime,
-			endTime = endTime,
-			stdin = problem.inputSubmit,
-			stdout = stdout,
-			stderr = stderr,
-			command = " ".join(command),
-			exitCode = osProcess.returncode,
-			problemResult = problemResult,
-			)
-
-		correct = SolutionValidator.validate(problem=problem, executionResult=executionResult)
-		problemResult.successful = correct
-		problemResult.save()
-		executionResult.problemResult = problemResult
-		executionResult.save()
-
-		# Update the user's score if correct
-		if correct:
-			userSettings.score += ProblemScore.possibleScore(userSettings, problem)
-			userSettings.save()
-
+		
+		from .tasks import testSolution
+		testSolution.delay(problem, request.user, solution)
 
 		return redirect('problems')
 # ============
@@ -294,8 +260,31 @@ class UserSettingsView(View):
 			form.save()
 			return redirect('index')
 		else:
-			fdsafds
+			fdsafds # TODO
 			return redirect('user settings')
+# ============
+
+class ScoreboardView(View):
+	def get(self, request):
+		pass
+		users = UserSettings.objects.all().order_by('-score')
+		problems = Problem.objects.all()
+		results = ProblemResult.objects.all()
+
+		tableData = []
+		rank = 1
+		for u in users:
+			resultsList = []
+			userQuerySet = results.filter(user=u.user)
+			for p in problems:
+				resultsList.append( userQuerySet.filter(problem=p).first() )
+			tableData.append( (rank, u, resultsList) )
+			rank += 1
+
+		return render(request, "program/scoreboards/scoreboard.html", {
+			"tableData" : tableData,
+			"problems"	: problems,
+			})
 # ============
 
 

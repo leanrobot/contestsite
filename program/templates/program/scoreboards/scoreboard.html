@@ -1,0 +1,34 @@
+{% extends "program/base.html" %}
+{% load dictionary_access %}
+
+{% block body %}
+
+ <table border="1">
+ 	<tr>
+ 		<th>Rank</th>
+ 		<th>Score</th>
+ 		<th>Team</th>
+ 		{% for p in problems %}
+ 			<th>{{p.id}}. {{p.name}}</th>
+ 		{% endfor %}
+	</tr>
+	{% for rank,user,results in tableData %}
+		<tr>
+			<td>{{rank}}</td>
+			<td>{{user.score}}</td>
+			<td>{{user.teamName}}</td>
+			{% for result in results %}
+				{% if result == None %}
+					<td class="null"></td>
+				{% elif result.successful %}
+					<td class="correct"> &#10004; </td>
+				{% else %}
+					<td class="notCorrect"> &#x2718; </td>
+				{% endif %}
+			{% endfor %}
+		</tr>
+
+	{% endfor %}
+ </table>
+
+{% endblock %}

@@ -1,4 +1,6 @@
-from django.db import models
+from __future__ import absolute_import
+
+from django.db import models as DjangoModels
 from django.contrib.auth.models import User
 import os
 from django.conf import settings
@@ -10,6 +12,7 @@ from pytz import timezone
 
 
 # Create your models here.
+<<<<<<< HEAD
 inputTypes = (
 	('none', 'None'),
 	('file', 'File'),
@@ -25,24 +28,24 @@ class Problem(models.Model):
 	inputTest			= models.TextField(blank=True)
 	outputTest			= models.TextField()
 
-	inputSubmit			= models.TextField(blank=True)
-	outputSubmit		= models.TextField()
+	inputSubmit			= DjangoModels.TextField(blank=True)
+	outputSubmit		= DjangoModels.TextField()
 
-	description			= models.TextField(blank=True)
-	inputDescription	= models.TextField(blank=True)
-	outputDescription	= models.TextField(blank=True)
+	description			= DjangoModels.TextField(blank=True)
+	inputDescription	= DjangoModels.TextField(blank=True)
+	outputDescription	= DjangoModels.TextField(blank=True)
 
 	def __unicode__(self):
 		return self.name + " - " + str(self.score) + " points"
 
-class ProblemResult(models.Model):
+class ProblemResult(DjangoModels.Model):
 	class Meta:
 		ordering = ['-submissionTime']
 
-	submissionTime 		= models.DateTimeField()
-	successful			= models.BooleanField(default=False)
-	user 				= models.ForeignKey(User)
-	problem 			= models.ForeignKey(Problem)
+	submissionTime 		= DjangoModels.DateTimeField()
+	successful			= DjangoModels.BooleanField(default=False)
+	user 				= DjangoModels.ForeignKey(User)
+	problem 			= DjangoModels.ForeignKey(Problem)
 
 	def minsAgo(self):
 		now = datetime.now(tz=timezone(settings.TIME_ZONE))
@@ -54,10 +57,10 @@ class ProblemResult(models.Model):
 	def __unicode__(self):
 		return self.problem.name + " correct? " + unicode(self.successful) + " @ " + unicode(self.submissionTime)
 
-class ProblemScore(models.Model):
-	user 			= models.ForeignKey(User)
-	problem 		= models.ForeignKey(Problem)
-	score 			= models.IntegerField()
+class ProblemScore(DjangoModels.Model):
+	user 			= DjangoModels.ForeignKey(User)
+	problem 		= DjangoModels.ForeignKey(Problem)
+	score 			= DjangoModels.IntegerField()
 
 	@staticmethod
 	def possibleScore(userdata, problem):
@@ -67,33 +70,33 @@ class ProblemScore(models.Model):
 		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
 		return score
 
-class ExecutionResult(models.Model):
+class ExecutionResult(DjangoModels.Model):
 	class Meta:
 		ordering = ['-startTime']
-	startTime			= models.DateTimeField()
-	endTime				= models.DateTimeField()
-	stdout				= models.TextField()
-	stdin				= models.TextField(blank=True)
-	stderr				= models.TextField(blank=True)
-	command				= models.CharField(max_length=200)
-	exitCode			= models.IntegerField()
-	problemResult 		= models.OneToOneField(ProblemResult, primary_key=True)
+	startTime			= DjangoModels.DateTimeField()
+	endTime				= DjangoModels.DateTimeField()
+	stdout				= DjangoModels.TextField()
+	stdin				= DjangoModels.TextField(blank=True)
+	stderr				= DjangoModels.TextField(blank=True)
+	command				= DjangoModels.CharField(max_length=200)
+	exitCode			= DjangoModels.IntegerField()
+	problemResult 		= DjangoModels.OneToOneField(ProblemResult, primary_key=True)
 
 	#TODO WRITE __UNICODE__
 
 def get_uploaded_path(instance, filename):
 	return os.path.join(instance.owner.username, filename)
 
-class ProblemSolution(models.Model):
-	owner 				= models.ForeignKey(User)
-	solution 			= models.FileField(upload_to=get_uploaded_path)
+class ProblemSolution(DjangoModels.Model):
+	owner 				= DjangoModels.ForeignKey(User)
+	solution 			= DjangoModels.FileField(upload_to=get_uploaded_path)
 
-class Compiler(models.Model):
-	name 				= models.CharField(max_length=30)
-	extension			= models.CharField(max_length=10)
-	compiled 			= models.BooleanField()
-	compileCmd 			= models.TextField(blank=True)
-	runCmd 				= models.TextField()
+class Compiler(DjangoModels.Model):
+	name 				= DjangoModels.CharField(max_length=30)
+	extension			= DjangoModels.CharField(max_length=10)
+	compiled 			= DjangoModels.BooleanField()
+	compileCmd 			= DjangoModels.TextField(blank=True)
+	runCmd 				= DjangoModels.TextField()
 
 	def _getCmd(self, commandStr, solutionFile):
 		pass
@@ -120,13 +123,13 @@ class Compiler(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class ContestSettings(models.Model):
-	startTime 			= models.DateTimeField()
-	endTime 			= models.DateTimeField()
-	paused				= models.BooleanField()
+class ContestSettings(DjangoModels.Model):
+	startTime 			= DjangoModels.DateTimeField()
+	endTime 			= DjangoModels.DateTimeField()
+	paused				= DjangoModels.BooleanField()
 
-	name 				= models.TextField()
-	deduction 			= models.IntegerField(default=0)
+	name 				= DjangoModels.TextField()
+	deduction 			= DjangoModels.IntegerField(default=0)
 
 	def inSession(self, time):
 		return self.startTime <= time and time <= self.endTime and not self.paused
@@ -134,11 +137,11 @@ class ContestSettings(models.Model):
 	def __unicode__(self):
 		return "%s -- Start: %s. End: %s. Paused? %s" % (self.name, self.startTime, self.endTime, self.paused)
 
-class UserSettings(models.Model):
-	user = models.OneToOneField(User, primary_key=True)
-	teamName = models.CharField(max_length=30)
-	compiler = models.ForeignKey(Compiler)
-	score = models.IntegerField(default=0)
+class UserSettings(DjangoModels.Model):
+	user = DjangoModels.OneToOneField(User, primary_key=True)
+	teamName = DjangoModels.CharField(max_length=30)
+	compiler = DjangoModels.ForeignKey(Compiler)
+	score = DjangoModels.IntegerField(default=0)
 
 	def __unicode__(self):
 		return ("%s's Settings" % (self.user,))
