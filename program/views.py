@@ -57,7 +57,7 @@ class LoginPage(View):
 		if request.user.is_authenticated():
 			return redirect(redirect_url)
 		else:
-			return render(request, 'program/accounts/login_styled.html', 
+			return render(request, 'program/accounts/login.html', 
 				{'form':LoginForm()})
 
 	def post(self, request):
@@ -184,33 +184,6 @@ class ProblemResultView(View):
 
 class ProblemExecutionView(View):
 	def get(self, request, problemId, fileId):
-		"""
-		class ThreadedCommand:
-			def __init__(self, cmd):
-				self.command = cmd
-				self.process = None
-
-				self.stdout = None
-				self.stderr = None
-				self.exitCode = None
-			def run(self, timeout):
-				def target():
-					print 'Thread started'
-					self.process = subprocess.Popen(self.cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-					self.stdout = self.process.communicate()[0]
-					self.exitCode = self.process.returncode
-					print 'Thread finished'
-
-				thread = threading.Thread(target=target)
-				thread.start()
-
-				thread.join(timeout)
-				if thread.is_alive():
-					print 'Terminating process'
-					self.process.terminate()
-					thread.join()
-		"""
-
 		solution = ProblemSolution.objects.get(pk=fileId)
 		problem = Problem.objects.get(pk=problemId)
 		
@@ -281,7 +254,7 @@ class ScoreboardView(View):
 			tableData.append( (rank, u, resultsList) )
 			rank += 1
 
-		return render(request, "program/scoreboards/scoreboard_styled.html", {
+		return render(request, "program/scoreboards/scoreboard.html", {
 			"tableData" : tableData,
 			"problems"	: problems,
 			})
