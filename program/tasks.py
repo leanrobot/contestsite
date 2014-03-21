@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 import os
+import sys
 import subprocess
 from datetime import datetime
 
@@ -37,21 +38,28 @@ def createProblem(problem):
 
 @worker.task
 def testSolution(problem, user, solution):
-	TIMEOUT = 5
+	TIMEOUT = 5 # CONST VALUE
 
 	pass
 	userSettings = UserSettings.objects.get(user=user)
 	command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
 	#osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	osProcess = TimeoutThread(["python", solution.solution.path])
+	#osProcess = TimeoutThread(["python", solution.solution.path])
+
+	validator = SolutionValidator(problem, solution)
 
 	tz = timezone(settings.TIME_ZONE)
 	startTime = datetime.now(tz=tz)
-	osProcess.run(TIMEOUT)
+	sys.stderr.write("validate....")
+	validator.execute()
+	sys.stderr.write("done!\n")
+	#osProcess.run(TIMEOUT)
 	#stdout, stderr = osProcess.communicate(input=problem.inputSubmit)
 	endTime = datetime.now(tz=tz)
 
-	if osProcess.terminated:
+	osProcess = validator.thread
+
+	if osProcess.timeout:
 		stdout = "<<<< NO OUTPUT: THE COMMAND TIMED OUT. MORE THAN %i SECONDS TO RUN >>>" % (TIMEOUT)
 		stderr = stdout
 	else:
@@ -76,7 +84,7 @@ def testSolution(problem, user, solution):
 		problemResult = problemResult,
 		)
 
-	correct = SolutionValidator.validate(problem=problem, executionResult=executionResult)
+	correct = validator.validate(problem=problem, executionResult=executionResult)
 	problemResult.successful = correct
 	problemResult.save()
 	executionResult.problemResult = problemResult

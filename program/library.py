@@ -8,17 +8,20 @@ from program.models import UserSettings, ContestSettings, ProblemResult
 
 class TimeoutThread:
 	def __init__(self, cmd):
-		self.command = cmd
-		self.process = None
-		self.terminated = False
-		
-		self.stdout = None
-		self.stderr = None
-		self.exitCode = None
-	def run(self, timeout):
+		self.command 	= cmd
+		self.process 	= None
+		self.timeout 	= False
+
+		self.stdin 		= None
+		self.stdout 	= None
+		self.stderr 	= None
+		self.exitCode 	= None
+	def run(self, stdin, timeout):
 		def target():
-			self.process = subprocess.Popen(self.command, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-			(self.stdout, self.stderr) = self.process.communicate()
+			self.process = subprocess.Popen(self.command, 
+				stdin = subprocess.PIPE, stdout = subprocess.PIPE,
+				stderr = subprocess.PIPE)
+			(self.stdout, self.stderr) = self.process.communicate(input=stdin)
 			self.exitCode = self.process.returncode
 
 		thread = threading.Thread(target=target)
@@ -28,9 +31,54 @@ class TimeoutThread:
 		if thread.is_alive():
 			self.process.terminate()
 			thread.join()
-			self.terminated = True
+			self.timeout = True
 
 class SolutionValidator:
+	def __init__(self, problem, solution):
+		self.problem = problem
+		self.solution = solution
+		# self.problemResult = None
+		# self.executionResult = None
+
+		self.executed 	= False
+		self.successful = False
+		self.command 	= []
+
+		self.initCommand();
+		self.initEnv();
+
+		self.thread = TimeoutThread(self.command)
+
+		self.setStdin();
+		self.setStdout();
+		self.setStderr();
+
+	def initCommand(self):
+		self.command = ["python", self.solution.solution.path]
+
+	# def setStdin, setStdout, setStderr
+	def setStdin(self):
+		pass
+		self.stdin = self.problem.inputSubmit
+	def setStdout(self):
+		pass
+	def setStderr(self):
+		pass
+
+	def initEnv(self):
+		self.TIMEOUT = 5
+
+	def execute(self):
+		self.thread.run(self.stdin, self.TIMEOUT)
+
+
+
+	def successful(self):
+		return self.executed and self.thread.timeout
+
+	def timeout():
+		return self.timeout
+
 	@staticmethod
 	def validate(problem, executionResult):
 		exitCodeCorrect = executionResult.exitCode == 0
@@ -44,6 +92,8 @@ class SolutionValidator:
 		cleanExpected = unicode(expected.replace("\r", u""))
 		returnVal = cleanActual == cleanExpected
 		return returnVal
+
+
 
 # Site-wide Context Processor
 def programSiteContext(request):

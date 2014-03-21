@@ -12,10 +12,19 @@ from pytz import timezone
 
 
 # Create your models here.
+inputTypes = (
+	('none', 'None'),
+	('file', 'File'),
+	('stdin', 'Stdin'),
+)
+
+
 class Problem(DjangoModels.Model):
 	name 				= DjangoModels.CharField(max_length=100)
 	score 				= DjangoModels.IntegerField()
 
+	inputType 			= DjangoModels.CharField(max_length=5, choices=inputTypes)
+	filename			= DjangoModels.CharField(max_length=30, blank=True)
 	inputTest			= DjangoModels.TextField(blank=True)
 	outputTest			= DjangoModels.TextField()
 
