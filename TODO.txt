@@ -7,6 +7,7 @@ High Priority
 - COMPILATION SUPPORT
 - [branch InputSupport] Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
 - Add reliable score calculation
+- Changes filenames when uploading, can cause errors (with java, where filename must be public class)
 
 
 

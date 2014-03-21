@@ -12,7 +12,6 @@ from pytz import timezone
 
 
 # Create your models here.
-<<<<<<< HEAD
 inputTypes = (
 	('none', 'None'),
 	('file', 'File'),
@@ -20,13 +19,14 @@ inputTypes = (
 )
 
 
-class Problem(models.Model):
-	name 				= models.CharField(max_length=100)
-	score 				= models.IntegerField()
+class Problem(DjangoModels.Model):
+	name 				= DjangoModels.CharField(max_length=100)
+	score 				= DjangoModels.IntegerField()
 
-	inputType 			= models.CharField(max_length=5, choices=inputTypes)
-	inputTest			= models.TextField(blank=True)
-	outputTest			= models.TextField()
+	inputType 			= DjangoModels.CharField(max_length=5, choices=inputTypes)
+	filename			= DjangoModels.CharField(max_length=30, blank=True)
+	inputTest			= DjangoModels.TextField(blank=True)
+	outputTest			= DjangoModels.TextField()
 
 	inputSubmit			= DjangoModels.TextField(blank=True)
 	outputSubmit		= DjangoModels.TextField()
