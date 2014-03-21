@@ -1,8 +1,23 @@
 {% extends 'program/base.html' %}
+{% load widget_tweaks %}
 
 {% block body %}
-<form method="POST" action="{% url 'user settings' %}"> {% csrf_token %}
-	{{ userSettingsForm.as_p }}
-	<input type="submit" value="Save" />
-</form>
+<div class="row content">
+	<div class="col-md-12">
+		<form method="POST" action="{% url 'user settings' %}"> {% csrf_token %}
+			{% comment %}{{ userSettingsForm.as_p }} {% endcomment %}
+
+			{% for field in userSettingsForm.visible_fields %}
+				<div class="form-group">
+				{{field.label_tag}}
+				{% render_field field class="form-control" %}
+				</div>
+			{% endfor %}
+			{% for field in form.hidden_fields %}
+			{{field}}
+			{% endfor %}
+			<input type="submit" value="Save" class="btn btn-default"/>
+		</form>
+	</div>
+</div>
 {% endblock %}
