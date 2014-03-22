@@ -1,12 +1,11 @@
 from __future__ import absolute_import
+import os
+from datetime import timedelta,datetime
 
 from django.db import models as DjangoModels
 from django.contrib.auth.models import User
-import os
 from django.conf import settings
-
-
-from datetime import timedelta,datetime
+from django.db.models.query import EmptyQuerySet
 
 from pytz import timezone
 
@@ -35,6 +34,25 @@ class Problem(DjangoModels.Model):
 	inputDescription	= DjangoModels.TextField(blank=True)
 	outputDescription	= DjangoModels.TextField(blank=True)
 
+	def getCorrectSolution(self, user):
+		correctResults = ProblemResult.objects.filter(user=user, problem=self, successful=True)
+		if(correctResults.count() > 0):
+			return correctResults.first()
+		return None
+
+	def getIncorrectSolutions(self, user):
+		incorrectResults = ProblemResult.objects.filter(user=user, problem=self, successful=False)
+		if(len(incorrectResults > 0)):
+			return incorrectResults
+		return None
+
+	def possibleScore(self, user):
+		incorrect = ProblemResult.objects.filter(user=user, problem=self,
+								 successful=False)
+		score = self.score
+		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
+		return score
+
 	def __unicode__(self):
 		return self.name + " - " + str(self.score) + " points"
 
@@ -61,14 +79,6 @@ class ProblemScore(DjangoModels.Model):
 	user 			= DjangoModels.ForeignKey(User)
 	problem 		= DjangoModels.ForeignKey(Problem)
 	score 			= DjangoModels.IntegerField()
-
-	@staticmethod
-	def possibleScore(userdata, problem):
-		incorrect = ProblemResult.objects.filter(user=userdata.user, problem=problem,
-								 successful=False)
-		score = problem.score
-		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
-		return score
 
 class ExecutionResult(DjangoModels.Model):
 	class Meta:
@@ -141,7 +151,15 @@ class UserSettings(DjangoModels.Model):
 	user = DjangoModels.OneToOneField(User, primary_key=True)
 	teamName = DjangoModels.CharField(max_length=30)
 	compiler = DjangoModels.ForeignKey(Compiler)
-	score = DjangoModels.IntegerField(default=0)
+
+	def score(self):
+		problems = Problem.objects.all()
+		score = 0
+		for problem in problems:
+			correct = problem.getCorrectSolution(self.user)
+			if(correct):
+				score += problem.possibleScore(self.user)
+		return score
 
 	def __unicode__(self):
 		return ("%s's Settings" % (self.user,))

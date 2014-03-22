@@ -92,16 +92,6 @@ class ProblemListView(View):
 	def get(self, request):
 		problems = Problem.objects.all()
 
-		''' retrieve the problem results, then build a dictionary. key = problem id '''
-		'''problemResultsArray= ProblemResult.objects.filter(user=request.user)
-		problemResultsDict = {}
-		for result in problemResultsArray:
-			problemResultsDict[result.problem.id] = result
-		problemResults = []
-		for p in problems:
-			problemResults.append(problemResultsDict.get(p.id, None))
-
-		'''
 		userdata = UserSettings.objects.get(user=request.user)
 		problemResultsAll = ProblemResult.objects.filter(user=request.user)
 
@@ -119,7 +109,7 @@ class ProblemListView(View):
 		# compile possible scores
 		possibleScores = []
 		for p in problems:
-			possibleScores.append(ProblemScore.possibleScore(userdata, p))
+			possibleScores.append(p.possibleScore(userdata.user))
 
 		data = zip(problems, possibleScores, problemResults)
 		return render(request, 'program/team/problem_list.html', {
@@ -137,7 +127,7 @@ class ProblemDetailView(View):
 				'problem' 		: problem,
 				'testForm'		: TestForm(),
 				'submissions'	: submissions,
-				'possibleScore' : ProblemScore.possibleScore(userdata, problem),
+				'possibleScore' : problem.possibleScore(userdata.user),
 				'latestSubmission' : submissions[0] if len(submissions) > 0 else False,
 			})
 
@@ -149,14 +139,6 @@ class ProblemDetailView(View):
 			solution.save()
 			return redirect("/program/problem/%s/submit/%s" % (problemId, solution.id))
 		return HttpResponseRedirect("index")
-		"""
-		form = TestForm(request.POST)
-		if form.is_valid():
-			solution = ProblemSolution(request.POST, request.FILES)
-			solution.owner = request.user
-			solution.save()
-			return HttpResponseRedirect("problems")
-		"""
 # ============
 
 class ProblemResultView(View):
@@ -240,7 +222,10 @@ class UserSettingsView(View):
 class ScoreboardView(View):
 	def get(self, request):
 		pass
-		users = UserSettings.objects.all().order_by('-score')
+		users = UserSettings.objects.all()
+		# sort the users
+		user = sorted(users, key=lambda user: user.score())
+
 		problems = Problem.objects.all()
 		results = ProblemResult.objects.all()
 

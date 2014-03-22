@@ -89,10 +89,3 @@ def testSolution(problem, user, solution):
 	problemResult.save()
 	executionResult.problemResult = problemResult
 	executionResult.save()
-
-	# Update the user's score if correct
-	if correct:
-		userSettings.score += ProblemScore.possibleScore(userSettings, problem)
-		userSettings.save()
-
-
