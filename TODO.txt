@@ -8,7 +8,7 @@ High Priority
 - DEBUG STDIN issue with Foreign Shoes
 - [branch InputSupport] Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
 - Rework ProblemSolution model to support null fields, so the submission time can be populated before sending to the task queue.
-- Changes filenames when uploading, can cause errors (with java, where filename must be public class)
+- [BUG] Changes filenames when uploading, can cause errors (with java, where filename must be public class)
 
 
 
