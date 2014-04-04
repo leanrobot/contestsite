@@ -12,15 +12,6 @@ from django.conf import settings
 from .models import UserSettings, ProblemResult, ExecutionResult, ProblemScore
 from .library import SolutionValidator, TimeoutThread
 
-#from django.conf import settings
-#settings.configure()
-'''
-from django.core.exceptions import ImproperlyConfigured
-from django.contrib.sites.models import Site
-'''
-
-#from .models import Problem
-
 worker = Celery('worker', broker='amqp://guest@localhost//')
 #os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ContestSite.settings')
 
@@ -28,19 +19,9 @@ worker = Celery('worker', broker='amqp://guest@localhost//')
 #worker.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 @worker.task
-def createProblem(problem):
-	pass
-	#settings.configure()
-	problem.save()
-	#'''
-	
-	#'''
-
-@worker.task
 def testSolution(problem, user, solution):
 	TIMEOUT = 5 # CONST VALUE
 
-	pass
 	userSettings = UserSettings.objects.get(user=user)
 	command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
 	#osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

@@ -15,6 +15,7 @@ from pytz import timezone
 
 from .models import *
 from .library import SolutionValidator
+from .tasks import testSolution
 
 # Helper Functions =============================================
 
@@ -169,7 +170,7 @@ class ProblemExecutionView(View):
 		solution = ProblemSolution.objects.get(pk=fileId)
 		problem = Problem.objects.get(pk=problemId)
 		
-		from .tasks import testSolution
+		# Send the problem to the queue.
 		testSolution.delay(problem, request.user, solution)
 
 		return redirect('problems')
@@ -177,9 +178,12 @@ class ProblemExecutionView(View):
 
 class WaitView(View):
 	def get(self, request):
-		submission = ProblemResult.objects.filter(user=request.user, successful=True).first()
+		submission = None
 		subDate = None
 		subTime = None
+
+		if(not request.user.is_anonymous()):
+			submission = ProblemResult.objects.filter(user=request.user, successful=True).first()
 		if submission:
 			subDate = submission.submissionTime.date()
 			subTime = submission.submissionTime.astimezone(timezone(settings.TIME_ZONE)).timetz().strftime("%I:%M:%S %p")

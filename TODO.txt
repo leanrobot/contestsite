@@ -5,7 +5,6 @@ TODO list for ContestSite Django app ===========================================
 High Priority
 =====================
 - COMPILATION SUPPORT
-- DEBUG STDIN issue with Foreign Shoes
 - [branch InputSupport] Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
 - Rework ProblemSolution model to support null fields, so the submission time can be populated before sending to the task queue.
 - [BUG] Changes filenames when uploading, can cause errors (with java, where filename must be public class)
@@ -38,13 +37,14 @@ Bugs / Issues
 ====================
 - Make sure that file is deleted when ProblemSolution is deleted.
 - Enforce only one correct submissions for each problem. (Minor fix, currently dialog is prevented. Make sure that submissions cannot be run at all with execution testing.)
-- Create score objects??
 - Only allow one submission per file.
 
 
 CSS Issues
 =====================
+- Settings page is a mess.
 - On problem style page, the glyph icon changes the row size.
 - In header, points & time are anchor <a>'s. fix this.
 - Progress bar on scoreboard doesn't work.
+
 
