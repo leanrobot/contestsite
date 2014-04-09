@@ -1,10 +1,13 @@
 from __future__ import absolute_import
-import threading, time, subprocess
+import threading, time, subprocess, sys
+import logging
 
 from pytz import timezone
 
 from django.conf import settings
 from program.models import UserSettings, ContestSettings, ProblemResult
+
+logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
 class TimeoutThread:
 	def __init__(self, cmd):
@@ -37,28 +40,30 @@ class SolutionValidator:
 	def __init__(self, problem, solution):
 		self.problem = problem
 		self.solution = solution
+		self.compiler = self.solution.compiler()
 		# self.problemResult = None
 		# self.executionResult = None
 
 		self.executed 	= False
 		self.successful = False
 		self.command 	= []
+		self.compileCommand = []
 
 		self.initCommand();
 		self.initEnv();
 
 		self.thread = TimeoutThread(self.command)
 
-		self.setStdin();
-		self.setStdout();
-		self.setStderr();
+		self.setStdin()
+		self.setStdout()
+		self.setStderr()
 
 	def initCommand(self):
-		self.command = ["python", self.solution.solution.path]
+		self.compileCommand = self.compiler.getCompileCmd(self.solution.solution)#["python", self.solution.solution.path]
+		self.command = self.compiler.getRunCmd(self.solution.solution)
 
 	# def setStdin, setStdout, setStderr
 	def setStdin(self):
-		pass
 		self.stdin = self.problem.inputSubmit
 	def setStdout(self):
 		pass
@@ -69,9 +74,24 @@ class SolutionValidator:
 		self.TIMEOUT = 5
 
 	def execute(self):
+		if(self.compiler.compiled):
+			compileProcess = subprocess.Popen(self.compileCommand, 
+					stdout = subprocess.PIPE,
+					stderr = subprocess.PIPE)
+			(compileStdout, compileStderr) = compileProcess.communicate()
+			compileExitCode = compileProcess.returncode
+			if(compileExitCode != 0):
+				logging.critical("Compiling was not successful")
+				logging.critical("Compile Command: %s", " ".join(self.compileCommand))
+				logging.critical("Stdout: [\n%s\n]", compileStderr)
+				self.thread.stdout = "<<< COMPILER ERRORS >>> \n Compiler Command :'%s'" % self.compileCommand
+				self.thread.stderr = compileStderr
+				self.thread.exitCode = compileExitCode
+				return # dont attempt to run the solution
+		logging.critical("Running command: %s", self.thread.command)
 		self.thread.run(self.stdin, self.TIMEOUT)
 
-
+# =========================================================
 
 	def successful(self):
 		return self.executed and self.thread.timeout

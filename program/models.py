@@ -1,6 +1,8 @@
 from __future__ import absolute_import
 import os
 from datetime import timedelta,datetime
+import logging
+import sys
 
 from django.db import models as DjangoModels
 from django.contrib.auth.models import User
@@ -8,6 +10,7 @@ from django.conf import settings
 from django.db.models.query import EmptyQuerySet
 
 from pytz import timezone
+from celery.contrib import rdb
 
 
 # Create your models here.
@@ -16,6 +19,8 @@ inputTypes = (
 	('file', 'File'),
 	('stdin', 'Stdin'),
 )
+
+logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
 
 class Problem(DjangoModels.Model):
@@ -101,19 +106,39 @@ class ProblemSolution(DjangoModels.Model):
 	owner 				= DjangoModels.ForeignKey(User)
 	solution 			= DjangoModels.FileField(upload_to=get_uploaded_path)
 
+	def getFullName(self):
+		return self.solution.path
+	def getFilePath(self):
+		return os.path.dirname(self.solution.path)
+	def getFileName(self):
+		return os.path.basename(self.solution.path)
+	def getBaseName(self):
+		filename = self.getFileName()
+		(base, extension) = filename.split(".")
+		return base
+	def getExtension(self):
+		filename = self.getFileName()
+		(base, ext) = filename.split(".")
+		return ext
+
+	def compiler(self):
+		compiler = Compiler.objects.get(extension=self.getExtension())
+		return compiler
+
+
+
 class Compiler(DjangoModels.Model):
 	name 				= DjangoModels.CharField(max_length=30)
-	extension			= DjangoModels.CharField(max_length=10)
+	extension			= DjangoModels.CharField(max_length=10, unique=True)
 	compiled 			= DjangoModels.BooleanField()
 	compileCmd 			= DjangoModels.TextField(blank=True)
 	runCmd 				= DjangoModels.TextField()
 
 	def _getCmd(self, commandStr, solutionFile):
-		pass
 		fullname = solutionFile.path # Testing Phase
-		directory = os.path.dirname(solutionFile.path)
-		filename = os.path.basename(solutionFile.path)
-		basename = os.path.splitext(solutionFile.path)[0]
+		directory = os.path.dirname(fullname)
+		filename = os.path.basename(fullname)
+		basename = os.path.splitext(filename)[0]
 		command = commandStr.split(' ')
 		def replace(c):
 			c = c.replace('{{fullname}}', fullname) 	# /Users/test/programming/test.py

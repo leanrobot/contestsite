@@ -23,6 +23,7 @@ def testSolution(problem, user, solution):
 	TIMEOUT = 5 # CONST VALUE
 
 	userSettings = UserSettings.objects.get(user=user)
+	compileCommand = userSettings.compiler.getCompileCmd(solution.solution)
 	command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
 	#osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	#osProcess = TimeoutThread(["python", solution.solution.path])
@@ -60,7 +61,7 @@ def testSolution(problem, user, solution):
 		stdin = problem.inputSubmit,
 		stdout = stdout,
 		stderr = stderr,
-		command = " ".join(command),
+		command = "%s \n %s" % (" ".join(validator.compileCommand), " ".join(validator.command)),
 		exitCode = osProcess.exitCode,
 		problemResult = problemResult,
 		)
@@ -70,3 +71,8 @@ def testSolution(problem, user, solution):
 	problemResult.save()
 	executionResult.problemResult = problemResult
 	executionResult.save()
+
+	# Cleanup after executing the solution
+	fileField = solution.solution
+	fileField.delete()
+	solution.delete()

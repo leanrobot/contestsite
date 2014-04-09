@@ -169,6 +169,8 @@ class ProblemExecutionView(View):
 	def get(self, request, problemId, fileId):
 		solution = ProblemSolution.objects.get(pk=fileId)
 		problem = Problem.objects.get(pk=problemId)
+		solution.save()
+		problem.save()
 		
 		# Send the problem to the queue.
 		testSolution.delay(problem, request.user, solution)
