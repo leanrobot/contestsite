@@ -175,7 +175,8 @@ class ProblemExecutionView(View):
 		# Send the problem to the queue.
 		testSolution.delay(problem, request.user, solution)
 
-		return redirect('problems')
+		return redirect('problem detail', problemId)
+		#return redirect('problems')
 # ============
 
 class WaitView(View):
