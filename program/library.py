@@ -1,8 +1,9 @@
 from __future__ import absolute_import
-import threading, time, subprocess, sys
+import threading, time, subprocess, sys, os
 import logging
 
 from pytz import timezone
+from celery.contrib import rdb
 
 from django.conf import settings
 from program.models import UserSettings, ContestSettings, ProblemResult
@@ -10,10 +11,12 @@ from program.models import UserSettings, ContestSettings, ProblemResult
 logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
 class TimeoutThread:
-	def __init__(self, cmd):
+	def __init__(self, cmd, cwd):
 		self.command 	= cmd
 		self.process 	= None
 		self.timeout 	= False
+		# working directory
+		self.cwd = cwd
 
 		self.stdin 		= None
 		self.stdout 	= None
@@ -23,7 +26,7 @@ class TimeoutThread:
 		def target():
 			self.process = subprocess.Popen(self.command, 
 				stdin = subprocess.PIPE, stdout = subprocess.PIPE,
-				stderr = subprocess.PIPE)
+				stderr = subprocess.PIPE, cwd = self.cwd)
 			(self.stdout, self.stderr) = self.process.communicate(input=stdin)
 			self.exitCode = self.process.returncode
 
@@ -52,7 +55,8 @@ class SolutionValidator:
 		self.initCommand();
 		self.initEnv();
 
-		self.thread = TimeoutThread(self.command)
+		# command, working directory path
+		self.thread = TimeoutThread(self.command, self.solution.getFilePath())
 
 		self.setStdin()
 		self.setStdout()
@@ -64,7 +68,10 @@ class SolutionValidator:
 
 	# def setStdin, setStdout, setStderr
 	def setStdin(self):
-		self.stdin = self.problem.inputSubmit
+		if self.problem.inputType == "file":
+			self.stdin = self.problem.filename
+		else:
+			self.stdin = self.problem.inputSubmit
 	def setStdout(self):
 		pass
 	def setStderr(self):
@@ -72,6 +79,14 @@ class SolutionValidator:
 
 	def initEnv(self):
 		self.TIMEOUT = 5
+		if(self.problem.inputType == "file"):
+			filename = self.problem.filename
+			directory = self.solution.getFilePath()
+
+			dataFile = open("%s/%s" % (directory, filename), 'w')
+			dataFile.write(self.problem.inputSubmit)
+			dataFile.close()
+
 
 	def execute(self):
 		if(self.compiler.compiled):
@@ -90,6 +105,22 @@ class SolutionValidator:
 				return # dont attempt to run the solution
 		logging.critical("Running command: %s", self.thread.command)
 		self.thread.run(self.stdin, self.TIMEOUT)
+
+		#cleanup
+		self.cleanup()
+
+	def cleanup(self):
+		# cleanup the workspace
+		directory = self.solution.getFilePath()
+		for f in os.listdir(directory):
+			os.remove("%s/%s" % (directory, f))
+
+		'''
+		if(self.problem.inputType == "file"):
+			filename = self.problem.filename
+			directory = self.solution.getFilePath()
+			os.remove("%s/%s" % (directory, filename))
+		'''
 
 # =========================================================
 

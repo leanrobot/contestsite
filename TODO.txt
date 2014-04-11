@@ -4,6 +4,8 @@ TODO list for ContestSite Django app ===========================================
 
 High Priority
 =====================
+- [BUG] sometimes problems are failed when not all points are depleted.
+- [BUG] on the problem list page, failed problem should highlight red.
 - [branch InputSupport] Rework Problem & Solution Validator to accept [none, stdin, file] as input options during testing.
 - Rework ProblemSolution model to support null fields, so the submission time can be populated before sending to the task queue.
 
