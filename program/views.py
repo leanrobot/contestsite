@@ -179,6 +179,19 @@ class ProblemExecutionView(View):
 		#return redirect('problems')
 # ============
 
+class TextFileGeneratorView(View):
+	def get(self, request, problemId):
+		problem = Problem.objects.get(pk=problemId)
+		response = render(request, "program/team/textFile.html", {
+			"data" : problem.inputTest,
+			},
+			content_type="text/plain")
+		if problem.inputType == 'file':
+			response['Content-Disposition'] = 'attachment; filename=%s' % problem.filename
+		return response
+# ============
+
+
 class WaitView(View):
 	def get(self, request):
 		submission = None
@@ -241,16 +254,37 @@ class ScoreboardView(View):
 		for u in users:
 			resultsList = []
 			userQuerySet = results.filter(user=u.user)
+			'''
 			for p in problems:
 				resultsList.append( userQuerySet.filter(problem=p).first() )
-			tableData.append( (rank, u, resultsList) )
+			'''
+			# generate the correct,failed, and attempted problem percentages
+			total = problems.count()
+			correct = userQuerySet.filter(successful=True).count()
+			failed = 0
+			for p in problems:
+				if p.failed(u.user):
+					failed += 1
+			# convert to percentages
+			correct = round((float(correct)/float(total))*100)
+			failed = round((float(failed)/float(total))*100)
+
+			tableData.append( (rank, u, resultsList, correct, failed) )
 			rank += 1
+
+
 
 		return render(request, "program/scoreboards/scoreboard.html", {
 			"tableData" : tableData,
 			"problems"	: problems,
 			})
 # ============
+
+class TestView(View):
+	def get(self, request):
+		return render(request, "program/test.html", {
+
+			})
 
 
 

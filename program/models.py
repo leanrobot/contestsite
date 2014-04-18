@@ -58,6 +58,9 @@ class Problem(DjangoModels.Model):
 		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
 		return score
 
+	def failed(self, user):
+		return self.possibleScore(user) <= 0
+
 	def __unicode__(self):
 		return self.name + " - " + str(self.score) + " points"
 

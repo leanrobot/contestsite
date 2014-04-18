@@ -11,7 +11,7 @@
         <th>Score</th>
         <th>Progress TODO</th>
       </tr>
-      {% for rank,user,results in tableData %}
+      {% for rank,user,results,correct,failed in tableData %}
         <tr>
           <td>{{rank}}</td>
           <td>{{user.teamName}}</td>
@@ -19,12 +19,14 @@
           <!-- Progress bar, need to think about how this should work -->
           <td>
             <div class="progress">
-              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                100%
-              </div>
+              <div class="progress-bar progress-bar-success" style="width: {{correct}}%"></div>
+              <div class="progress-bar progress-bar-danger" style="width: {{failed}}%"></div>
             </div>
           </td>
-          {% comment %}
+
+
+          {% comment %} 
+          =============================================
           {% for result in results %}
             {% if result == None %}
               <td class="null"></td>
@@ -34,6 +36,7 @@
               <td class="notCorrect"> &#x2718; </td>
             {% endif %}
           {% endfor %}
+          ==============================================
           {% endcomment %}
         </tr>
       {% endfor %}

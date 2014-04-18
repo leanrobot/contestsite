@@ -13,19 +13,19 @@
       {{problem.name}} - {{possibleScore}}/{{problem.score}} points {%if possibleScore > 0 %}possible{%endif%}
     </h2>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-7">
         <h3>Description</h3>
         <p>{{problem.description}}</p>
         {% if problem.inputDescription != None %}
-          <h3>Input</h3>
-          <p>{{ problem.inputDescription }}</p>
+          <h3>Input__({{problem.inputType}})</h3>
+           <p>{{ problem.inputDescription }}</p>
         {% endif %}
         {% if problem.outputDescription != None %}
           <h3>Output</h3>
           <p>{{ problem.outputDescription }}</p>
         {% endif %}
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5">
         {% if possibleScore <= 0 %}
           <h3>Problem Failed</h3>
         {% elif not latestSubmission.successful %}
@@ -87,6 +87,21 @@
         </table>
         {% else %}
           <p>No Submissions</p>
+        {% endif %}
+
+        <!-- Example Input & Output -->
+        {% if problem.inputTest %}
+          <h3>Input Example</h3>
+            <p>
+              {% if problem.inputType == "file" %}
+                file - <a href="{% url 'text file generator' problem.id%}">{{problem.filename}}</a>
+              {% endif %}
+            </p>
+          <pre class="brush: plain;">{{problem.inputTest}}</pre>
+        {% endif %}
+        {% if problem.outputTest %}
+          <h3>Output Example</h3>
+          <pre class="brush: plain;">{{problem.outputTest}}</pre>
         {% endif %}
       </div>
     </div>
