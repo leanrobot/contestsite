@@ -1,3 +1,41 @@
 .progress{
 	margin-bottom: 0;
 }
+
+.btn-margin-left {
+	margin-left: 20px;
+}
+
+.btn, .border-round {
+	border-radius: 3px 3px 3px 3px;
+}
+
+.btn-group .btn.border-dark {
+	border-width: 2px;
+}
+.btn-group .btn.border-dark:nth-child(odd) {
+	border-right-width: 1px; 
+}
+.btn-group .btn.border-dark:nth-child(even) {
+	border-left-width: 1px; 
+}
+
+.border-dark {
+	border-color: #222B47;
+	border-style: solid;
+	border-width: 2px ;
+}
+
+.caret.caret-reversed {
+    border-top-width: 0;
+    border-bottom: 4px solid #FFFFFF;
+}
+
+/* Changes for SyntaxHighlighter */
+.code .container {
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+}
+.syntaxhighlighter .toolbar {
+	display: none;
+}

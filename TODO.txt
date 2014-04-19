@@ -18,7 +18,7 @@ New Features
 - Write contest administration page.
 - Add judge(staff) account.
 	- use socket.io to implement "call judge" button directly to the judge.
-- Post for Login next page.
+- Post for Login, next page attribute.
 - Make Problem Submissions show up as pending while they are in the queue.
 - Create problem breakdown page to augment scoreboard view.
 
@@ -26,18 +26,14 @@ New Features
 
 Upgrades
 ====================
-- Add file extension detection for compilation / language detection. 
 - New data fields for UserSettings [team members, school of origin, competition division]
-- Rework problems table on TeamProblemPage
-	- any more changes?
 
 
 
 Bugs / Issues
 ====================
-- Make sure that file is deleted when ProblemSolution is deleted.
 - Enforce only one correct submissions for each problem. (Minor fix, currently dialog is prevented. Make sure that submissions cannot be run at all with execution testing.)
-- Only allow one submission per file.
+- 
 
 
 CSS Issues
@@ -45,6 +41,5 @@ CSS Issues
 - Settings page is a mess.
 - On problem style page, the glyph icon changes the row size.
 - In header, points & time are anchor <a>'s. fix this.
-- Progress bar on scoreboard doesn't work.
 
 

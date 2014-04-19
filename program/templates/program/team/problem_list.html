@@ -14,10 +14,12 @@
         <th>Time</th>
       </tr>
 	  {% for pr,possibleScore,result in data %}
-	  	{% if result.successful %}
+      {% if result.successful == None %}
+        <tr>
+	  	{% elif result.successful %}
       	<tr class="success">
-      	{% else %}
-	  	<tr>
+      {% elif not result.successful %}
+	  	  <tr class="danger">
 	  	{% endif %}
 			
 			<td>{{pr.id}}</td>
@@ -25,9 +27,9 @@
 			{% if result == None %}
 				<td></td>
 			{% elif result.successful %}
-       		    <td><p class="glyphicon glyphicon-ok"></p></td>
+       		    <td><span class="glyphicon glyphicon-ok"></span></td>
 			{% else %}
-        		<td><p class="glyphicon glyphicon-remove"></p></td>
+        		<td><span class="glyphicon glyphicon-remove"></span></td>
 			{% endif %}
 
 			<td>{{possibleScore}}/{{pr.score}}</td>

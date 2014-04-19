@@ -13,9 +13,9 @@ from django.conf import settings
 
 from pytz import timezone
 
-from .models import *
-from .library import SolutionValidator
-from .tasks import testSolution
+from ..models import *
+from ..library import SolutionValidator
+from ..tasks import testSolution
 
 # Helper Functions =============================================
 
