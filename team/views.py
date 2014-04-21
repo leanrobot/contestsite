@@ -13,9 +13,9 @@ from django.conf import settings
 
 from pytz import timezone
 
-from ..models import *
-from ..library import SolutionValidator
-from ..tasks import testSolution
+from .models import *
+from .library import SolutionValidator
+from .tasks import testSolution
 
 # Helper Functions =============================================
 
@@ -138,7 +138,7 @@ class ProblemDetailView(View):
 		if form.is_valid:
 			solution = ProblemSolution(solution=request.FILES['solution'], owner=request.user)
 			solution.save()
-			return redirect("/program/problem/%s/submit/%s" % (problemId, solution.id))
+			return redirect("/team/problem/%s/submit/%s" % (problemId, solution.id))
 		return HttpResponseRedirect("index")
 # ============
 
@@ -235,7 +235,6 @@ class UserSettingsView(View):
 			form.save()
 			return redirect('index')
 		else:
-			fdsafds # TODO
 			return redirect('user settings')
 # ============
 
@@ -266,8 +265,9 @@ class ScoreboardView(View):
 				if p.failed(u.user):
 					failed += 1
 			# convert to percentages
-			correct = round((float(correct)/float(total))*100)
-			failed = round((float(failed)/float(total))*100)
+			if(total > 0):
+				correct = round((float(correct)/float(total))*100)
+				failed = round((float(failed)/float(total))*100)
 
 			tableData.append( (rank, u, resultsList, correct, failed) )
 			rank += 1

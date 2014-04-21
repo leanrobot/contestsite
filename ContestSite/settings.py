@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'widget_tweaks',
     'djcelery',
-    'program',
+    'team',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'program.middleware.ContestSiteMiddleware',
+    'team.middleware.ContestSiteMiddleware',
 )
 
 ROOT_URLCONF = 'ContestSite.urls'
@@ -87,13 +87,13 @@ STATIC_URL = '/static/'
 
 # Authentication URLS
 
-LOGIN_URL = "/program/login"
-LOGOUT_URL = "/program/logout"
+LOGIN_URL = "/team/login"
+LOGOUT_URL = "/team/logout"
 
 # Uploaded Files & Metadata
 
-MEDIA_ROOT = "program/workspace/"
-MEDIA_URL = "/program/workspace/"
+MEDIA_ROOT = "team/workspace/"
+MEDIA_URL = "/team/workspace/"
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 "django.core.context_processors.debug",
@@ -102,7 +102,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 "django.core.context_processors.static",
 "django.core.context_processors.tz",
 "django.contrib.messages.context_processors.messages",
-"program.library.programSiteContext",)
+"team.library.programSiteContext",)
 
 import djcelery
 djcelery.setup_loader()

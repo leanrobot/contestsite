@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from django.contrib import admin
-from program.models import *
+from .models import *
 
 # Register your models here.
 admin.site.register(Problem)
