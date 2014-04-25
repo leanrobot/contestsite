@@ -1,9 +1,15 @@
 from __future__ import absolute_import
 
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
+
+from tastypie.api import Api
+from .api import ExecutionResultResource
+
 admin.autodiscover()
+
+v1_api = Api(api_name="v1")
+v1_api.register(ExecutionResultResource())
 
 urlpatterns = patterns('',
     # Examples:
@@ -13,4 +19,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^team/', include('team.urls')),
     url(r'^judge/', include('judge.urls')),
+    url(r'^api/', include(v1_api.urls)),
 )
