@@ -1,86 +1,20 @@
 {% extends 'program/base.html' %}
+{% block head %}
+	<script src="/static/judge/js/grade.js" type="text/javascript"></script>
+{% endblock %}
 
-{%block body%}
- 
-<div class="row content">
-	<div class="col-md-12">
-		<div class="row">
-		<div class="col-md-4">
-			<div class="row">
-			<p> <button class="btn btn-default btn-md glyphicon glyphicon-refresh"></button> </p>
-			</div>
-			<div class="row">
-				<table class="table table-hover table-striped border-dark">
-					<tr class="border-dark">
-						<th>team&nbsp;<span class="caret"></span></th>
-						<th>solved&nbsp;<span class="caret caret-reversed"></span></th>
-						<th>problem</th>
-					</tr>
-					<tr>
-						<td>team1</td>
-						<td><span class="glyphicon glyphicon-ok"></span></td>
-						<td>Print the file</td>
-					</tr>
-					<tr>
-						<td>team1</td>
-						<td><span class="glyphicon glyphicon-ok"></span></td>
-						<td>Print the file</td>
-					</tr>
-					<tr>
-						<td>team1</td>
-						<td><span class="glyphicon glyphicon-ok"></span></td>
-						<td>Print the file</td>
-					</tr>
-					<tr>
-						<td>team1</td>
-						<td><span class="glyphicon glyphicon-ok"></span></td>
-						<td>Print the file</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<div class="col-md-8">
-			<div class="row">
-				<div class="col-md-6"><h2>Print the File</h2><h4>team1</h4></div>
-				<div class="col-md-6 text-right"><h2>3:45pm (10 mins ago)</h2></div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<span class="btn-group">
-						<button class="btn btn-default btn-md border-dark glyphicon glyphicon-ok"></button>
-						<button class="btn btn-default btn-md border-dark glyphicon glyphicon-remove "></button>
-					</span>
-					<hr/>
-					<h3>Output Diff</h3>
-					<pre class="brush: diff; lineWrap: true;">
-					diff --git a/diff1.txt b/diff2.txt
-					index 973fbbe..e0085f4 100644
-					--- a/diff1.txt
-					+++ b/diff2.txt
-					@@ -1,4 +1,3 @@
-					 Hello World, how are you?
-					-I am fine!
-					+I am fine.
-					 Welcome to this world of desolate food criterias.
-					-</pre>
-					<h3>Running Time</h3>
-					<p>7.175667 seconds</p>
-					<h3>Command</h3>
-					<pre style="white-space: pre-wrap;" class="brush: plain">
-						g++ /Users/leanrobot/Documents/Programming/ContestSite/program/workspace/leanrobot/pr1_correct.cpp -o /Users/leanrobot/Documents/Programming/ContestSite/program/workspace/leanrobot/pr1_correct 
-		 				/Users/leanrobot/Documents/Programming/ContestSite/program/workspace/leanrobot/pr1_correct
-		 				</pre>
-	 				<h3>Stdin</h3>
-	 				<pre class="brush: plain">
-		 				Hello hello hello
-		 				fdsfdsafas
-		 				fdsfsa</pre>
-	 				<h3>Stderr</h3>
-	 				<pre class="brush: plain"></pre>
- 				</div>
-			</div>
-		</div>
-		</div>
+{% block body %}
+
+<div class="row content" ng-app="Grading">
+	<div class="col-md-12" ng-controller="Main as main">
+		<p>hello world</p>
+		<p>[[name]]</p>
+		<table>
+			<tr ng-click="main.setSelected()" ng-repeat="solution in main.solutions">
+				<td>[[solution.name]]</td>
+			</tr>
+		</table>
+	</div>
 </div>
 
-{%endblock%}
+{% endblock %}
