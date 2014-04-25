@@ -1,7 +1,7 @@
 from tastypie.resources import ModelResource
 from team.models import ExecutionResult
 
-class ExecutionResultResource(ModelResource):
+class UngradedExecutionResultResource(ModelResource):
 	class Meta:
-		queryset = ExecutionResult.objects.all()
-		resource_name = "executionresult"
+		queryset = ExecutionResult.objects.filter(problemResult=None)
+		resource_name = "ungradedresult"

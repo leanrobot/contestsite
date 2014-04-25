@@ -98,7 +98,7 @@ class ExecutionResult(DjangoModels.Model):
 	stderr				= DjangoModels.TextField(blank=True)
 	command				= DjangoModels.CharField(max_length=200)
 	exitCode			= DjangoModels.IntegerField()
-	problemResult 		= DjangoModels.OneToOneField(ProblemResult, primary_key=True)
+	problemResult 		= DjangoModels.OneToOneField(ProblemResult, null=True, blank=True)
 
 	#TODO WRITE __UNICODE__
 

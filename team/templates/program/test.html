@@ -10,8 +10,8 @@
 		<p>hello world</p>
 		<p>[[name]]</p>
 		<table>
-			<tr ng-click="main.setSelected()" ng-repeat="solution in main.solutions">
-				<td>[[solution.name]]</td>
+			<tr ng-click="main.setSelected(solution)" ng-repeat="solution in solutions">
+				<td>[[solution.command]]</td>
 			</tr>
 		</table>
 	</div>

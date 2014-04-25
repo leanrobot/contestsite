@@ -4,12 +4,12 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from tastypie.api import Api
-from .api import ExecutionResultResource
+from .api import *
 
 admin.autodiscover()
 
 v1_api = Api(api_name="v1")
-v1_api.register(ExecutionResultResource())
+v1_api.register(UngradedExecutionResultResource())
 
 urlpatterns = patterns('',
     # Examples:
