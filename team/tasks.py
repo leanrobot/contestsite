@@ -48,6 +48,9 @@ def testSolution(problem, user, solution):
 		stdout = osProcess.stdout
 		stderr = osProcess.stderr
 	
+	command = " ".join(validator.command)
+	if(problem.compiled):
+		command = ("%s\n%s") % (" ".join(validator.compileCommand), command)
 
 	problemResult = ProblemResult(
 		submissionTime = startTime,

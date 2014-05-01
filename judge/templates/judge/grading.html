@@ -17,14 +17,17 @@
 			<div class="row">
 				<table class="table table-hover table-striped border-dark ng-hide-[[loading]]">
 					<tr class="border-dark">
-						<th>team&nbsp;<span class="caret"></span></th>
-						<th>solved&nbsp;<span class="caret caret-reversed"></span></th>
-						<th>problem</th>
+						<th>Team&nbsp;<span class="caret"></span></th>
+						<th><span class="glyphicon glyphicon-ok"></span>/<span class="glyphicon glyphicon-question-sign"></span>&nbsp;<span class="caret caret-reversed"></span></th>
+						<th>Problem</th>
 					</tr>
 					<tr ng-repeat="solution in solutions"
 						ng-click="main.setSelected(solution)">
-						<td></td>
-						<td><span class="glyphicon glyphicon-ok"></span></td>
+						<td>[[solution.team]]</td>
+						<td>
+							<span class="glyphicon glyphicon-ok" ng-if="solution.successful"></span>
+							<span class="glyphicon glyphicon-question-sign" ng-if="!solution.successful"></span>
+						</td>
 						<td>[[solution.problem.name]]</td>
 					</tr>
 				</table>
@@ -32,7 +35,7 @@
 		</div>
 		<div class="col-md-8 ng-hide-[[!solution]]" ng-model="main.solution">
 			<div class="row">
-				<div class="col-md-6"><h2>[[solution.problem.name]]</h2><h4>TEAM??</h4></div>
+				<div class="col-md-6"><h2>[[solution.problem.name]]</h2><h4>[[solution.team]]</h4></div>
 				<div class="col-md-6 text-right"><h2>[[solution.time]]</h2><h4>([[solution.minsAgo]] mins ago)</h4></div>
 			</div>
 			<div class="row">

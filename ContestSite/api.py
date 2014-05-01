@@ -16,6 +16,12 @@ class UngradedResultResource(ModelResource):
 	execution = fields.OneToOneField(ExecutionResultResource, 'executionresult', full=True)
 	time = fields.CharField(attribute='prettyTime', readonly=True)
 	minsAgo = fields.IntegerField(attribute='minsAgo', readonly=True)
+	team = fields.CharField(readonly=True)
+
+	def dehydrate(self, bundle):
+		bundle.data['team'] = bundle.obj.user.username
+		return bundle
+
 	class Meta:
 		queryset = ProblemResult.objects.filter(graded=False)
 		resource_name = "ungradedresult"
