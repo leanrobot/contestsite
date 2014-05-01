@@ -14,7 +14,7 @@ from django.conf import settings
 from pytz import timezone
 
 from .models import *
-from .library import SolutionValidator
+from .library import SolutionValidator, fixedTZData
 from .tasks import testSolution
 
 # Helper Functions =============================================
@@ -24,6 +24,8 @@ def checkCorrectSolution(problem, stdin, stdout, stderr, exitCode):
 	exitCodeCorrect = exitCode == 0
 	fdsafsd
 	return stdoutMatch and exitCodeCorrect
+
+
 
 # Forms ========================================================
 
@@ -161,8 +163,8 @@ class ProblemResultView(View):
 					"test"		: True,
 
 				})
-		except (Problem.DoesNotExist, ProblemResult.DoesNotExist):
-			pass
+		except (Problem.DoesNotExist, ProblemResult.DoesNotExist, ExecutionResult.DoesNotExist):
+			pass # TODO add exception handling
 # ============	
 
 class ProblemExecutionView(View):
@@ -202,7 +204,7 @@ class WaitView(View):
 			submission = ProblemResult.objects.filter(user=request.user, successful=True).first()
 		if submission:
 			subDate = submission.submissionTime.date()
-			subTime = submission.submissionTime.astimezone(timezone(settings.TIME_ZONE)).timetz().strftime("%I:%M:%S %p")
+			subTime = fixedTZData(submission.submissionTime)#submission.submissionTime.astimezone(timezone(settings.TIME_ZONE)).timetz().strftime("%I:%M:%S %p")
 		return render(request, "program/contestNotInSession.html", {
 			'now'				: datetime.now(tz=timezone(settings.TIME_ZONE)),
 			'submission'		: submission,

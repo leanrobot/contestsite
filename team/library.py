@@ -10,6 +10,10 @@ from .models import UserSettings, ContestSettings, ProblemResult
 
 logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
+def fixedTZData(dbDate):
+	fixedDate = dbDate.astimezone(timezone(settings.TIME_ZONE))
+	return fixedDate
+
 class TimeoutThread:
 	def __init__(self, cmd, cwd):
 		self.command 	= cmd

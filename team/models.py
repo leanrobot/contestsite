@@ -12,6 +12,10 @@ from django.db.models.query import EmptyQuerySet
 from pytz import timezone
 from celery.contrib import rdb
 
+#from .library import fixedTZData
+def fixedTZData(dbDate):
+	fixedDate = dbDate.astimezone(timezone(settings.TIME_ZONE))
+	return fixedDate
 
 # Create your models here.
 inputTypes = (
@@ -79,6 +83,19 @@ class ProblemResult(DjangoModels.Model):
 		delta = now - self.submissionTime
 		minsAgo = delta.total_seconds() /60
 		return int(minsAgo)
+
+	def prettyTime(self):
+		d = fixedTZData(self.submissionTime)
+		now = datetime.now(tz=timezone(settings.TIME_ZONE))
+		delta = d - now
+
+		sixHours = timedelta(hours=6)
+		if delta < sixHours:
+			#no date
+			return d.strftime("%I:%M %p")
+		else:
+			return d.strftime("%I:%M %p")
+			# print with date
 
 	#TODO WRITE __UNICODE__
 	def __unicode__(self):

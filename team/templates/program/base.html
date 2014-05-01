@@ -27,12 +27,12 @@
     <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-        int num = 0;
+        var num = 0;
         $(".hljs-init").each(function(i,e) { 
-          hljs.highlightBlock(e); console.log("style init");
+          hljs.highlightBlock(e);
           num++;
         });
-        console.log(num+" code blocked styled on page load.");
+        console.log(num+" code blocks styled on page load.");
 
       });
     </script>
