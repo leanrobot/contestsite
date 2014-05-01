@@ -69,6 +69,7 @@ class ProblemResult(DjangoModels.Model):
 		ordering = ['-submissionTime']
 
 	submissionTime 		= DjangoModels.DateTimeField()
+	graded				= DjangoModels.BooleanField(default=settings.AUTO_GRADE)
 	successful			= DjangoModels.BooleanField(default=False)
 	user 				= DjangoModels.ForeignKey(User)
 	problem 			= DjangoModels.ForeignKey(Problem)

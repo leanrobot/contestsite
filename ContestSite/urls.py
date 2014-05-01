@@ -9,7 +9,9 @@ from .api import *
 admin.autodiscover()
 
 v1_api = Api(api_name="v1")
-v1_api.register(UngradedExecutionResultResource())
+v1_api.register(UngradedResultResource())
+v1_api.register(ExecutionResultResource())
+v1_api.register(ProblemResource())
 
 urlpatterns = patterns('',
     # Examples:

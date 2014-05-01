@@ -31,11 +31,17 @@
     border-bottom: 4px solid #FFFFFF;
 }
 
-/* Changes for SyntaxHighlighter */
-.code .container {
-	padding-top: 5px !important;
-	padding-bottom: 5px !important;
-}
-.syntaxhighlighter .toolbar {
+/* Angular CSS  ==================================*/
+
+.ng-hide-true {
 	display: none;
+}
+
+/* Changes for Highlight.js */
+pre.hljs {
+    padding: 0px;
+    border: 0px;
+}
+pre.hljs code {
+    border: 0px;
 }
