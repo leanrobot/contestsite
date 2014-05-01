@@ -97,11 +97,11 @@
                 file - <a href="{% url 'text file generator' problem.id%}">{{problem.filename}}</a>
               {% endif %}
             </p>
-          <pre class="brush: plain;">{{problem.inputTest}}</pre>
+          <pre class="hljs hljs-init"><code>{{problem.inputTest}}</code></pre>
         {% endif %}
         {% if problem.outputTest %}
           <h3>Output Example</h3>
-          <pre class="brush: plain;">{{problem.outputTest}}</pre>
+          <pre class="hljs hljs-init"><code>{{problem.outputTest}}</code></pre>
         {% endif %}
       </div>
     </div>

@@ -54,11 +54,10 @@ angularApp.controller 'Main',
 
 			highlightCode: (code) ->
 				if code?
-					console.log "highlight"
-					return hljs.highlightAuto(code).value
+					highlightObj = hljs.highlightAuto code
+					return highlightObj.value
 				else 
-					console.log "no highlight"
-					return ''
+					return code
 
 			runningTime: (startraw, endraw) ->
 				console.log @time

@@ -57,12 +57,12 @@ angularApp.controller('Main', GradingMain = (function() {
   };
 
   GradingMain.prototype.highlightCode = function(code) {
+    var highlightObj;
     if (code != null) {
-      console.log("highlight");
-      return hljs.highlightAuto(code).value;
+      highlightObj = hljs.highlightAuto(code);
+      return highlightObj.value;
     } else {
-      console.log("no highlight");
-      return '';
+      return code;
     }
   };
 
