@@ -1,4 +1,6 @@
 import sys
 
-for line in sys.stdin:
-	sys.stdout.write(line)
+print "Hello World!"
+print "How\nare you????"
+print "I am fine"
+print ""

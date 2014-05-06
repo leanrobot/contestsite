@@ -3,6 +3,7 @@ import os
 import sys
 import subprocess
 from datetime import datetime
+from difflib import unified_diff,ndiff
 
 from celery import Celery
 from pytz import timezone
@@ -44,13 +45,20 @@ def testSolution(problem, user, solution):
 	if osProcess.timeout:
 		stdout = "<<<< NO OUTPUT: THE COMMAND TIMED OUT. MORE THAN %i SECONDS TO RUN >>>" % (TIMEOUT)
 		stderr = stdout
+		diff = ''
 	else:
 		stdout = osProcess.stdout
 		stderr = osProcess.stderr
-	
+
+		def unifyDiffArray(arr):
+			arr = [x.rstrip() for x in arr]
+			unified = "\n".join(arr)
+		diff = [x for x in unified_diff(problem.outputSubmit.splitlines(),stdout.splitlines(),
+					 tofile="expected", fromfile="stdout")]
+		diff = [x.rstrip() for x in diff]
+		diff = "\n".join(diff)
 	command = " ".join(validator.command)
-	if(problem.compiled):
-		command = ("%s\n%s") % (" ".join(validator.compileCommand), command)
+	command = ("%s\n%s") % (" ".join(validator.compileCommand), command)
 
 	problemResult = ProblemResult(
 		submissionTime = startTime,
@@ -64,6 +72,8 @@ def testSolution(problem, user, solution):
 		stdin = problem.inputSubmit,
 		stdout = stdout,
 		stderr = stderr,
+		diff = diff,
+		filename = solution.solution.path,
 		command = "%s \n %s" % (" ".join(validator.compileCommand), " ".join(validator.command)),
 		exitCode = osProcess.exitCode,
 		problemResult = problemResult,

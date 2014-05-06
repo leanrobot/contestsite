@@ -1,3 +1,5 @@
+from tastypie.authorization import DjangoAuthorization
+from tastypie.authentication import BasicAuthentication
 from tastypie.resources import ModelResource
 from tastypie import fields
 from team.models import ExecutionResult, ProblemResult, Problem
@@ -25,3 +27,10 @@ class UngradedResultResource(ModelResource):
 	class Meta:
 		queryset = ProblemResult.objects.filter(graded=False)
 		resource_name = "ungradedresult"
+		authorization = DjangoAuthorization()
+
+class ProblemResultResource(ModelResource):
+	class Meta:
+		queryset = ProblemResult.objects.all()
+		resource_name = "problemresult"
+		authorization = DjangoAuthorization()

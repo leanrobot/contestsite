@@ -41,12 +41,14 @@
 			<div class="row">
 				<div class="col-md-12">
 					<span class="btn-group">
-						<button class="btn btn-default btn-md border-dark glyphicon glyphicon-ok"></button>
-						<button class="btn btn-default btn-md border-dark glyphicon glyphicon-remove "></button>
+						<button ng-click="main.gradeResult(true, solution)"
+								class="btn btn-default btn-md border-dark glyphicon glyphicon-ok"></button>
+						<button ng-click="main.gradeResult(false, solution)"
+								class="btn btn-default btn-md border-dark glyphicon glyphicon-remove "></button>
 					</span>
 					<hr/>
 					<h3>Output Diff (FAKE)</h3>
-					<pre class="hljs"><code ng-bind-html="main.highlightCode(jscode)"></code></pre>
+					<pre class="hljs"><code ng-bind-html="main.highlightCode(solution.execution.diff)"></code></pre>
 					<h3>Running Time</h3>
 					<p>[[solution.execution.startTime]] seconds</p>
 					<h3>Command</h3>

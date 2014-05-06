@@ -53,15 +53,19 @@
             <th>Details</th>
           </tr>
           {% for submission in submissions %} {% with time=submission.submissionTime %}
-            {% if submission.successful %}
+            {% if submission.successful and submission.graded %}
             <tr class="success">
-            {%else%}
+            {% elif submission.graded %}
             <tr class="danger">
+            {% else %}
+            <tr>
             {%endif%}
-              {% if submission.successful %}
+              {% if submission.successful and submission.graded %}
                 <td><p class="glyphicon glyphicon-ok"></p></td>
-              {% else %}
+              {% elif not submission.successful and submission.graded %}
                 <td> <p class="glyphicon glyphicon-remove"></p></td>
+              {% else %}
+                <td><p class="glyphicon glyphicon-question-sign"></p></td>
               {% endif %}
               <td>{{submission.minsAgo}} mins ago</td>
               <td><a href="{% url 'problem result' problem.id submission.id %}" class="glyphicon glyphicon-arrow-right"> View</a></td>

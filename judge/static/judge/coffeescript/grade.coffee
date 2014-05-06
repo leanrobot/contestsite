@@ -1,12 +1,18 @@
 DEBUG = 0
 test = true
 
-angularApp = angular.module "Grading", ['ngSanitize']
+angularApp = angular.module "Grading", ['ngSanitize', 'ngResource']
 	.config ($interpolateProvider) -> 
 		$interpolateProvider.startSymbol('[[');
 		$interpolateProvider.endSymbol(']]');
 
-angularApp.factory "api", ($http, $q) ->
+###
+angularApp.config ($resourceProvider) ->
+		# Don't strip trailing slashes from calculated URLs
+		$resourceProvider.defaults.stripTrailingSlashes = false;
+###
+
+angularApp.factory "api", ($http, $q, $resource) ->
 		return {
 			test: ->
 				console.log "test!"
@@ -16,6 +22,16 @@ angularApp.factory "api", ($http, $q) ->
 				.then successFunc,
 				(response) ->
 					return $q.reject response.data 
+			gradeResult: (correct, solution, successFunc) ->
+				solution.graded = true
+				solution.successful = correct
+				console.log solution.id
+				$http {
+						url: "/api/v1/problemresult/#{solution.id}"
+						data: solution
+						method: "PATCH"
+					}
+				.then successFunc
 		}
 
 
@@ -29,13 +45,6 @@ angularApp.controller 'Main',
 				@$scope.solution = null
 				@load()
 
-				@$scope.jscode = 
-				"""
-				var j = 5;
-				var x = 6;
-				alert("hello!");
-				"""
-
 				@time = new TimeConversion()
 			
 			load: -> 
@@ -46,6 +55,12 @@ angularApp.controller 'Main',
 					console.log response.data.objects
 					@$scope.solutions = response.data.objects
 					@$scope.loading = false
+
+			gradeResult: (correct, solution) ->
+				@$scope.solutions = []
+				@api.gradeResult correct, solution, (response) =>
+					@$scope.solution = null
+					@load()
 
 			setSelected: (solution) ->
 				console.log "controller: select"

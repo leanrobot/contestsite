@@ -5,12 +5,19 @@ DEBUG = 0;
 
 test = true;
 
-angularApp = angular.module("Grading", ['ngSanitize']).config(function($interpolateProvider) {
+angularApp = angular.module("Grading", ['ngSanitize', 'ngResource']).config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('[[');
   return $interpolateProvider.endSymbol(']]');
 });
 
-angularApp.factory("api", function($http, $q) {
+
+/*
+angularApp.config ($resourceProvider) ->
+		 * Don't strip trailing slashes from calculated URLs
+		$resourceProvider.defaults.stripTrailingSlashes = false;
+ */
+
+angularApp.factory("api", function($http, $q, $resource) {
   return {
     test: function() {
       return console.log("test!");
@@ -20,6 +27,16 @@ angularApp.factory("api", function($http, $q) {
       return $http.get('/api/v1/ungradedresult?format=json').then(successFunc, function(response) {
         return $q.reject(response.data);
       });
+    },
+    gradeResult: function(correct, solution, successFunc) {
+      solution.graded = true;
+      solution.successful = correct;
+      console.log(solution.id);
+      return $http({
+        url: "/api/v1/problemresult/" + solution.id,
+        data: solution,
+        method: "PATCH"
+      }).then(successFunc);
     }
   };
 });
@@ -33,7 +50,6 @@ angularApp.controller('Main', GradingMain = (function() {
     this.$scope.solutions = [];
     this.$scope.solution = null;
     this.load();
-    this.$scope.jscode = "var j = 5;\nvar x = 6;\nalert(\"hello!\");";
     this.time = new TimeConversion();
   }
 
@@ -46,6 +62,16 @@ angularApp.controller('Main', GradingMain = (function() {
         console.log(response.data.objects);
         _this.$scope.solutions = response.data.objects;
         return _this.$scope.loading = false;
+      };
+    })(this));
+  };
+
+  GradingMain.prototype.gradeResult = function(correct, solution) {
+    this.$scope.solutions = [];
+    return this.api.gradeResult(correct, solution, (function(_this) {
+      return function(response) {
+        _this.$scope.solution = null;
+        return _this.load();
       };
     })(this));
   };

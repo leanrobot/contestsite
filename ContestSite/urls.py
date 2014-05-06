@@ -12,6 +12,7 @@ v1_api = Api(api_name="v1")
 v1_api.register(UngradedResultResource())
 v1_api.register(ExecutionResultResource())
 v1_api.register(ProblemResource())
+v1_api.register(ProblemResultResource())
 
 urlpatterns = patterns('',
     # Examples:

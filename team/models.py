@@ -44,20 +44,20 @@ class Problem(DjangoModels.Model):
 	outputDescription	= DjangoModels.TextField(blank=True)
 
 	def getCorrectSolution(self, user):
-		correctResults = ProblemResult.objects.filter(user=user, problem=self, successful=True)
+		correctResults = ProblemResult.objects.filter(user=user, problem=self, successful=True, graded=True)
 		if(correctResults.count() > 0):
 			return correctResults.first()
 		return None
 
 	def getIncorrectSolutions(self, user):
-		incorrectResults = ProblemResult.objects.filter(user=user, problem=self, successful=False)
+		incorrectResults = ProblemResult.objects.filter(user=user, problem=self, successful=False, graded=True)
 		if(len(incorrectResults > 0)):
 			return incorrectResults
 		return None
 
 	def possibleScore(self, user):
 		incorrect = ProblemResult.objects.filter(user=user, problem=self,
-								 successful=False)
+								 successful=False, graded=True)
 		score = self.score
 		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
 		return score
@@ -115,6 +115,8 @@ class ExecutionResult(DjangoModels.Model):
 	stdin				= DjangoModels.TextField(blank=True)
 	stderr				= DjangoModels.TextField(blank=True)
 	command				= DjangoModels.CharField(max_length=200)
+	filename 			= DjangoModels.CharField(max_length=200, blank=True)
+	diff 				= DjangoModels.TextField(blank=True)
 	exitCode			= DjangoModels.IntegerField()
 	problemResult 		= DjangoModels.OneToOneField(ProblemResult, null=True, blank=True)
 

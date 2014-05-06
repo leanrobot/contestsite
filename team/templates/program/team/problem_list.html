@@ -14,22 +14,24 @@
         <th>Time</th>
       </tr>
 	  {% for pr,possibleScore,result in data %}
-      {% if result.successful == None %}
+      {% if result.successful and result.graded %}
+        <tr class="success">
+	  	{% elif not result.successful and result.graded %}
+        <tr class="danger">
+      {% else %}
         <tr>
-	  	{% elif result.successful %}
-      	<tr class="success">
-      {% elif not result.successful %}
-	  	  <tr class="danger">
 	  	{% endif %}
 			
 			<td>{{pr.id}}</td>
 
 			{% if result == None %}
 				<td></td>
-			{% elif result.successful %}
+			{% elif result.successful and result.graded %}
        		    <td><span class="glyphicon glyphicon-ok"></span></td>
-			{% else %}
+			{% elif not result.successful and result.graded %}
         		<td><span class="glyphicon glyphicon-remove"></span></td>
+      {% else %}
+            <td><span class="glyphicon glyphicon-question-sign"></span></td>
 			{% endif %}
 
 			<td>{{possibleScore}}/{{pr.score}}</td>
@@ -46,32 +48,6 @@
 
 		</tr>
 	  {% endfor %}
-	  <!--
-      <tr>
-        <td>1</td>
-        <td><p class="glyphicon glyphicon-remove"></p></td>
-        <td>0/30</td>
-        <td>2/5</td>
-        <td><a href="">Problem 1</a></td>
-        <td>Feb 22 2014 4:20pm</td>
-      </tr>
-      <tr class="success">
-        <td>2</td>
-        <td><p class="glyphicon glyphicon-ok"></p></td>
-        <td>25/30</td>
-        <td>1/5</td>
-        <td><a href="">Problem 2</a></td>
-        <td>Feb 22 2014 4:20pm</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td><p class="glyphicon glyphicon-remove"></p></td>
-        <td>0/30</td>
-        <td>4/5</td>
-        <td><a href="">Problem 3</a></td>
-        <td>Feb 22 2014 4:20pm</td>
-      </tr>
-      -->
     </table>
   </div>
 </div>

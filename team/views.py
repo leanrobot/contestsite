@@ -261,7 +261,7 @@ class ScoreboardView(View):
 			'''
 			# generate the correct,failed, and attempted problem percentages
 			total = problems.count()
-			correct = userQuerySet.filter(successful=True).count()
+			correct = userQuerySet.filter(successful=True, graded=True).count()
 			failed = 0
 			for p in problems:
 				if p.failed(u.user):
