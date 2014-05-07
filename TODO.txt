@@ -5,6 +5,8 @@ TODO list for ContestSite Django app ===========================================
 High Priority
 =====================
 - [BUG] sometimes problems are failed when not all points are depleted.
+- [BUG] submission box still disappears if the problem is correct, but hasn't been graded.
+		Change so that if a submission is pending, then the button doesn't show.
 - Add 'Discard solution' button on grading page.
 - Add Contest administration page for controlling contest settings
 - Add pages that allow administration of users, and their submitted solutions

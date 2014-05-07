@@ -13,9 +13,9 @@ class GradingView(View):
 	def get(self, request):
 		return render(request, "judge/grading.html")
 
-class UserDetailView(View):
-	def get(self, request, username):
+class UserListView(View):
+	def get(self, request):
 		users = auth.User.objects.filter(is_staff=False)
-		return render(request, "judge/user_detail.html", {
+		return render(request, "judge/user_list.html", {
 				'users' : users
 			})
