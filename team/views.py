@@ -244,8 +244,9 @@ class ScoreboardView(View):
 	def get(self, request):
 		pass
 		users = UserSettings.objects.all()
+		users = filter(lambda us: not( us.user.is_staff or us.user.is_superuser), users)
 		# sort the users
-		user = sorted(users, key=lambda user: user.score())
+		users = sorted(users, key=lambda user: user.score())
 
 		problems = Problem.objects.all()
 		results = ProblemResult.objects.all()

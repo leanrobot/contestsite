@@ -4,6 +4,7 @@ import datetime
 
 from django.http import HttpResponseRedirect
 from django.conf import settings as djangoSettings
+from django.shortcuts import redirect
 
 from pytz import timezone
 
@@ -23,7 +24,7 @@ class ContestSiteMiddleware:
 			try:
 				settings = UserSettings.objects.get(user=request.user)
 			except UserSettings.DoesNotExist:
-				return views.UserSettingsView().get(request)
+				return redirect('user settings')
 
 		# Check to make sure the contest is in session
 		contestSettings = ContestSettings.objects.get(pk=1)

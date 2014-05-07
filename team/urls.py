@@ -10,9 +10,9 @@ from . import views
 urlpatterns = patterns('',
     url(r'^$', login_required( views.ScoreboardView.as_view() ), name='index'),
 
-    url(r'^login/', views.LoginPage.as_view(), name="login"),
-    url(r'^logout/', login_required( views.LogoutPage.as_view() ), name="logout"),
-    url(r'^settings/', login_required( views.UserSettingsView.as_view() ), name="user settings"),
+    url(r'^login\/?', views.LoginPage.as_view(), name="login"),
+    url(r'^logout\/?', login_required( views.LogoutPage.as_view() ), name="logout"),
+    url(r'^settings\/?', login_required( views.UserSettingsView.as_view() ), name="user settings"),
 
     url(r'problem/$', login_required( views.ProblemListView.as_view() ), name="problems"),
     url(r'problem/(\d+)$', login_required( views.ProblemDetailView.as_view() ), name="problem detail"),
