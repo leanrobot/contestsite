@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load activePage %}
 <head>
 	<script src="{% static "program/js/jQuery-2.1.0.js"%}"></script>
 	<script src="{% static "program/js/bootstrap.js" %}"></script>
@@ -66,14 +67,19 @@
       		</div>
       		<div class="navbar-collapse collapse">
         		<ul class="nav navbar-nav">
+                  {% url 'grading' as grading %}
+                  {% url 'user list' as user_list %}
+                  {% url 'index' as index %}
+                  {% url 'problems' as problems %}
+
                   {% if user.is_staff or user.is_superuser %}
-                    <li><a href="{% url 'grading' %}">Grade</a></li>
+                    <li class="{% active request grading %}"><a href="{{ grading }}">Grade</a></li>
                     <li><a href="#">Control</a></li>
-                    <li><a href="{% url 'user list' %}">Teams</a></li>
+                    <li class="{% active request user_list %}"><a href="{{ user_list }}">Teams</a></li>
                   {% else %}
-                		<li class="active"><a href="{% url 'index' %}">Teams</a></li>
-                		<li><a href="{% url 'problems' %}">Problems</a></li>
                   {% endif %}
+                  <li class="{% active request index %}"><a href="{{ index }}">Teams</a></li>
+                  <li class="{% active request problems %}"><a href="{{ problems }}">Problems</a></li>
         		</ul>
         		<ul class="nav navbar-nav navbar-right">
         			

@@ -42,30 +42,33 @@ angularApp.controller 'Main',
 				DEBUG = @
 				console.log "controller: create"
 				@$scope.solutions = []
-				@$scope.solution = null
+				@$scope.selected = null
 				@load()
 
 				@time = new TimeConversion()
 			
 			load: -> 
 				console.log "controller: load"
+				@$scope.selected = null
 				@$scope.loading = true
 				@api.getUngradedResults (response) => 
 					console.log "graded results: "
 					console.log response.data.objects
 					@$scope.solutions = response.data.objects
+					if @$scope.solutions.length > 0
+						@$scope.selected = @$scope.solutions[0]
 					@$scope.loading = false
 
 			gradeResult: (correct, solution) ->
 				@$scope.solutions = []
 				@api.gradeResult correct, solution, (response) =>
-					@$scope.solution = null
+					@$scope.selected = null
 					@load()
 
 			setSelected: (solution) ->
 				console.log "controller: select"
 				console.log solution
-				@$scope.solution = solution
+				@$scope.selected = solution
 
 			highlightCode: (code) ->
 				if code?

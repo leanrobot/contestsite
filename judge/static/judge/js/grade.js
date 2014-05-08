@@ -48,19 +48,23 @@ angularApp.controller('Main', GradingMain = (function() {
     DEBUG = this;
     console.log("controller: create");
     this.$scope.solutions = [];
-    this.$scope.solution = null;
+    this.$scope.selected = null;
     this.load();
     this.time = new TimeConversion();
   }
 
   GradingMain.prototype.load = function() {
     console.log("controller: load");
+    this.$scope.selected = null;
     this.$scope.loading = true;
     return this.api.getUngradedResults((function(_this) {
       return function(response) {
         console.log("graded results: ");
         console.log(response.data.objects);
         _this.$scope.solutions = response.data.objects;
+        if (_this.$scope.solutions.length > 0) {
+          _this.$scope.selected = _this.$scope.solutions[0];
+        }
         return _this.$scope.loading = false;
       };
     })(this));
@@ -70,7 +74,7 @@ angularApp.controller('Main', GradingMain = (function() {
     this.$scope.solutions = [];
     return this.api.gradeResult(correct, solution, (function(_this) {
       return function(response) {
-        _this.$scope.solution = null;
+        _this.$scope.selected = null;
         return _this.load();
       };
     })(this));
@@ -79,7 +83,7 @@ angularApp.controller('Main', GradingMain = (function() {
   GradingMain.prototype.setSelected = function(solution) {
     console.log("controller: select");
     console.log(solution);
-    return this.$scope.solution = solution;
+    return this.$scope.selected = solution;
   };
 
   GradingMain.prototype.highlightCode = function(code) {

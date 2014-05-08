@@ -37,6 +37,18 @@
 	display: none;
 }
 
+.tableSelected {
+	background-color: rgb(186,194,198) !important;
+}
+
+li.active {
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-color: rgb(40,40,40);
+	border-left-style: solid;
+	border-right-style: solid;
+}
+
 /* Changes for Highlight.js */
 pre.hljs {
     padding: 0px;
