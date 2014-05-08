@@ -14,12 +14,13 @@
 			<th>Score</th>
 		</tr>
 		<thead>
-		
+
 		<tbody>
 		{% for u in users %}
 		 <tr>
-		 	<td>{{u.username}}</td>
-		 	<td>{{u.usersettings.teamName}}</td>
+ 			{% url 'user detail' u.username u.id as user_detail %}
+		 	<td><a href="{{user_detail}}">{{u.username}}</a></td>
+		 	<td><a href="{{user_detail}}">{{u.usersettings.teamName}}</a></td>
 		 	<td>{{u.usersettings.score}}</td>
 	 	</tr>
 		 {% endfor %}

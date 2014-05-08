@@ -14,7 +14,7 @@ from django.conf import settings
 from pytz import timezone
 
 from .models import *
-from .library import SolutionValidator, fixedTZData
+from .library import SolutionValidator, fixedTZData, progressBar
 from .tasks import testSolution
 
 # Helper Functions =============================================
@@ -248,29 +248,12 @@ class ScoreboardView(View):
 		# sort the users
 		users = sorted(users, key=lambda user: user.score())
 
-		problems = Problem.objects.all()
-		results = ProblemResult.objects.all()
-
 		tableData = []
 		rank = 1
 		for u in users:
 			resultsList = []
-			userQuerySet = results.filter(user=u.user)
-			'''
-			for p in problems:
-				resultsList.append( userQuerySet.filter(problem=p).first() )
-			'''
-			# generate the correct,failed, and attempted problem percentages
-			total = problems.count()
-			correct = userQuerySet.filter(successful=True, graded=True).count()
-			failed = 0
-			for p in problems:
-				if p.failed(u.user):
-					failed += 1
-			# convert to percentages
-			if(total > 0):
-				correct = round((float(correct)/float(total))*100)
-				failed = round((float(failed)/float(total))*100)
+
+			(correct, failed) = progressBar(u.user)
 
 			tableData.append( (rank, u, resultsList, correct, failed) )
 			rank += 1
@@ -279,7 +262,7 @@ class ScoreboardView(View):
 
 		return render(request, "program/scoreboards/scoreboard.html", {
 			"tableData" : tableData,
-			"problems"	: problems,
+			#"problems"	: problems,
 			})
 # ============
 

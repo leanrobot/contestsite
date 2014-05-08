@@ -6,13 +6,31 @@ from pytz import timezone
 from celery.contrib import rdb
 
 from django.conf import settings
-from .models import UserSettings, ContestSettings, ProblemResult
+from .models import UserSettings, ContestSettings, ProblemResult, Problem
 
 logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
 def fixedTZData(dbDate):
 	fixedDate = dbDate.astimezone(timezone(settings.TIME_ZONE))
 	return fixedDate
+
+def progressBar(user):
+	# generate the correct,failed, and attempted problem percentages
+	problems = Problem.objects.all()
+	results = ProblemResult.objects.all()
+	userQuerySet = results.filter(user=user)
+
+	total = problems.count()
+	correct = userQuerySet.filter(successful=True, graded=True).count()
+	failed = 0
+	for p in problems:
+		if p.failed(user):
+			failed += 1
+	# convert to percentages
+	if(total > 0):
+		correct = round((float(correct)/float(total))*100)
+		failed = round((float(failed)/float(total))*100)
+	return (correct,failed)
 
 class TimeoutThread:
 	def __init__(self, cmd, cwd):

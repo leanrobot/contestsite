@@ -209,6 +209,16 @@ class UserSettings(DjangoModels.Model):
 				score += problem.possibleScore(self.user)
 		return score
 
+	def getCorrect(self):
+		correct = ProblemResult.objects.filter(user=self.user, graded=True, successful=True)
+		problems = [pr.problem for pr in correct]
+		return problems
+
+	def getFailed(self):
+		problems = Problem.objects.all()
+		failed = [pr for pr in problems if pr.failed(self.user)]
+		return failed
+
 	def __unicode__(self):
 		return ("%s's Settings" % (self.user,))
 
