@@ -4,20 +4,24 @@ TODO list for ContestSite Django app ===========================================
 
 High Priority
 =====================
+- [FIX] all page glitches with scoring.
+- [BUG] Remove division on score header, change to points.
 - [BUG] sometimes problems are failed when not all points are depleted.
 - [BUG] submission box still disappears if the problem is correct, but hasn't been graded.
 		Change so that if a submission is pending, then the button doesn't show.
-- [BUG] Fix the judge permissions, they are not able to update problem results.
+- 'All Problems' Page for judges.
+- Add color to checks & x's
 - Add 'Discard solution' button on grading page.
 - Add Contest administration page for controlling contest settings
-- Add pages that allow administration of users, and their submitted solutions
-- Rewire top navigation bar for staff & team logins
+- [HIGH] Refine user list page
+- [HIGH] Create problem result detail page. (closely mirror grading page setup)
 - Staff Protect the staff views in urls.py
 
 
 
 New Features
 ====================
+- No more than one login at a time for teams.
 - Customize the admin interface
 - Add javascript tidbit to expose the django context variables for debugging. (Django-Introspect)
 - Write contest administration page.
@@ -44,7 +48,5 @@ Bugs / Issues
 CSS Issues
 =====================
 - Settings page is a mess.
-- On problem style page, the glyph icon changes the row size.
-- In header, points & time are anchor <a>'s. fix this.
 
 

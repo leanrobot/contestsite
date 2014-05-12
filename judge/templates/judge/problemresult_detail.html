@@ -1,0 +1,52 @@
+{% extends 'program/base.html' %}
+
+{% block body %}
+
+<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-6">
+
+					<h2>
+						{% if result.successful and result.graded %}
+						<span class="glyphicon glyphicon-ok"></span>
+						{% elif not result.successful and result.graded %}
+							<span class="glyphicon glyphicon-remove"></span>
+						{% else %}
+							<span class="glyphicon glyphicon-question-sign"></span>
+						{% endif %}
+						{{problem.name}}
+					</h2>
+					<h4>{{result.user.usersettings.teamName}} ({{result.user.username}})</h4>
+				</div>
+				<div class="col-md-6 text-right">
+					<h2>{{result.prettyTime}}</h2><h4>({{result.minsAgo}} mins ago)</h4>
+					<form action="#" method="POST" role="form">{% csrf_token %}
+					{{ form.as_p }}
+					<span class="btn-group">
+						<button onclick="$('#id_action').val('regrade');"
+								class="btn btn-default btn-md border-dark">Regrade</button>
+						<button onclick="$('#id_action').val('delete');"
+								class="btn btn-default btn-md border-dark">Delete</button>
+					</span>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					
+					<hr/>
+					<h3>Output Diff</h3>
+					<pre class="hljs hljs-init"><code>{{execution.diff}}</code></pre>
+					<h3>Running Time</h3>
+					<p>{{execution.startTime}} seconds</p> <!-- TODO -->
+					<h3>Command</h3>
+					<pre class="hljs hljs-init"><code>{{execution.command}}</code></pre>
+					<h3>Stdin</h3>
+					<pre class="hljs hljs-init"><code>{{execution.stdin}}</code></pre>
+					<h3>Stderr</h3>
+					<pre class="hljs hljs-init"><code>{{execution.stderr}}</code></pre>
+				</div>
+			</div>
+		</div>
+
+{% endblock %}

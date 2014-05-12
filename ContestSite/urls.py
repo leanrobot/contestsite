@@ -5,6 +5,7 @@ from django.contrib import admin
 
 from tastypie.api import Api
 from .api import *
+from team.views import ScoreboardView
 
 admin.autodiscover()
 
@@ -18,6 +19,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'ContestSite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    url(r'^$', ScoreboardView.as_view(), name='index'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^team/', include('team.urls')),

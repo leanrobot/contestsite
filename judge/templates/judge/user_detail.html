@@ -27,7 +27,7 @@
 		<tbody>
 		{% for result in results %}
 			<tr>
-				<td>{{result.problem.name}}</td>
+				<td><a href="{% url 'problem result detail' result.id %}">{{result.problem.name}}</a></td>
 				<td>
 					{% if result.successful %}
 					<span class="glyphicon glyphicon-ok"></span>
@@ -54,8 +54,8 @@
 		<div class="progress-bar progress-bar-success" style="width: {{correctPercent}}%"></div>
 		<div class="progress-bar progress-bar-danger" style="width: {{failedPercent}}%"></div>
     </div>
-	<h4><span class="glyphicon glyphicon-ok"> - {{correct}}</h4>
-	<h4><span class="glyphicon glyphicon-remove"> - {{failed}}</h4>
+	<h4><span class="glyphicon glyphicon-ok"></span> {{correct}} &nbsp;&nbsp;
+		<span class="glyphicon glyphicon-remove"></span> {{failed}}</h4>
 	<h4>Total - {{numTotal}}</h4>
 </div>
 </div>

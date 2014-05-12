@@ -71,15 +71,17 @@
                   {% url 'user list' as user_list %}
                   {% url 'index' as index %}
                   {% url 'problems' as problems %}
+                  {% url 'scoreboard' as scoreboard %}
 
                   {% if user.is_staff or user.is_superuser %}
                     <li class="{% active request grading %}"><a href="{{ grading }}">Grade</a></li>
                     <li><a href="#">Control</a></li>
                     <li class="{% active request user_list %}"><a href="{{ user_list }}">Teams</a></li>
                   {% else %}
+                    <li class="{% active request scoreboard %}"><a href="{{ scoreboard }}">Teams</a></li>
+                    <li class="{% active request problems %}"><a href="{{ problems }}">Problems</a></li>
                   {% endif %}
-                  <li class="{% active request index %}"><a href="{{ index }}">Teams</a></li>
-                  <li class="{% active request problems %}"><a href="{{ problems }}">Problems</a></li>
+
         		</ul>
         		<ul class="nav navbar-nav navbar-right">
         			

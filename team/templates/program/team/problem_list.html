@@ -8,7 +8,7 @@
       <tr>
         <th>Problem</th>
         <th>Solved</th>
-        <th>Score</th>
+        <th>Points</th>
         <th>Attempts</th>
         <th>Name</th>
         <th>Time</th>
@@ -16,7 +16,7 @@
 	  {% for pr,possibleScore,result in data %}
       {% if result.successful and result.graded %}
         <tr class="success">
-	  	{% elif not result.successful and result.graded %}
+	  	{% elif result.problem.failed %}
         <tr class="danger">
       {% else %}
         <tr>
@@ -34,7 +34,7 @@
             <td><span class="glyphicon glyphicon-question-sign"></span></td>
 			{% endif %}
 
-			<td>{{possibleScore}}/{{pr.score}}</td>
+			<td>{{possibleScore}}</td>
 
 			<td><!--ATTEMPTS-->----</td>
 

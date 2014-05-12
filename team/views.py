@@ -244,12 +244,13 @@ class ScoreboardView(View):
 	def get(self, request):
 		pass
 		users = UserSettings.objects.all()
-		users = filter(lambda us: not( us.user.is_staff or us.user.is_superuser), users)
-		# sort the users
-		users = sorted(users, key=lambda user: user.score())
+		users = filter(lambda us: settings.DEBUG or not( us.user.is_staff or us.user.is_superuser), users)
+		# sort the users by score from high -> low.
+		users = reversed(sorted(users, key=lambda user: user.score() ))
 
 		tableData = []
 		rank = 1
+
 		for u in users:
 			resultsList = []
 
@@ -257,8 +258,6 @@ class ScoreboardView(View):
 
 			tableData.append( (rank, u, resultsList, correct, failed) )
 			rank += 1
-
-
 
 		return render(request, "program/scoreboards/scoreboard.html", {
 			"tableData" : tableData,

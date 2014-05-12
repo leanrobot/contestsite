@@ -6,12 +6,15 @@
   <div class="col-md-10">
     <h2>Teams</h2>
     <table class="table table-hover table-striped">
+      <thead>
       <tr>
-        <th>Rank</th>
-        <th>Team</th>
-        <th>Score</th>
-        <th>Progress</th>
+        <td>Rank</td>
+        <td>Team</td>
+        <td>Score</td>
+        <td>Progress</td>
       </tr>
+      </thead>
+      <tbody>
       {% for rank,user,results,correct,failed in tableData %}
         <tr>
           <td>{{rank}}</td>
@@ -41,6 +44,7 @@
           {% endcomment %}
         </tr>
       {% endfor %}
+      </tbody>
       <!--
       <tr>
         <td>4</td>

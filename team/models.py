@@ -60,7 +60,7 @@ class Problem(DjangoModels.Model):
 								 successful=False, graded=True)
 		score = self.score
 		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
-		return score
+		return score if score >=0 else 0
 
 	def failed(self, user):
 		return self.possibleScore(user) <= 0
