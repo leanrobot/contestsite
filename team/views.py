@@ -130,7 +130,7 @@ class ProblemDetailView(View):
 
 		pending = False if latestSubmission == False else not latestSubmission.graded
 		failed = problem.failed(request.user)
-		correct = latestSubmission.successful
+		correct = False if latestSubmission == False else latestSubmission.successful
 		return render(request, "program/team/problem_detail.html", 
 			{
 				'problem' 		: problem,

@@ -9,7 +9,7 @@
         <th>Problem</th>
         <th>Solved</th>
         <th>Points</th>
-        <th>Attempts</th>
+        {%comment%}<th>Attempts</th>{%endcomment%}
         <th>Name</th>
         <th>Time</th>
       </tr>
@@ -36,7 +36,7 @@
 
 			<td>{{possibleScore}}</td>
 
-			<td><!--ATTEMPTS-->----</td>
+			{%comment%}<td><!--ATTEMPTS-->----</td>{%endcomment%}
 
 			<td><a href="{{pr.id}}">{{pr.name}}</a></td>
 

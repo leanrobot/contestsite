@@ -33,27 +33,29 @@
 <!-- __COLUMN 2_____________________________________________________________ -->
 
       <div class="col-md-5">
+      <!-- Status Area for pending or correct problems -->
       {% if correct or pending %}
           <h3 class="text-{{latestSubmission | statusCSS}}">
-          {{latestSubmission | statusIcon }} for {{possibleScore}} points
+          {{latestSubmission | statusIcon }} 
+          {% if pending %}Pending{%endif%}
+          for {{possibleScore}} points
           </h3>
         </p>
         <hr />
       {% endif %}
 
-
-      {% if pending %} <!-- Pending (Waiting to be graded) ____________________________-->
-
+      {% if failed %} <!-- Failed __________________________________________ -->
+        <h3 class="text-{{latestSubmission | statusCSS }}">
+        {{latestSubmission | statusIcon }}
+        Problem failed
+      {% elif pending %} <!-- Pending (Waiting to be graded) _______________ -->
       {% elif not pending %} <!-- Graded ___________________________________ -->
-        {% if not latestSubmission.successful %} 
+        {% if not correct %} 
         <form method="POST" enctype="multipart/form-data">{% csrf_token %}
           {{ testForm.as_p}}
           <input type="submit" class="btn btn-default" value="Submit Solution" />
         </form>
         {% endif %}
-
-      {% elif failed %} <!-- Failed ________________________________________ -->
-        <p>Problem Failed</p>
       {% endif %} <!-- _____________________________________________________ -->
 
         <!--
