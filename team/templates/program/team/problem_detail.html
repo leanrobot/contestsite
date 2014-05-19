@@ -1,35 +1,61 @@
 {% extends "program/base.html" %}
+{% load pageElements %}
 
 {% block body %}
 <div class="row content">
   <div class="col-md-12">
+<!-- _______________________________________________________________________ -->
+  <div class="row">
     <h2>
-      {% if latestSubmission.successful %}
-      <span class="glyphicon glyphicon-ok"></span>
-      {% elif not latestSubmission %}
-      {% else %}
-      <span class="glyphicon glyphicon-remove"></span> 
-      {%endif%}
-      {{problem.name}} - {{possibleScore}}/{{problem.score}} points {%if possibleScore > 0 %}possible{%endif%}
+      {{problem.name}} 
+      <span class="pull-right">
+        {{possibleScore}} points {%if not correct%}possible{%endif%}
+      </span>
     </h2>
+  </div>
     <div class="row">
+<!-- __COLUMN 1_____________________________________________________________ -->
       <div class="col-md-7">
         <h3>Description</h3>
         <p>{{problem.description}}</p>
+
         {% if problem.inputDescription != None %}
           <h3>Input</h3>
            <p>{{ problem.inputDescription }}</p>
         {% endif %}
+
         {% if problem.outputDescription != None %}
           <h3>Output</h3>
           <p>{{ problem.outputDescription }}</p>
         {% endif %}
       </div>
+
+<!-- __COLUMN 2_____________________________________________________________ -->
+
       <div class="col-md-5">
-        {% if possibleScore <= 0 %}
-          <h3>Problem Failed</h3>
-        {% elif not latestSubmission.successful %}
-        <h3>New Submission</h3>
+      {% if correct or pending %}
+          <h3 class="text-{{latestSubmission | statusCSS}}">
+          {{latestSubmission | statusIcon }} for {{possibleScore}} points
+          </h3>
+        </p>
+        <hr />
+      {% endif %}
+
+
+      {% if pending %} <!-- Pending (Waiting to be graded) ____________________________-->
+
+      {% elif not pending %} <!-- Graded ___________________________________ -->
+        {% if not latestSubmission.successful %} 
+        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+          {{ testForm.as_p}}
+          <input type="submit" class="btn btn-default" value="Submit Solution" />
+        </form>
+        {% endif %}
+
+      {% elif failed %} <!-- Failed ________________________________________ -->
+        <p>Problem Failed</p>
+      {% endif %} <!-- _____________________________________________________ -->
+
         <!--
         <form role="form">
           <div class="form-group">
@@ -39,55 +65,25 @@
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
         -->
-        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-          {{ testForm.as_p}}
-          <input type="submit" class="btn btn-default" value="Submit Solution" />
-        </form>
-        {% endif %}
+
         {% if submissions %}
         <h3>Previous Submissions</h3>
-        <table class="table table-hover table-striped">
+        <table class="table table-striped">
+          <thead>
           <tr>
-            <th>Status</th>
-            <th>Submission Time</th>
-            <th>Details</th>
+            <td>Status</td>
+            <td>Submission Time</td>
           </tr>
+          </thead>
+          <tbody>
           {% for submission in submissions %} {% with time=submission.submissionTime %}
-            {% if submission.successful and submission.graded %}
-            <tr class="success">
-            {% elif submission.graded %}
-            <tr class="danger">
-            {% else %}
-            <tr>
-            {%endif%}
-              {% if submission.successful and submission.graded %}
-                <td><p class="glyphicon glyphicon-ok"></p></td>
-              {% elif not submission.successful and submission.graded %}
-                <td> <p class="glyphicon glyphicon-remove"></p></td>
-              {% else %}
-                <td><p class="glyphicon glyphicon-question-sign"></p></td>
-              {% endif %}
+            <tr class=" {{ submission | statusCSS }}">
+              <td>{{ submission | statusIcon }}</td>
               <td>{{submission.minsAgo}} mins ago</td>
-              <td><a href="{% url 'problem result' problem.id submission.id %}" class="glyphicon glyphicon-arrow-right"> View</a></td>
+
             </tr>
           {% endwith %} {% endfor %}
-          <!--
-          <tr class="warning">
-            <td><p class="glyphicon glyphicon-remove"></p></td>
-            <td>10 min ago</td>
-            <td><a href="" class="glyphicon glyphicon-arrow-right"> View</a></td>
-          </tr>
-          <tr class="danger">
-            <td><p class="glyphicon glyphicon-remove"></p></td>
-            <td>10 min ago</td>
-            <td><a href="" class="glyphicon glyphicon-arrow-right"> View</a></td>
-          </tr>
-          <tr class="success">
-            <td><p class="glyphicon glyphicon-ok"></p></td>
-            <td>10 min ago</td>
-            <td><a href="" class="glyphicon glyphicon-arrow-right"> View</a></td>
-          </tr>
-          -->
+          </tbody>
         </table>
         {% else %}
           <p>No Submissions</p>
@@ -96,11 +92,11 @@
         <!-- Example Input & Output -->
         {% if problem.inputTest %}
           <h3>Input Example</h3>
-            <p>
-              {% if problem.inputType == "file" %}
-                file - <a href="{% url 'text file generator' problem.id%}">{{problem.filename}}</a>
-              {% endif %}
-            </p>
+          <p>
+            {% if problem.inputType == "file" %}
+              file - <a href="{% url 'text file generator' problem.id%}">{{problem.filename}}</a>
+            {% endif %}
+          </p>
           <pre class="hljs hljs-init"><code>{{problem.inputTest}}</code></pre>
         {% endif %}
         {% if problem.outputTest %}
@@ -108,7 +104,10 @@
           <pre class="hljs hljs-init"><code>{{problem.outputTest}}</code></pre>
         {% endif %}
       </div>
-    </div>
+
+    </div><!-- __END OF ROW_________________________________________________ -->
+
+<!-- _______________________________________________________________________ -->
   </div>
 </div>
 {% endblock %}

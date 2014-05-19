@@ -1,0 +1,9 @@
+{% if not pending and successful %}
+	<span class="glyphicon glyphicon-ok"></span>
+{% elif not pending and not successful %}
+	<span class="glyphicon glyphicon-remove"></span>
+{% elif pending %}
+	<span class="glyphicon glyphicon-question-sign"></span>
+{% else %}
+	<span>PR STATUS ERROR</span>
+{% endif %}

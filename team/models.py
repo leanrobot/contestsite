@@ -77,6 +77,9 @@ class ProblemResult(DjangoModels.Model):
 	successful			= DjangoModels.BooleanField(default=False)
 	user 				= DjangoModels.ForeignKey(User)
 	problem 			= DjangoModels.ForeignKey(Problem)
+	
+	def failed(self):
+		return self.problem.failed(self.user)
 
 	def minsAgo(self):
 		now = datetime.now(tz=timezone(settings.TIME_ZONE))

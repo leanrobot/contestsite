@@ -125,13 +125,22 @@ class ProblemDetailView(View):
 		problem = Problem.objects.get(pk=problemId)
 		submissions = ProblemResult.objects.filter(user=request.user, problem=problem)
 		userdata = UserSettings.objects.get(user=request.user)
+
+		latestSubmission = submissions[0] if len(submissions) > 0 else False
+
+		pending = False if latestSubmission == False else not latestSubmission.graded
+		failed = problem.failed(request.user)
+		correct = latestSubmission.successful
 		return render(request, "program/team/problem_detail.html", 
 			{
 				'problem' 		: problem,
 				'testForm'		: TestForm(),
 				'submissions'	: submissions,
 				'possibleScore' : problem.possibleScore(userdata.user),
-				'latestSubmission' : submissions[0] if len(submissions) > 0 else False,
+				'latestSubmission' : latestSubmission,
+				'correct'		: correct,
+				'pending'		: pending,
+				'failed'		: failed,
 			})
 
 	def post(self, request, problemId):
