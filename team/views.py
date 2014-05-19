@@ -123,24 +123,6 @@ class ProblemListView(View):
 				failed.append(False)
 				pending.append(False)
 
-
-		'''
-		# compile all successful problem results for each problem
-		problemResults = []
-		for p in problems:
-			prp = problemResultsAll.filter(problem=p)
-			result = None
-			try:
-				result = prp[0]
-			except IndexError:
-				pass
-			problemResults.append(result)
-
-		# compile possible scores
-		possibleScores = []
-		for p in problems:
-			possibleScores.append(p.possibleScore(userdata.user))
-		'''
 		data = zip(problems, scores, results, correct, failed, pending)
 		return render(request, 'program/team/problem_list.html', {
 			'data': data
@@ -280,7 +262,7 @@ class ScoreboardView(View):
 	def get(self, request):
 		pass
 		users = UserSettings.objects.all()
-		users = filter(lambda us: settings.DEBUG or not( us.user.is_staff or us.user.is_superuser), users)
+		users = filter(lambda us: not( us.user.is_staff or us.user.is_superuser), users)
 		# sort the users by score from high -> low.
 		users = reversed(sorted(users, key=lambda user: user.score() ))
 
