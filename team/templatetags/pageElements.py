@@ -10,11 +10,14 @@ def statusIcon(result, color=False):
 
 		output = '<span class="glyphicon %s" style="color: %s"></span>'
 		if successful and not pending: # successful
-			output = output % ("glyphicon-ok", "green")
+			color = "green" if not color else color
+			output = output % ("glyphicon-ok", color)
 		elif not successful and not pending: # not successful 
-			output = output % ("glyphicon-remove", "red")
+			color = "red" if not color else color
+			output = output % ("glyphicon-remove", color)
 		elif pending: # pending
-			output = output % ("glyphicon-question-sign", "rgb(150,150,255)")
+			color = "rgb(150,150,255)" if not color else color
+			output = output % ("glyphicon-question-sign", color)
 		else:
 			output = "<span>PR STATUS ERROR</span>"
 		return mark_safe(output)

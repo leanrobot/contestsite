@@ -1,10 +1,13 @@
 {% extends "program/base.html" %}
+{% load pageElements %}
 
 {% block body %}
 <div class="row content">
-  <div class="col-md-8">
+  <div class="col-md-8"> <!-- ______________________________________________ -->
+
     <h2>{{userdata.teamName}}</h2>
-    <table class="table table-striped">
+    <table class="table table-hover table-striped">
+      <thead>
       <tr>
         <th>Problem</th>
         <th>Solved</th>
@@ -13,42 +16,46 @@
         <th>Name</th>
         <th>Time</th>
       </tr>
-	  {% for pr,possibleScore,result in data %}
-      {% if result.successful and result.graded %}
-        <tr class="success">
-	  	{% elif result.problem.failed %}
-        <tr class="danger">
-      {% else %}
-        <tr>
-	  	{% endif %}
-			
-			<td>{{pr.id}}</td>
+      </thead>
+      <tbody>
+  	  {% for pr,score,result,correct,failed,pending in data %}
+        <tr class="
+              {% if failed %}
+                danger
+              {% elif correct%}
+                success
+              {% endif %}
+        ">
 
-			{% if result == None %}
-				<td></td>
-			{% elif result.successful and result.graded %}
-       		    <td><span class="glyphicon glyphicon-ok"></span></td>
-			{% elif not result.successful and result.graded %}
-        		<td><span class="glyphicon glyphicon-remove"></span></td>
-      {% else %}
-            <td><span class="glyphicon glyphicon-question-sign"></span></td>
-			{% endif %}
+    			<td>{{pr.id}}</td>
 
-			<td>{{possibleScore}}</td>
+          <td>
+      			{% if result %}
+      			  {{ result | statusIcon:"white" }}
+            {% endif %}
+          </td>
 
-			{%comment%}<td><!--ATTEMPTS-->----</td>{%endcomment%}
+    			<td>{{score}}</td>
 
-			<td><a href="{{pr.id}}">{{pr.name}}</a></td>
+    			{%comment%}<td><!--ATTEMPTS-->----</td>{%endcomment%}
 
-			{% if result != None %}
-				<td>{{ result.submissionTime }} </td>
-			{% else %}
-				<td class="null"></td>
-			{% endif %}
+    			<td>
+            <a href="{% url 'problem detail' pr.id %}">
+              {{pr.name}}
+            </a>
+          </td>
 
-		</tr>
-	  {% endfor %}
+          <td>
+      			{% if result %}
+      				{{ result.submissionTime }}
+      			{% endif %}
+          </td>
+    		</tr>
+  	  {% endfor %}
+    </tbody>
     </table>
-  </div>
+
+
+  </div> <!-- ______________________________________________________________ -->
 </div>
 {% endblock %}

@@ -95,9 +95,36 @@ class ProblemListView(View):
 	def get(self, request):
 		problems = Problem.objects.all()
 
-		userdata = UserSettings.objects.get(user=request.user)
+		user = request.user
+		userdata = UserSettings.objects.get(user=user)
 		problemResultsAll = ProblemResult.objects.filter(user=request.user)
 
+		scores = []
+		results = []
+		correct = []
+		failed = []
+		pending = []
+
+		for p in problems:
+			# compute the possible score
+			scores.append(p.possibleScore(user))
+			# retrieve the latest submission, none if no submission
+			latest = p.latestSubmission(user)
+			# add the result to the data for table
+			results.append(latest)
+
+			# populate table helper variables
+			if latest:
+				correct.append( latest.successful and latest.graded )
+				failed.append( p.failed(user) )
+				pending.append( not latest.graded )
+			else:
+				correct.append(False)
+				failed.append(False)
+				pending.append(False)
+
+
+		'''
 		# compile all successful problem results for each problem
 		problemResults = []
 		for p in problems:
@@ -113,8 +140,8 @@ class ProblemListView(View):
 		possibleScores = []
 		for p in problems:
 			possibleScores.append(p.possibleScore(userdata.user))
-
-		data = zip(problems, possibleScores, problemResults)
+		'''
+		data = zip(problems, scores, results, correct, failed, pending)
 		return render(request, 'program/team/problem_list.html', {
 			'data': data
 			})

@@ -55,6 +55,11 @@ class Problem(DjangoModels.Model):
 			return incorrectResults
 		return None
 
+	def latestSubmission(self, user):
+		latest = ProblemResult.objects.filter(user=user, problem=self).first()
+		return latest
+
+
 	def possibleScore(self, user):
 		incorrect = ProblemResult.objects.filter(user=user, problem=self,
 								 successful=False, graded=True)
