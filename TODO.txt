@@ -1,53 +1,50 @@
 
 
-TODO list for ContestSite Django app ===========================================================
+TODO list for ContestSite Django app ===========================================
 
-High Priority
+Work Queue (HIGH PRIORITY)
 =====================
-- [FIX] all page glitches with scoring.
-- [BUG] Remove division on score header, change to points.
+- [HIGH] Server side check to make sure team has no more than 1 pending
+		result for each problem at a time.
+- [BUG] JUDGE GRADES ARE NOT PROTECTED FROM LOGIN
 - [BUG] sometimes problems are failed when not all points are depleted.
-- [BUG] submission box still disappears if the problem is correct, but hasn't been graded.
-		Change so that if a submission is pending, then the button doesn't show.
-- 'All Problems' Page for judges.
-- [BUG] login redirect doesn't function
-- Add color to checks & x's
-- Add 'Discard solution' button on grading page.
-- Add Contest administration page for controlling contest settings
-- [HIGH] Refine user list page
-- [HIGH] Create problem result detail page. (closely mirror grading page setup)
-- Staff Protect the staff views in urls.py
 
+- [HIGH] populate pending problem result before sending to the queue, to avoid
+		slow refresh for pending & incorrect submission time.
+- [Feature] Add Contest administration page for controlling contest settings
 
+================================================================================
+================================================================================
+================================================================================
 
 New Features
 ====================
-- No more than one login at a time for teams.
 - Customize the admin interface
-- Add javascript tidbit to expose the django context variables for debugging. (Django-Introspect)
-- Write contest administration page.
-- Add judge(staff) account.
-	- use socket.io to implement "call judge" button directly to the judge.
 - Post for Login, next page attribute.
-- Make Problem Submissions show up as pending while they are in the queue.
-- Create problem breakdown page to augment scoreboard view.
+- [HIGH] Refine user list page
+- Staff Protect the staff views in urls.py
+- New data fields for UserSettings 
+		[team members, school of origin, competition division]
 
-
-
-Upgrades
-====================
-- New data fields for UserSettings [team members, school of origin, competition division]
-
-
-
-Bugs / Issues
-====================
-- Enforce only one correct submissions for each problem. (Minor fix, currently dialog is prevented. Make sure that submissions cannot be run at all with execution testing.)
-- 
-
-
-CSS Issues
+CSS / Frontend
 =====================
 - Settings page is a mess.
+- [CSS] on submission box, add possible score. At top of page, total score.
+
+Bugs / Issues
+==================== 
+- [BUG] login redirect doesn't function
+
+Long-Term
+====================
+- No more than one login at a time for teams.
+- Add javascript tidbit to expose the django context variables 
+		for debugging. (Django-Introspect)
+- use socket.io to implement "call judge" button directly to the judge.
+- create separate repository of available compilers for quick setup.
+
+
+
+
 
 
