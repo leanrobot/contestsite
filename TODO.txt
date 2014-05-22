@@ -11,7 +11,9 @@ Work Queue (HIGH PRIORITY)
 
 - [HIGH] populate pending problem result before sending to the queue, to avoid
 		slow refresh for pending & incorrect submission time.
-- [Feature] Add Contest administration page for controlling contest settings
+- [Feature] Add 'Control' page for contest settings, (start, end, pause).
+- [Small fix] Wrap the input, output, normal description in <pre> block
+		'problem detail' template.
 
 ================================================================================
 ================================================================================
@@ -19,9 +21,12 @@ Work Queue (HIGH PRIORITY)
 
 New Features
 ====================
+
+- If no contest settings exist, redirect to error page, then link to admin 
+			interface.
+- Add compiler testing & administration page.
 - Customize the admin interface
 - Post for Login, next page attribute.
-- [HIGH] Refine user list page
 - Staff Protect the staff views in urls.py
 - New data fields for UserSettings 
 		[team members, school of origin, competition division]
@@ -41,7 +46,7 @@ Long-Term
 - Add javascript tidbit to expose the django context variables 
 		for debugging. (Django-Introspect)
 - use socket.io to implement "call judge" button directly to the judge.
-- create separate repository of available compilers for quick setup.
+- create separate repository of available compiler information for quick setup.
 
 
 
