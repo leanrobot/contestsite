@@ -131,6 +131,15 @@ class ProblemListView(View):
 
 class ProblemDetailView(View):
 	def get(self, request, problemId):
+		# handle error
+		error = None
+		if 'error' in request.GET:
+			errorCode = request.GET['error']
+			if errorCode == "nofile":
+				error = "Please select a file."
+			elif errorCode == "nocompiler":
+				error = "Unsupported Compiler."
+
 		problem = Problem.objects.get(pk=problemId)
 		submissions = ProblemResult.objects.filter(user=request.user, problem=problem)
 		userdata = UserSettings.objects.get(user=request.user)
@@ -150,15 +159,23 @@ class ProblemDetailView(View):
 				'correct'		: correct,
 				'pending'		: pending,
 				'failed'		: failed,
+				'error'			: error,
 			})
 
 	def post(self, request, problemId):
 		# Handle file upload
 		form = TestForm(request.POST, request.FILES)
-		if form.is_valid:
-			solution = ProblemSolution(solution=request.FILES['solution'], owner=request.user)
-			solution.save()
-			return redirect("/team/problem/%s/submit/%s" % (problemId, solution.id))
+		try:
+			if form.is_valid:
+				solution = ProblemSolution(solution=request.FILES['solution'], owner=request.user)
+				solution.save()
+				return redirect("/team/problem/%s/submit/%s" % (problemId, solution.id))
+		except:
+			response = redirect('problem detail', problemId)
+			response['Location'] = "?error=nofile"
+			return response
+
+		# should never happen
 		return HttpResponseRedirect("index")
 # ============
 
