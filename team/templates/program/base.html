@@ -72,10 +72,11 @@
                   {% url 'index' as index %}
                   {% url 'problems' as problems %}
                   {% url 'scoreboard' as scoreboard %}
+                  {% url 'contest control' as control %}
 
                   {% if user.is_staff or user.is_superuser %}
                     <li class="{% active request grading %}"><a href="{{ grading }}">Grade</a></li>
-                    <li><a href="#">Control</a></li>
+                    <li class="{% active request control %}"><a href="{{ control }}">Control</a></li>
                     <li class="{% active request user_list %}"><a href="{{ user_list }}">Teams</a></li>
                   {% else %}
                     <li class="{% active request scoreboard %}"><a href="{{ scoreboard }}">Teams</a></li>

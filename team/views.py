@@ -40,7 +40,7 @@ class TestForm(forms.Form):
 class UserSettingsForm(forms.ModelForm):
 	class Meta:
 		model = UserSettings
-		fields = ['teamName', 'compiler']
+		fields = ['teamName']
 
 # Views ==========================================================
 

@@ -6,8 +6,6 @@ Work Queue (HIGH PRIORITY)
 =====================
 - [HIGH] Server side check to make sure team has no more than 1 pending
 		result for each problem at a time.
-- [HIGH] populate pending problem result before sending to the queue, to avoid
-		slow refresh for pending & incorrect submission time.
 - [Feature] Add 'Control' page for contest settings, (start, end, pause).
 - [Small fix] Wrap the input, output, normal description in <pre> block
 		'problem detail' template.

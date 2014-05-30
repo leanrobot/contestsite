@@ -1,0 +1,17 @@
+<h1>New Users</h1>
+<p>This is the only record of new users, please save!</p>
+<p><a href="{% url 'contest control' %}">back to controls</a></p>
+<table border="1">
+<thead>
+	<tr>
+		<td>username</td>
+		<td>password</td>
+	</tr>
+</thead>
+<tbody>
+	{% for username,password in users %}
+		<tr><td>{{username}}</td><td>{{password}}</td></tr>
+	{% endfor %}
+</tbody>
+
+</table>

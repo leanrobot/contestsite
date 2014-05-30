@@ -1,0 +1,33 @@
+{% extends 'program/base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+<h1>Contest Control</h1>
+
+<h2>Timing</h2>
+<form action="?action=contestupdate" method="POST" class="form form-inline"> {% csrf_token %}
+	{% for field in contestSettings %}
+		<div class="form-group">
+			{{field.label_tag}}
+			{{field}}
+		</div>
+	{% endfor %}
+	<p><button class="btn btn-default btn-md">Update</button></p>
+</form>
+<p><a target="_blank" href="/admin/team/contestsettings/1/">contest settings admin interface</a></p>
+
+<h2>Users</h2>
+<form action="?action=createusers" method="POST" class="form form-inline"> {%csrf_token%}
+	{{userCreate.userCount}}
+	<button class="btn btn-default btn-xs">Create new users</button>
+</form>
+<form action="?action=cleardata" method="POST"> {%csrf_token%}
+	<button class="btn btn-default btn-xs">Clear all user data</button>
+</form>
+<p><a target="_blank" href="/admin/auth/user/">user admin page</a></p>
+
+
+{% endblock %}

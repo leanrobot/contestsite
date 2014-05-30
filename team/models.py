@@ -206,7 +206,6 @@ class ContestSettings(DjangoModels.Model):
 class UserSettings(DjangoModels.Model):
 	user = DjangoModels.OneToOneField(User, primary_key=True)
 	teamName = DjangoModels.CharField(max_length=30)
-	compiler = DjangoModels.ForeignKey(Compiler)
 
 	def score(self):
 		problems = Problem.objects.all()
