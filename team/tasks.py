@@ -24,7 +24,7 @@ def testSolution(problem, user, prResult, exResult, solution):
 	TIMEOUT = 5 # CONST VALUE
 
 	userSettings = UserSettings.objects.get(user=user)
-	compileCommand = userSettings.compiler.getCompileCmd(solution.solution)
+	#compileCommand = userSettings.compiler.getCompileCmd(solution.solution)
 	command = userSettings.compiler.getRunCmd(solution.solution)#["python", solution.solution.path]
 	#osProcess = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	#osProcess = TimeoutThread(["python", solution.solution.path])
