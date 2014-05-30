@@ -35,10 +35,6 @@
 						class="table-selected">
 						<td>[[solution.team]]</td>
 						<td>
-							{% comment %}
-							<span class="glyphicon glyphicon-ok" ng-if="solution.successful"></span>
-							<span class="glyphicon glyphicon-question-sign" ng-if="!solution.successful"></span>
-							{% endcomment %}
 							[[solution.minsAgo]] mins
 						</td>
 						<td>[[solution.problem.name]]</td>
@@ -50,7 +46,16 @@
 		</div>
 		<div class="col-md-8 ng-hide-[[!selected]]" ng-model="main.selected">
 			<div class="row">
-				<div class="col-md-6"><h2>[[selected.problem.name]]</h2><h4>[[selected.team]]</h4></div>
+				<div class="col-md-6">
+					<h2>
+						<span class="glyphicon glyphicon-ok" 
+							  ng-if="selected.successful"></span>
+						<span class="glyphicon glyphicon-question-sign" 
+							  ng-if="!selected.successful"></span>
+						[[selected.problem.name]]
+					</h2>
+					<h4>[[selected.team]]</h4>
+				</div>
 				<div class="col-md-6 text-right"><h2>[[selected.time]]</h2><h4>([[selected.minsAgo]] mins ago)</h4></div>
 			</div>
 			<div class="row">

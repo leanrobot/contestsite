@@ -11,6 +11,7 @@ Work Queue (HIGH PRIORITY)
 - [Feature] Add 'Control' page for contest settings, (start, end, pause).
 - [Small fix] Wrap the input, output, normal description in <pre> block
 		'problem detail' template.
+- [BUG] Total problems on team page for judge is incorrect number.
 
 ================================================================================
 ================================================================================

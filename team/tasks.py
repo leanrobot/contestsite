@@ -20,7 +20,7 @@ worker = Celery('worker', broker='amqp://guest@localhost//')
 #worker.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 @worker.task
-def testSolution(problem, user, solution):
+def testSolution(problem, user, prResult, exResult, solution):
 	TIMEOUT = 5 # CONST VALUE
 
 	userSettings = UserSettings.objects.get(user=user)
@@ -60,29 +60,30 @@ def testSolution(problem, user, solution):
 	command = " ".join(validator.command)
 	command = ("%s\n%s") % (" ".join(validator.compileCommand), command)
 
-	problemResult = ProblemResult(
-		submissionTime = startTime,
-		successful = False,
-		user = user,
-		problem = problem
-		)
-	executionResult = ExecutionResult(
-		startTime = startTime,
-		endTime = endTime,
-		stdin = problem.inputSubmit,
-		stdout = stdout,
-		stderr = stderr,
-		diff = diff,
-		filename = solution.solution.path,
-		command = "%s \n %s" % (" ".join(validator.compileCommand), " ".join(validator.command)),
-		exitCode = osProcess.exitCode,
-		problemResult = problemResult,
-		)
+	problemResult = prResult
+	problemResult.submissionTime = startTime
+	problemResult.successful = False
+	problemResult.user = user
+	problemResult.problem = problem
+	problemResult.save()
+
+	executionResult = exResult
+	executionResult.startTime = startTime
+	executionResult.endTime = endTime
+	executionResult.stdin = problem.inputSubmit
+	executionResult.stdout = stdout
+	executionResult.stderr = stderr
+	executionResult.diff = diff
+	executionResult.filename = solution.solution.path
+	executionResult.command = "%s \n %s" % (" ".join(validator.compileCommand), " ".join(validator.command))
+	executionResult.exitCode = osProcess.exitCode
+	executionResult.problemResult = problemResult
 
 	correct = validator.validate(problem=problem, executionResult=executionResult)
 	problemResult.successful = correct
 	problemResult.save()
-	executionResult.problemResult = problemResult
+
+	#executionResult.problemResult = problemResult
 	executionResult.save()
 
 	# Cleanup after executing the solution

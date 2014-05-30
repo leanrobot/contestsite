@@ -208,9 +208,32 @@ class ProblemExecutionView(View):
 		problem = Problem.objects.get(pk=problemId)
 		solution.save()
 		problem.save()
+
+		tz = timezone(settings.TIME_ZONE)
+		now = datetime.now(tz=tz)
+		result = ProblemResult(
+				submissionTime=now,
+				successful=False,
+				user=request.user,
+				problem=problem,
+		)
+		result.save()
+		execution = ExecutionResult(
+			startTime = now,
+			endTime = now,
+			stdin = "",
+			stdout = "",
+			stderr = "",
+			diff = "",
+			filename = "",
+			command = "",
+			exitCode = -999,
+			problemResult = result
+		)
+		execution.save()
 		
 		# Send the problem to the queue.
-		testSolution.delay(problem, request.user, solution)
+		testSolution.delay(problem, request.user, result, execution, solution)
 
 		return redirect('problem detail', problemId)
 		#return redirect('problems')
