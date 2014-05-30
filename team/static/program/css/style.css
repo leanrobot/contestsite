@@ -57,3 +57,9 @@ pre.hljs {
 pre.hljs code {
     border: 0px;
 }
+
+pre.unstyle {
+	color: rgb(136,136,136) !important;
+	background-color: black !important;
+	border: none !important;
+}

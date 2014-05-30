@@ -17,16 +17,16 @@
 <!-- __COLUMN 1_____________________________________________________________ -->
       <div class="col-md-7">
         <h3>Description</h3>
-        <p>{{problem.description}}</p>
+        <p><pre class="unstyle">{{problem.description}}</pre></p>
 
         {% if problem.inputDescription != None %}
           <h3>Input</h3>
-           <p>{{ problem.inputDescription }}</p>
+           <p><pre class="unstyle">{{ problem.inputDescription }}</pre></p>
         {% endif %}
 
         {% if problem.outputDescription != None %}
           <h3>Output</h3>
-          <p>{{ problem.outputDescription }}</p>
+          <p><pre class="unstyle">{{ problem.outputDescription }}</pre></p>
         {% endif %}
       </div>
 
