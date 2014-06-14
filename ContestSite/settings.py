@@ -12,8 +12,19 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# CONTEST SETTINGS
+# CONTEST SETTINGS ==================
 AUTO_GRADE = False
+
+# Postman Configuration =============
+POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
+# POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
+# POSTMAN_DISALLOW_COPIES_ON_REPLY = True  # default is False
+POSTMAN_DISABLE_USER_EMAILING = True  # default is False
+# POSTMAN_AUTO_MODERATE_AS = True  # default is None
+# POSTMAN_SHOW_USER_AS = 'get_full_name'  # default is None
+# POSTMAN_QUICKREPLY_QUOTE_BODY = True  # default is False
+# POSTMAN_NOTIFIER_APP = None  # default is 'notification'
+# POSTMAN_MAILER_APP = None  # default is 'mailer'
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'widget_tweaks',
+    'postman',
     'tastypie',
     'djcelery',
     'team',
@@ -100,7 +112,8 @@ LOGOUT_URL = "/team/logout"
 MEDIA_ROOT = "team/workspace/"
 MEDIA_URL = "/team/workspace/"
 
-TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+TEMPLATE_CONTEXT_PROCESSORS = (
+"django.contrib.auth.context_processors.auth",
 "django.core.context_processors.debug",
 "django.core.context_processors.i18n",
 "django.core.context_processors.media",
