@@ -1,5 +1,3 @@
-
-
 TODO list for ContestSite Django app ===========================================
 
 - add testing button (long term)
@@ -52,9 +50,3 @@ Long-Term
 		for debugging. (Django-Introspect)
 - use socket.io to implement "call judge" button directly to the judge.
 - create separate repository of available compiler information for quick setup.
-
-
-
-
-
-
