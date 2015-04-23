@@ -126,4 +126,4 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 import djcelery
 djcelery.setup_loader()
-BROKER_URL = "amqp://guest@localhost"
+BROKER_URL = "amqp://guest@broker"

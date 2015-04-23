@@ -17,27 +17,24 @@ from team.library import progressBar
 
 # Create your views here.
 
-class GradingView(View):
+class JudgeView(View):
+	@method_decorator(user_passes_test(lambda u: u.is_staff, login_url="/admin"))
+	def dispatch(self, *args, **kwargs):
+		return super(JudgeView, self).dispatch(*args, **kwargs)
+
+class GradingView(JudgeView):
 	def get(self, request):
 		return render(request, "judge/grading.html")
 
-	@method_decorator(user_passes_test(lambda u: u.is_staff, login_url="/admin"))
-	def dispatch(self, *args, **kwargs):
-		return super(GradingView, self).dispatch(*args, **kwargs)
 
-
-class UserListView(View):
+class UserListView(JudgeView):
 	def get(self, request):
 		users = auth.User.objects.filter(is_staff=False)
 		return render(request, "judge/user_list.html", {
 				'users' : users,
 			})
 
-	@method_decorator(user_passes_test(lambda u: u.is_staff, login_url="/admin"))
-	def dispatch(self, *args, **kwargs):
-		return super(UserListView, self).dispatch(*args, **kwargs)
-
-class UserDetailView(View):
+class UserDetailView(JudgeView):
 	def get(self, request, username, userId):
 		user = auth.User.objects.get(pk=userId)
 		settings = UserSettings.objects.get(user=user)
@@ -58,14 +55,10 @@ class UserDetailView(View):
 			'numTotal'			: total
 		})
 
-	@method_decorator(user_passes_test(lambda u: u.is_staff, login_url="/admin"))
-	def dispatch(self, *args, **kwargs):
-		return super(UserDetailView, self).dispatch(*args, **kwargs)
-
 class ActionForm(forms.Form):
 	action = forms.CharField(max_length=10, widget=forms.HiddenInput)
 
-class ProblemResultDetailView(View):
+class ProblemResultDetailView(JudgeView):
 	def get(self, request, resultId):
 		actionForm = ActionForm()
 		try:
@@ -81,10 +74,6 @@ class ProblemResultDetailView(View):
 			'result'		: pResult,
 			'form'			: actionForm,
 		})
-
-	@method_decorator(user_passes_test(lambda u: u.is_staff, login_url="/admin"))
-	def dispatch(self, *args, **kwargs):
-		return super(ProblemResultDetailView, self).dispatch(*args, **kwargs)
 
 	def post(self, request, resultId):
 		action = request.POST['action']
@@ -108,7 +97,7 @@ class CreateUsersForm(forms.Form):
 	userCount = forms.IntegerField(widget=forms.TextInput(attrs={"size":"3"}))
 
 
-class ControlView(View):
+class ControlView(JudgeView):
 	def get(self, request):
 		contestsettings = ContestSettings.objects.get(pk=1)
 		settings = ContestSettingsForm(instance=contestsettings)
@@ -181,8 +170,5 @@ class ControlView(View):
 		choice = choices[randint(0, len(choices)-1)]
 		return choice
 
-	@method_decorator(user_passes_test(lambda u: u.is_staff, login_url="/admin"))
-	def dispatch(self, *args, **kwargs):
-		return super(ControlView, self).dispatch(*args, **kwargs)
 
 

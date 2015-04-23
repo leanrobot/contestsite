@@ -13,7 +13,7 @@ from django.conf import settings
 from .models import UserSettings, ProblemResult, ExecutionResult, ProblemScore
 from .library import SolutionValidator, TimeoutThread
 
-worker = Celery('worker', broker='amqp://guest@localhost//')
+worker = Celery('worker', broker=settings.BROKER_URL)
 #os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ContestSite.settings')
 
 #worker.config_from_object('django.conf:settings')
