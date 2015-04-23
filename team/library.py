@@ -6,7 +6,7 @@ from pytz import timezone
 from celery.contrib import rdb
 
 from django.conf import settings
-from team.models import UserSettings, ContestSettings, ProblemResult, Problem
+from team.models import UserSettings, ContestSetting, ProblemResult, Problem
 
 logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
@@ -179,12 +179,12 @@ def programSiteContext(request):
 		except UserSettings.DoesNotExist:
 			pass
 
-	# Wire in ContestSettings Object
+	# Wire in ContestSetting Object
 	try:
-		siteContext['contest'] = ContestSettings.objects.get(pk=1)
+		siteContext['contest'] = ContestSetting.objects.get_or_create(pk=1)
 		#wire contest end time
 		siteContext['contestEndTimestamp'] = siteContext['contest'].endTime.astimezone(timezone(settings.TIME_ZONE)).isoformat()
-	except ContestSettings.DoesNotExist:
+	except ContestSetting.DoesNotExist:
 		pass
 
 

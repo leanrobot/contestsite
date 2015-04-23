@@ -17,6 +17,8 @@ Work Queue (HIGH PRIORITY)
 - [Small fix] Wrap the input, output, normal description in <pre> block
 		'problem detail' template.
 - [BUG] Total problems on team page for judge is incorrect number.
+- No more than one login at a time for teams.
+
 
 ================================================================================
 ================================================================================
@@ -45,7 +47,6 @@ Bugs / Issues
 
 Long-Term
 ====================
-- No more than one login at a time for teams.
 - Add javascript tidbit to expose the django context variables 
 		for debugging. (Django-Introspect)
 - use socket.io to implement "call judge" button directly to the judge.

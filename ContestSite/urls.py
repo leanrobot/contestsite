@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^$', ScoreboardView.as_view(), name='index'),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^control/', include('control.urls')),
     url(r'^team/', include('team.urls')),
     url(r'^judge/', include('judge.urls')),
     url(r'^api/', include(v1_api.urls)),

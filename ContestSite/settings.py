@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'postman',
     'tastypie',
     'djcelery',
+    'control',
     'team',
     'judge',
 )
@@ -66,6 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'control.middleware.ContestSettingMiddlware',
     'team.middleware.ContestSiteMiddleware',
 )
 

@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 
 from pytz import timezone
 
-from .models import ContestSettings, UserSettings
+from .models import ContestSetting, UserSettings
 from . import views
 
 
@@ -27,7 +27,7 @@ class ContestSiteMiddleware:
 				return redirect('user settings')
 
 		# Check to make sure the contest is in session
-		contestSettings = ContestSettings.objects.get(pk=1)
+		contestSettings = ContestSetting.objects.get(pk=1)
 		now = datetime.datetime.now(tz=timezone(djangoSettings.TIME_ZONE))
 
 		if contestSettings.inSession(now):

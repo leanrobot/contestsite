@@ -11,6 +11,7 @@ from django.db.models.query import EmptyQuerySet
 
 from pytz import timezone
 from celery.contrib import rdb
+from solo.models import SingletonModel
 
 #from .library import fixedTZData
 def fixedTZData(dbDate):
@@ -64,7 +65,7 @@ class Problem(DjangoModels.Model):
 		incorrect = ProblemResult.objects.filter(user=user, problem=self,
 								 successful=False, graded=True)
 		score = self.score
-		score -= len(incorrect) * ContestSettings.objects.get(pk=1).deduction
+		score -= len(incorrect) * ContestSetting.objects.get(pk=1).deduction
 		return score if score >=0 else 0
 
 	def failed(self, user):
@@ -189,7 +190,7 @@ class Compiler(DjangoModels.Model):
 	def __unicode__(self):
 		return self.name
 
-class ContestSettings(DjangoModels.Model):
+class ContestSetting(SingletonModel):
 	startTime 			= DjangoModels.DateTimeField()
 	endTime 			= DjangoModels.DateTimeField()
 	paused				= DjangoModels.BooleanField()

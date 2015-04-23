@@ -12,7 +12,6 @@ urlpatterns = patterns('',
 		name="user detail"),
 	url(r'^result/(\d+)\/?', 
 		views.ProblemResultDetailView.as_view(), name="problem result detail"),
-	url(r'^control\/?', views.ControlView.as_view(), name="contest control"),
 
 
 

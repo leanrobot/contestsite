@@ -12,7 +12,7 @@ from random import randint
 from django.conf import settings
 from django import forms
 
-from team.models import UserSettings, ProblemResult, ExecutionResult, ContestSettings
+from team.models import UserSettings, ProblemResult, ExecutionResult, ContestSetting
 from team.library import progressBar
 
 # Create your views here.
@@ -88,34 +88,16 @@ class ProblemResultDetailView(JudgeView):
 			result.delete()
 		return redirect('user detail', user.username, user.id)
 
-class ContestSettingsForm(forms.ModelForm):
-	class Meta:
-		model = ContestSettings
-		fields = ['startTime', 'endTime', 'paused']
 
 class CreateUsersForm(forms.Form):
 	userCount = forms.IntegerField(widget=forms.TextInput(attrs={"size":"3"}))
 
 
-class ControlView(JudgeView):
-	def get(self, request):
-		contestsettings = ContestSettings.objects.get(pk=1)
-		settings = ContestSettingsForm(instance=contestsettings)
-		#userControl = UserControlForm()
-		userCreate = CreateUsersForm()
-
-		return render(request, "judge/control.html", {
-			"contestSettings" : settings,
-			#"userControl"		: userControl,
-			"userCreate"		: userCreate,
-
-		})
-
 	def post(self, request):
 		# contestupdate, createusers, cleardata
 		action = request.GET['action']
 		if action == "contestupate":
-			settingsForm = ContestSettingsForm(request.POST)
+			settingsForm = ContestSettingForm(request.POST)
 			if settingsForm.is_valid():
 				settingsForm.save()
 			pass
