@@ -12,7 +12,10 @@ from django.db.models.query import EmptyQuerySet
 from pytz import timezone
 from celery.contrib import rdb
 
-from .library import fixedTZData
+#from .library import fixedTZData
+def fixedTZData(dbDate):
+	fixedDate = dbDate.astimezone(timezone(settings.TIME_ZONE))
+	return fixedDate
 
 # Create your models here.
 inputTypes = (

@@ -6,7 +6,7 @@ from pytz import timezone
 from celery.contrib import rdb
 
 from django.conf import settings
-from .models import UserSettings, ContestSettings, ProblemResult, Problem
+from team.models import UserSettings, ContestSettings, ProblemResult, Problem
 
 logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
