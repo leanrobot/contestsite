@@ -54,7 +54,7 @@ def testSolution(problem, user, prResult, exResult, solution):
 			arr = [x.rstrip() for x in arr]
 			unified = "\n".join(arr)
 		diff = [x for x in unified_diff(problem.outputSubmit.splitlines(),stdout.splitlines(),
-					 tofile="expected", fromfile="stdout")]
+					 tofile="stdout", fromfile="expected")]
 		diff = [x.rstrip() for x in diff]
 		diff = "\n".join(diff)
 	command = " ".join(validator.command)
