@@ -17,7 +17,7 @@ Judges are provided with a queue page that displays all the current requests
 from teams for submission. The server will run them automatically for the judge
 and store the output and output diff from the expected answer.
 
-STDIN, STDOUT, and STDERR, and other variables relating to execution are all available for the judge to see.
+STDIN, STDOUT, STDERR, and other variables relating to execution are all available for the judge to see.
 
 Buttons are used to quickly indicate whether the submission is accepted or denied.
 
