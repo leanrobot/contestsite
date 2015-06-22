@@ -99,7 +99,7 @@
           <h3>Input Example</h3>
           <p>
             {% if problem.inputType == "file" %}
-              file - <a href="{% url 'text file generator' problem.id%}">{{problem.filename}}</a>
+              <span class="glyphicon glyphicon-download-alt"/> <a href="{% url 'text file generator' problem.id%}">{{problem.filename}}</a>
             {% endif %}
           </p>
           <pre class="hljs hljs-init"><code>{{problem.inputTest}}</code></pre>
