@@ -17,6 +17,8 @@ from .models import *
 from .library import SolutionValidator, fixedTZData, progressBar
 from .tasks import testSolution
 
+from problems.models import ProblemResult
+
 # Helper Functions =============================================
 
 def checkCorrectSolution(problem, stdin, stdout, stderr, exitCode):
