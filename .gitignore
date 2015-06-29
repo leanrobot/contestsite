@@ -1,4 +1,7 @@
 *.pyc
 .DS_Store
 db.sqlite3
+db.sqlite
 django.log
+static/
+static/*
