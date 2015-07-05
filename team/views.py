@@ -7,9 +7,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from django.http import HttpResponse
 from django import forms
-import django.contrib.auth as auth
 from django.conf import settings
-
 
 from pytz import timezone
 
@@ -18,6 +16,7 @@ from .library import SolutionValidator, fixedTZData, progressBar
 from .tasks import testSolution
 
 from problems.models import ProblemResult
+from accounts.views import TeamLoginRequiredMixin
 
 # Helper Functions =============================================
 
@@ -27,14 +26,7 @@ def checkCorrectSolution(problem, stdin, stdout, stderr, exitCode):
 	fdsafsd
 	return stdoutMatch and exitCodeCorrect
 
-
-
 # Forms ========================================================
-
-class LoginForm(forms.Form):
-	username 	= forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter username'}))
-	password 	= forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter password'}))
-	next		= forms.CharField(widget=forms.HiddenInput)
 
 class TestForm(forms.Form):
 	solution = forms.FileField(label="Select a solution")
@@ -51,49 +43,7 @@ class IndexView(View):
 		return render(request, "program/index.html", {})
 # ============
 
-class LoginPage(View):
-	def get(self, request):
-		loginForm = LoginForm()
-		redirect_url = "index"
-		if 'next' in request.GET:
-			redirect_url = request.GET['next']
-		loginForm.fields['next'].initial = redirect_url
-
-		if request.user.is_authenticated():
-			return redirect(redirect_url)
-		else:
-			return render(request, 'program/accounts/login.html', 
-				{'form':LoginForm()})
-
-	def post(self, request):
-		response = redirect("index")
-
-		if not request.user.is_authenticated():
-			usernm = request.POST['username']
-			passwd = request.POST['password']
-			user = auth.authenticate(username=usernm, password=passwd)
-
-			response = redirect('login')
-			if user is not None and user.is_active:
-				auth.login(request, user)
-				if request.POST['next']:
-					response = redirect(request.POST['next'])
-
-		return response
-# ============
-
-class LogoutPage(View):
-	def get(self, request):
-		auth.logout(request)
-
-		redirectUrl = 'index'
-		if 'next' in request.GET:
-			redirectUrl = request.GET['next']
-
-		return redirect(redirectUrl)
-# ============
-
-class ProblemListView(View):
+class ProblemListView(TeamLoginRequiredMixin, View):
 	def get(self, request):
 		problems = Problem.objects.all()
 
@@ -131,7 +81,7 @@ class ProblemListView(View):
 			})
 # ============
 
-class ProblemDetailView(View):
+class ProblemDetailView(TeamLoginRequiredMixin, View):
 	def get(self, request, problemId):
 		# handle error
 		error = None
@@ -181,7 +131,7 @@ class ProblemDetailView(View):
 		return HttpResponseRedirect("index")
 # ============
 
-class ProblemResultView(View):
+class ProblemResultView(TeamLoginRequiredMixin, View):
 	def get(self, request, problemId, resultId):
 		pass
 		try:
@@ -204,7 +154,7 @@ class ProblemResultView(View):
 			pass # TODO add exception handling
 # ============	
 
-class ProblemExecutionView(View):
+class ProblemExecutionView(TeamLoginRequiredMixin, View):
 	def get(self, request, problemId, fileId):
 		solution = ProblemSolution.objects.get(pk=fileId)
 		problem = Problem.objects.get(pk=problemId)
@@ -241,7 +191,7 @@ class ProblemExecutionView(View):
 		#return redirect('problems')
 # ============
 
-class TextFileGeneratorView(View):
+class TextFileGeneratorView(TeamLoginRequiredMixin, View):
 	def get(self, request, problemId):
 		problem = Problem.objects.get(pk=problemId)
 		response = render(request, "program/team/textFile.html", {
@@ -324,12 +274,3 @@ class ScoreboardView(View):
 			#"problems"	: problems,
 			})
 # ============
-
-class TestView(View):
-	def get(self, request):
-		return render(request, "program/test.html", {
-
-			})
-
-
-

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', ScoreboardView.as_view(), name='index'),
 
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^team/', include('team.urls')),
     url(r'^judge/', include('judge.urls')),
