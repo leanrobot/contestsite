@@ -15,17 +15,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # CONTEST SETTINGS ==================
 AUTO_GRADE = False
 
-# Postman Configuration =============
-POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
-# POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
-# POSTMAN_DISALLOW_COPIES_ON_REPLY = True  # default is False
-POSTMAN_DISABLE_USER_EMAILING = True  # default is False
-# POSTMAN_AUTO_MODERATE_AS = True  # default is None
-# POSTMAN_SHOW_USER_AS = 'get_full_name'  # default is None
-# POSTMAN_QUICKREPLY_QUOTE_BODY = True  # default is False
-# POSTMAN_NOTIFIER_APP = None  # default is 'notification'
-# POSTMAN_MAILER_APP = None  # default is 'mailer'
+TEAM_GROUP_NAME = "Team"
+JUDGE_GROUP_NAME = "Judge"
 
+RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:8080'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -60,6 +53,7 @@ INSTALLED_APPS = (
     'control',
     'problems',
     'grading',
+    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -58,24 +58,29 @@ class TeamLoginRequiredMixin(View):
     def dispatch(self, request, *args, **kwargs):
         user = request.user
 
-        is_team = user.groups.filter(name=settings.TEAM_GROUP_NAME).exists()
-
         # only staff and teams satisfy the mixin dispatch.
-        if (not user.is_staff) and (user.is_anonymous() or not is_team):
+        if not self.is_team_user(user):
             raise PermissionDenied
 
         return super(TeamLoginRequiredMixin, self).dispatch(
             request, *args, **kwargs)
+
+    def is_team_user(self, user):
+        is_team = user.groups.filter(name=settings.TEAM_GROUP_NAME).exists()
+        return (is_team and not user.is_anonymous()) or user.is_staff
 
 class JudgeLoginRequiredMixin(View):
     def dispatch(self, request, *args, **kwargs):
         user = request.user
 
-        is_team = user.groups.filter(name=settings.JUDGE_GROUP_NAME).exists()
 
         # only staff and teams satisfy the mixin dispatch.
-        if (not user.is_staff) and (user.is_anonymous() or not is_team):
+        if not self.is_judge_user(user):
             raise PermissionDenied
 
-        return super(TeamLoginRequiredMixin, self).dispatch(
+        return super(JudgeLoginRequiredMixin, self).dispatch(
             request, *args, **kwargs)
+
+    def is_judge_user(self, user):
+        is_judge = user.groups.filter(name=settings.JUDGE_GROUP_NAME).exists()
+        return (is_judge and not user.is_anonymous()) or user.is_staff
