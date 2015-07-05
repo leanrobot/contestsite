@@ -4,7 +4,7 @@ from django.db import models
 class ContestSettings(models.Model):
 	startTime 			= models.DateTimeField()
 	endTime 			= models.DateTimeField()
-	paused				= models.BooleanField()
+	paused				= models.BooleanField(default=False)
 
 	name 				= models.TextField()
 	deduction 			= models.IntegerField(default=0)
