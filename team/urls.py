@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^logout\/?', login_required( views.LogoutPage.as_view() ), name="logout"),
     url(r'^settings\/?', login_required( views.UserSettingsView.as_view() ), name="user settings"),
 
-    url(r'problem/$', login_required( views.ProblemListView.as_view() ), name="problems"),
+    url(r'problem/$', login_required( views.ProblemListView.as_view() ), name="problem list"),
     url(r'problem/(\d+)$', login_required( views.ProblemDetailView.as_view() ), name="problem detail"),
     url(r'problem/(\d+)/submit/(\d+)$', login_required( views.ProblemExecutionView.as_view() ), name="problem execution"),
     url(r'problem/(\d+)/file$', login_required( views.TextFileGeneratorView.as_view() ), name="text file generator"),

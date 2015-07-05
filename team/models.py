@@ -14,7 +14,6 @@ from celery.contrib import rdb
 
 from problems.models import Problem, ProblemResult
 
-
 logging.basicConfig(filename="django.log", level=logging.CRITICAL)
 
 class UserSettings(DjangoModels.Model):
