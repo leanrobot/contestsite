@@ -57,6 +57,9 @@ INSTALLED_APPS = (
     'djcelery',
     'team',
     'judge',
+    'control',
+    'problems',
+    'grading',
 )
 
 MIDDLEWARE_CLASSES = (
