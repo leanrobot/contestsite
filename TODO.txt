@@ -3,19 +3,9 @@ TODO list for ContestSite Django app ===========================================
 - add testing button (long term)
 - on website editor for submission
 - make file submission more prominent on the page.
-- add refreshing scoreboard for judge
-- make judge grade page refresh every 10 seconds.
 
 Work Queue (HIGH PRIORITY)
 =====================
-- If errors happen in tasks.py, catch it & submit to database.
-- Add comments to judging system.
-- Add check for supported extension
-- [HIGH] Server side check to make sure team has no more than 1 pending
-		result for each problem at a time.
-- [Feature] Add 'Control' page for contest settings, (start, end, pause).
-- [Small fix] Wrap the input, output, normal description in <pre> block
-		'problem detail' template.
 - [BUG] Total problems on team page for judge is incorrect number.
 
 ================================================================================
@@ -39,14 +29,8 @@ CSS / Frontend
 - Settings page is a mess.
 - [CSS] on submission box, add possible score. At top of page, total score.
 
-Bugs / Issues
-==================== 
-- [BUG] login redirect doesn't function
-
 Long-Term
 ====================
-- No more than one login at a time for teams.
 - Add javascript tidbit to expose the django context variables 
 		for debugging. (Django-Introspect)
-- use socket.io to implement "call judge" button directly to the judge.
 - create separate repository of available compiler information for quick setup.
