@@ -27,7 +27,7 @@ angularApp.factory "api", ($http, $q, $resource) ->
 				solution.successful = correct
 				console.log solution.id
 				$http {
-						url: "/api/v1/problemresult/#{solution.id}"
+						url: "/api/v1/problemresult/#{solution.id}/?format=json"
 						data: solution
 						method: "PATCH"
 					}
