@@ -86,6 +86,16 @@
 					<h4>stdout</h4>
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.stdout)"></code></pre>
 
+					<a ng-click="showExpected = ! showExpected">
+					<span ng-show="!showExpected">show</span>
+					<span ng-show="showExpected">hide</span>
+						expected output.
+					</a>
+					<span ng-show="showExpected"> <!-- hiding the expected output by default. -->
+						<h3>expected output</h3>
+						<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.problem.outputSubmit)"></code></pre>
+					</span>
+
 					<h4>diff</h4>
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.diff)"></code></pre>
 
