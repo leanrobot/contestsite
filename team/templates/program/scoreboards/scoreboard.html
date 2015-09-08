@@ -11,15 +11,17 @@
         <td>Rank</td>
         <td>Team</td>
         <td>Score</td>
+        <td>Last Submission</td>
         <td>Progress</td>
       </tr>
       </thead>
       <tbody>
-      {% for rank,user,results,correct,failed in tableData %}
+      {% for rank,user,latestSubmission,correct,failed in tableData %}
         <tr>
           <td>{{rank}}</td>
           <td>{{user.teamName}}</td>
           <td>{{user.score}}</td>
+          <td>{{latestSubmission.prettyTime}} ({{latestSubmission.minsAgo}} mins ago)</td>
           <!-- Progress bar -->
           <td>
             <div class="progress">

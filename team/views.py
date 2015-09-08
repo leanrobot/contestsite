@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django import forms
 from django.conf import settings
 from django.utils.datastructures import MultiValueDictKeyError
+from django.conf import settings
 
 from pytz import timezone
 
@@ -257,7 +258,10 @@ class ScoreboardView(View):
 	def get(self, request):
 		pass
 		users = UserSettings.objects.all()
-		users = filter(lambda us: not( us.user.is_staff or us.user.is_superuser), users)
+		users = filter(
+			lambda us: settings.DEBUG or not( us.user.is_staff or us.user.is_superuser),
+			users
+		)
 		# sort the users by score from high -> low.
 		users = reversed(sorted(users, key=lambda user: user.score() ))
 
@@ -265,12 +269,20 @@ class ScoreboardView(View):
 		rank = 1
 
 		for u in users:
-			resultsList = []
 
 			(correct, failed) = progressBar(u.user)
 
-			tableData.append( (rank, u, resultsList, correct, failed) )
+			latestSubmission = ProblemResult.objects.filter(user=request.user, 
+				successful=True).order_by('-submissionTime').first()
+
+			# import pdb; pdb.set_trace()
+
+			tableData.append( (rank, u, latestSubmission, correct, failed) )
 			rank += 1
+
+
+		# 
+
 
 		return render(request, "program/scoreboards/scoreboard.html", {
 			"tableData" : tableData,
