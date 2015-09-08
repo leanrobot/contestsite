@@ -18,7 +18,7 @@ AUTO_GRADE = False
 TEAM_GROUP_NAME = "Team"
 JUDGE_GROUP_NAME = "Judge"
 
-RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:8080'
+RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:80'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
