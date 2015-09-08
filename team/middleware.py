@@ -8,7 +8,8 @@ from django.shortcuts import redirect
 
 from pytz import timezone
 
-from .models import ContestSettings, UserSettings
+from .models import UserSettings
+from control.models import ContestSettings
 from . import views
 
 

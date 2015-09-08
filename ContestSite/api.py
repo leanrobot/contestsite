@@ -2,7 +2,9 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import BasicAuthentication
 from tastypie.resources import ModelResource
 from tastypie import fields
-from team.models import ExecutionResult, ProblemResult, Problem
+
+from grading.models import ExecutionResult, ProblemResult
+from problems.models import Problem
 
 class ProblemResource(ModelResource):
 	class Meta:

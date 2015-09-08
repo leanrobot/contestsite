@@ -12,7 +12,9 @@ from random import randint
 from django.conf import settings
 from django import forms
 
-from team.models import UserSettings, ProblemResult, ExecutionResult, ContestSettings
+from team.models import UserSettings
+from control.models import ContestSettings
+from grading.models import ProblemResult, ExecutionResult
 from team.library import progressBar
 
 # Create your views here.
@@ -37,7 +39,7 @@ class UserListView(JudgeView):
 class UserDetailView(JudgeView):
 	def get(self, request, username, userId):
 		user = auth.User.objects.get(pk=userId)
-		settings = UserSettings.objects.get(user=user)
+		settings = UserSettings.objects.get_or_create(user=user)[0]
 
 		results = ProblemResult.objects.filter(user=user)
 		correct = len(settings.getCorrect())
@@ -118,9 +120,7 @@ class ControlView(JudgeView):
 			settingsForm = ContestSettingsForm(request.POST)
 			if settingsForm.is_valid():
 				settingsForm.save()
-			pass
 		elif action == "createusers":
-			pass
 			userForm = CreateUsersForm(request.POST)
 			userCount = int(userForm.data['userCount'])
 			teamGroup = auth.Group.objects.get(name="Team")

@@ -10,7 +10,9 @@ from pytz import timezone
 
 from django.conf import settings
 
-from .models import UserSettings, ProblemResult, ExecutionResult, ProblemScore
+from .models import UserSettings
+from grading.models import (
+	ProblemResult, ExecutionResult, ProblemScore)
 from .library import SolutionValidator, TimeoutThread
 
 worker = Celery('worker', broker=settings.BROKER_URL)
