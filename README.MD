@@ -49,9 +49,9 @@ settings indicate the following:
 Templating is used to insert the following values for the run and compile
 commands.
 
-- {{fullname}}: the absolute path to the file.
-- {{filname}}: the name of the file.
-- {{basename}}: the name of the file without the extension (useful for java classes)
+- **{{fullname}}**: the absolute path to the file.
+- **{{filname}}**: the name of the file.
+- **{{basename}}:** the name of the file without the extension (useful for java classes)
 
 ### Examples
 

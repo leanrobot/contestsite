@@ -222,7 +222,7 @@ class ProblemExecutionView(View):
 			startTime = now,
 			endTime = now,
 			stdin = "",
-			stdout = "",
+			stdout = "<<AWAITING EXECUTION>>",
 			stderr = "",
 			diff = "",
 			filename = "",

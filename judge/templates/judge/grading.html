@@ -48,10 +48,11 @@
 			<div class="row">
 				<div class="col-md-6">
 					<h2>
+						{% comment %}TODO(cleanup this comment)
 						<span class="glyphicon glyphicon-ok" 
 							  ng-if="selected.successful"></span>
 						<span class="glyphicon glyphicon-question-sign" 
-							  ng-if="!selected.successful"></span>
+							  ng-if="!selected.successful"></span>{% endcomment %}
 						[[selected.problem.name]]
 					</h2>
 					<h4>[[selected.team]]</h4>
@@ -67,15 +68,37 @@
 								class="btn btn-default btn-md border-dark glyphicon glyphicon-remove "></button>
 					</span>
 					<hr/>
-					<h3>Output Diff</h3>
+
+					<h3>
+						Grading Suggestion: 
+						<span class="glyphicon glyphicon-ok" 
+							style="color:green" 
+							ng-if="selected.successful">
+						</span>
+						<span class="glyphicon glyphicon-remove"
+									style="color:red"
+								  ng-if="!selected.successful"></span>
+						<span>
+					</h3>
+					
+					<h3>Output</h3>
+
+					<h4>stdout</h4>
+					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.stdout)"></code></pre>
+
+					<h4>diff</h4>
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.diff)"></code></pre>
+
 					<h3>Running Time</h3>
 					<p>[[selected.execution.startTime]] seconds</p>
+
 					<h3>Command</h3>
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.command)"></code></pre>
-					<h3>Stdin</h3>
+
+					<h3>stdin</h3>
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.stdin)"></code></pre>
-					<h3>Stderr</h3>
+
+					<h3>stderr</h3>
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.stderr)"></code></pre>
 				</div>
 			</div>
