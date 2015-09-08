@@ -100,6 +100,8 @@
           <p>
             {% if problem.inputType == "file" %}
               <span class="glyphicon glyphicon-download-alt"/> <a href="{% url 'text file generator' problem.id%}">{{problem.filename}}</a>
+            {% elif problem.inputType == "stdin" %}
+              <span>data is provided via stdin.</span>
             {% endif %}
           </p>
           <pre class="hljs hljs-init"><code>{{problem.inputTest}}</code></pre>
