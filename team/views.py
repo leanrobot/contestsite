@@ -8,8 +8,11 @@ from django.views.generic.base import View
 from django.http import HttpResponse
 from django import forms
 from django.conf import settings
+from django.utils.datastructures import MultiValueDictKeyError
 
 from pytz import timezone
+
+from grading.models import ProblemSolution, ExecutionResult, ProblemResult
 
 from .models import *
 from .library import SolutionValidator, fixedTZData, progressBar
@@ -122,7 +125,7 @@ class ProblemDetailView(TeamLoginRequiredMixin, View):
 				solution = ProblemSolution(solution=request.FILES['solution'], owner=request.user)
 				solution.save()
 				return redirect("/team/problem/%s/submit/%s" % (problemId, solution.id))
-		except:
+		except MultiValueDictKeyError as e:
 			response = redirect('problem detail', problemId)
 			response['Location'] = "?error=nofile"
 			return response

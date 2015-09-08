@@ -120,9 +120,7 @@ class ControlView(JudgeView):
 			settingsForm = ContestSettingsForm(request.POST)
 			if settingsForm.is_valid():
 				settingsForm.save()
-			pass
 		elif action == "createusers":
-			pass
 			userForm = CreateUsersForm(request.POST)
 			userCount = int(userForm.data['userCount'])
 			teamGroup = auth.Group.objects.get(name="Team")
