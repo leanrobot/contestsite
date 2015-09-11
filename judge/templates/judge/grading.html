@@ -92,7 +92,7 @@
 						expected output.
 					</a>
 					<span ng-show="showExpected"> <!-- hiding the expected output by default. -->
-						<h3>expected output</h3>
+						<h4>expected output</h4>
 						<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.problem.outputSubmit)"></code></pre>
 					</span>
 
@@ -100,7 +100,10 @@
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.diff)"></code></pre>
 
 					<h3>Running Time</h3>
-					<p>[[selected.execution.startTime]] seconds</p>
+					<p>
+						[[main.runningTime(selected.execution.startTime, 
+						selected.execution.endTime)]] ms
+					</p>
 
 					<h3>Command</h3>
 					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.command)"></code></pre>

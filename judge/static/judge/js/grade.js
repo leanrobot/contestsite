@@ -98,10 +98,10 @@
     };
 
     GradingMain.prototype.runningTime = function(startraw, endraw) {
-      var end, ref, ref1, start;
-      console.log(this.time);
-      start = (ref = this.time) != null ? ref.createTime(startraw) : void 0;
-      end = (ref1 = this.time) != null ? ref1.createtime(endraw) : void 0;
+      var diff, end, start;
+      start = new Date(startraw);
+      end = new Date(endraw);
+      diff = end - start;
       return diff;
     };
 

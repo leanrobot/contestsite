@@ -1,8 +1,10 @@
 import sys
 #read the amount left.
-sys.stdin.readline()
+data_file = open("foreignshoes.dat")
 
-for line in sys.stdin:
+num_lines = int(data_file.readline())
+
+for line in data_file:
 	data = line.split(" ")
 	increment = 1
 	country = "US"

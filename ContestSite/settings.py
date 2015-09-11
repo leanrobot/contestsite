@@ -102,7 +102,7 @@ STATIC_ROOT = '/root/contestsite/static'
 
 # Authentication URLS
 
-LOGIN_URL = "/team/login"
+LOGIN_URL = "/accounts/login"
 LOGOUT_URL = "/team/logout"
 
 # Uploaded Files & Metadata

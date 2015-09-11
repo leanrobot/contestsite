@@ -1,3 +1,3 @@
 import sys
 print "Hello World!"
-sys.stderr.write("Standard Error Output")
+sys.stderr.write("Hello STDERR, I come in peace!\n")

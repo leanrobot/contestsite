@@ -78,11 +78,9 @@ angularApp.controller 'Main',
 					return code
 
 			runningTime: (startraw, endraw) ->
-				console.log @time
-				start = @time?.createTime startraw
-				end = @time?.createtime endraw
-				#diff = end - start
-
+				start = new Date startraw
+				end = new Date endraw
+				diff = end - start
 				return diff
 
 

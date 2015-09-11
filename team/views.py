@@ -272,8 +272,8 @@ class ScoreboardView(View):
 
 			(correct, failed) = progressBar(u.user)
 
-			latestSubmission = ProblemResult.objects.filter(user=request.user, 
-				successful=True).order_by('-submissionTime').first()
+			latestSubmission = ProblemResult.objects.filter(user=u.user, 
+				successful=True, graded=True).order_by('-submissionTime').first()
 
 			# import pdb; pdb.set_trace()
 

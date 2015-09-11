@@ -21,7 +21,11 @@
           <td>{{rank}}</td>
           <td>{{user.teamName}}</td>
           <td>{{user.score}}</td>
-          <td>{{latestSubmission.prettyTime}} ({{latestSubmission.minsAgo}} mins ago)</td>
+          <td>
+            {% if latestSubmission %}
+              {{latestSubmission.prettyTime}} ({{latestSubmission.minsAgo}} mins ago)
+            {% endif %}
+          </td>
           <!-- Progress bar -->
           <td>
             <div class="progress">
