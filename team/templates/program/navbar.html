@@ -1,0 +1,60 @@
+{# Navigation Bar - activePage.py manages currently selected nav route #}
+{% load activePage %}
+
+<div class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">;Table DROPPer</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        {% url 'grading' as grading %}
+        {% url 'user list' as user_list %}
+        {% url 'index' as index %}
+        {% url 'problem list' as problems %}
+        {% url 'scoreboard' as scoreboard %}
+        {% url 'contest control' as control %}
+
+        {% if user.is_staff or user.is_superuser %}
+        <li class="{% active request grading %}"><a href="{{ grading }}">Grade</a></li>
+        <li class="{% active request control %}"><a href="{{ control }}">Control</a></li>
+        <li class="{% active request user_list %}"><a href="{{ user_list }}">Teams</a></li>
+        {% endif %}
+
+        {% if not user.is_staff or user.is_superuser %}
+        <li class="{% active request scoreboard %}"><a href="{{ scoreboard }}">Teams</a></li>
+        <li class="{% active request problems %}"><a href="{{ problems }}">Problems</a></li>
+        {% endif %}
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+
+        {% if user.is_authenticated %}
+        <li>
+          <span id="clock"> 
+            <span id="timestamp" style="display:none">{{contestEndTimestamp}}</span>
+            <span class="navbar-text" id="time"></span>
+          </span>
+        </li>
+        <li class="navbar-text">{{userdata.score}} points</li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{userdata.teamName}}&nbsp;<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'user settings' %}">Settings</a></li>
+            <li><a href="{% url 'logout' %}">Sign Out</a></li>
+          </ul>
+        </li>
+
+        {% else %}
+        <li><a href="{% url 'login' %}">Sign In</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div> <!-- Navbar close div -->
