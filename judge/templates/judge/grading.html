@@ -1,122 +1,123 @@
 {% extends 'program/base.html' %}
+
 {% block head %}
-	<script src="/static/judge/js/grade.js" type="text/javascript"></script>
+  <script src="/static/judge/js/grade.js" type="text/javascript"></script>
 {% endblock %}
 
 {%block body%}
  
 <div class="row content" ng-app="Grading">
-	<div class="col-md-12" ng-controller="Main as main">
-		<div class="row">
-		<div class="col-md-4">
-			<div class="row">
-			<p> <button ng-click="main.load()"
-					class="btn btn-default btn-md glyphicon glyphicon-refresh"
-					></button> </p>
-			</div>
-			<div class="row">
-				<table class="table table-hover border-dark ng-hide-[[loading]]">
-					<thead>
-					<tr class="border-dark">
-						<th>Team&nbsp;<span class="caret"></span></th>
-						{% comment %}
-						<th><span class="glyphicon glyphicon-ok"></span>/<span class="glyphicon glyphicon-question-sign"></span>&nbsp;<span class="caret caret-reversed"></span></th>
-						{% endcomment %}
-						<th>Time</th>
-						<th>Problem</th>
-					</tr>
-					</thead>
+  <div class="col-md-12" ng-controller="Main as main">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="row">
+          <p>
+            <button ng-click="main.load()" class="btn btn-default btn-md glyphicon glyphicon-refresh"></button> 
+          </p>
+        </div>
+        <div class="row">
+          <table class="table table-hover border-dark ng-hide-[[loading]]">
+            <thead>
+              <tr class="border-dark">
+                <th>Team&nbsp;<span class="caret"></span></th>
 
-					<tbody>
-					<!-- FOR________________________________________________ -->
-					<tr ng-repeat="solution in solutions"
-						ng-class="{tableSelected: solution == selected }"
-						ng-click="main.setSelected(solution)"
-						class="table-selected">
-						<td>[[solution.team]]</td>
-						<td>
-							[[solution.minsAgo]] mins
-						</td>
-						<td>[[solution.problem.name]]</td>
-					</tr>
-					</tbody>
-					<!-- END FOR______________________________________________ -->
-				</table>
-			</div>
-		</div>
-		<div class="col-md-8 ng-hide-[[!selected]]" ng-model="main.selected">
-			<div class="row">
-				<div class="col-md-6">
-					<h2>
-						{% comment %}TODO(cleanup this comment)
-						<span class="glyphicon glyphicon-ok" 
-							  ng-if="selected.successful"></span>
-						<span class="glyphicon glyphicon-question-sign" 
-							  ng-if="!selected.successful"></span>{% endcomment %}
-						[[selected.problem.name]]
-					</h2>
-					<h4>[[selected.team]]</h4>
-				</div>
-				<div class="col-md-6 text-right"><h2>[[selected.time]]</h2><h4>([[selected.minsAgo]] mins ago)</h4></div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<span class="btn-group">
-						<button ng-click="main.gradeResult(true, selected)"
-								class="btn btn-default btn-md border-dark glyphicon glyphicon-ok"></button>
-						<button ng-click="main.gradeResult(false, selected)"
-								class="btn btn-default btn-md border-dark glyphicon glyphicon-remove "></button>
-					</span>
-					<hr/>
+                {% comment %}
+                <th><span class="glyphicon glyphicon-ok"></span>/<span class="glyphicon glyphicon-question-sign"></span>&nbsp;<span class="caret caret-reversed"></span></th>
+                {% endcomment %}
 
-					<h3>
-						Grading Suggestion: 
-						<span class="glyphicon glyphicon-ok" 
-							style="color:green" 
-							ng-if="selected.successful">
-						</span>
-						<span class="glyphicon glyphicon-remove"
-									style="color:red"
-								  ng-if="!selected.successful"></span>
-						<span>
-					</h3>
-					
-					<h3>Output</h3>
+                <th>Time</th>
+                <th>Problem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- FOR________________________________________________ -->
+              <tr ng-repeat="solution in solutions"
+                ng-class="{tableSelected: solution == selected }"
+                ng-click="main.setSelected(solution)"
+                class="table-selected">
+                <td>[[solution.team]]</td>
+                <td>[[solution.minsAgo]] mins</td>
+                <td>[[solution.problem.name]]</td>
+              </tr>
+              <!-- END FOR______________________________________________ -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-8 ng-hide-[[!selected]]" ng-model="main.selected">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>
+              {% comment %}TODO(cleanup this comment)
+              <span class="glyphicon glyphicon-ok" 
+                  ng-if="selected.successful"></span>
+              <span class="glyphicon glyphicon-question-sign" 
+                  ng-if="!selected.successful"></span>
+              {% endcomment %}
+              [[selected.problem.name]]
+            </h2>
+            <h4>[[selected.team]]</h4>
+          </div>
+          <div class="col-md-6 text-right"><h2>[[selected.time]]</h2><h4>([[selected.minsAgo]] mins ago)</h4></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <span class="btn-group">
+              <button ng-click="main.gradeResult(true, selected)"
+                  class="btn btn-default btn-md border-dark glyphicon glyphicon-ok"></button>
+              <button ng-click="main.gradeResult(false, selected)"
+                  class="btn btn-default btn-md border-dark glyphicon glyphicon-remove"></button>
+            </span>
+            <hr/>
 
-					<h4>stdout</h4>
-					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.stdout)"></code></pre>
+            <h3>
+              Grading Suggestion: 
+              <span class="glyphicon glyphicon-ok" 
+                style="color:green" 
+                ng-if="selected.successful">
+              </span>
+              <span class="glyphicon glyphicon-remove"
+                style="color:red"
+                ng-if="!selected.successful">
+              </span>
+            </h3>
+            
+            <h3>Output</h3>
 
-					<a ng-click="showExpected = ! showExpected">
-					<span ng-show="!showExpected">show</span>
-					<span ng-show="showExpected">hide</span>
-						expected output.
-					</a>
-					<span ng-show="showExpected"> <!-- hiding the expected output by default. -->
-						<h4>expected output</h4>
-						<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.problem.outputSubmit)"></code></pre>
-					</span>
+            <h4>stdout</h4>
+            <div class="ace-hl ace-no-gutter" ng-bind-html="selected.execution.stdout"></div>
 
-					<h4>diff</h4>
-					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.diff)"></code></pre>
+            <a ng-click="showExpected = !showExpected">
+              <span ng-show="!showExpected">Show</span>
+              <span ng-show="showExpected">Hide</span>
+                expected output
+            </a>
+            <span ng-show="showExpected"> <!-- hiding the expected output by default. -->
+              <h4>Expected Output</h4>
+              <div class="ace-hl ace-no-gutter" ng-bind-html="selected.problem.outputSubmit"></div>
+            </span>
 
-					<h3>Running Time</h3>
-					<p>
-						[[main.runningTime(selected.execution.startTime, 
-						selected.execution.endTime)]] ms
-					</p>
+            <h4>Diff</h4>
+            <div class="ace-hl ace-no-gutter" ng-bind-html="selected.execution.diff"></div>
 
-					<h3>Command</h3>
-					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.command)"></code></pre>
+            <h3>Running Time</h3>
+            <p>
+              [[main.runningTime(selected.execution.startTime, selected.execution.endTime)]] ms
+            </p>
 
-					<h3>stdin</h3>
-					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.stdin)"></code></pre>
+            <h3>Command</h3>
+            <div class="ace-hl ace-no-gutter" ng-bind-html="selected.execution.command"></div>
 
-					<h3>stderr</h3>
-					<pre class="hljs"><code ng-bind-html="main.highlightCode(selected.execution.stderr)"></code></pre>
-				</div>
-			</div>
-		</div>
-		</div>
+            <h3>stdin</h3>
+            <div class="ace-hl ace-no-gutter" ng-bind-html="selected.execution.stdin"></div>
+
+            <h3>stderr</h3>
+            <div class="ace-hl ace-no-gutter" ng-bind-html="selected.execution.stderr"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {%endblock%}

@@ -86,7 +86,8 @@
       console.log(solution);
       return this.$scope.selected = solution;
     };
-
+    
+    /* TODO: Remove once Ace-Editor has been fully implemented
     GradingMain.prototype.highlightCode = function(code) {
       var highlightObj;
       if (code != null) {
@@ -96,6 +97,7 @@
         return code;
       }
     };
+    */
 
     GradingMain.prototype.runningTime = function(startraw, endraw) {
       var diff, end, start;

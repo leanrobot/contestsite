@@ -13,38 +13,38 @@
         <th>Name</th>
         <th>Time</th>
       </tr>
-	  {% for pr,possibleScore,result in data %}
-	  	{% if result.successful %}
-      	<tr class="success">
-      	{% else %}
-	  	<tr>
-	  	{% endif %}
-			
-			<td>{{pr.id}}</td>
+    {% for pr,possibleScore,result in data %}
+      {% if result.successful %}
+        <tr class="success">
+        {% else %}
+        <tr>
+      {% endif %}
+      
+      <td>{{pr.id}}</td>
 
-			{% if result == None %}
-				<td></td>
-			{% elif result.successful %}
-       		    <td><p class="glyphicon glyphicon-ok"></p></td>
-			{% else %}
-        		<td><p class="glyphicon glyphicon-remove"></p></td>
-			{% endif %}
+      {% if result == None %}
+        <td></td>
+      {% elif result.successful %}
+              <td><p class="glyphicon glyphicon-ok"></p></td>
+      {% else %}
+            <td><p class="glyphicon glyphicon-remove"></p></td>
+      {% endif %}
 
-			<td>{{possibleScore}}/{{pr.score}}</td>
+      <td>{{possibleScore}}/{{pr.score}}</td>
 
-			<td><!--ATTEMPTS-->----</td>
+      <td><!--ATTEMPTS-->----</td>
 
-			<td><a href="{{pr.id}}">{{pr.name}}</a></td>
+      <td><a href="{{pr.id}}">{{pr.name}}</a></td>
 
-			{% if result != None %}
-				<td>{{ result.submissionTime }} </td>
-			{% else %}
-				<td class="null"></td>
-			{% endif %}
+      {% if result != None %}
+        <td>{{ result.submissionTime }} </td>
+      {% else %}
+        <td class="null"></td>
+      {% endif %}
 
-		</tr>
-	  {% endfor %}
-	  <!--
+    </tr>
+    {% endfor %}
+    <!--
       <tr>
         <td>1</td>
         <td><p class="glyphicon glyphicon-remove"></p></td>

@@ -70,13 +70,15 @@ angularApp.controller 'Main',
 				console.log solution
 				@$scope.selected = solution
 
+			###
 			highlightCode: (code) ->
 				if code?
 					highlightObj = hljs.highlightAuto code
 					return highlightObj.value
 				else 
 					return code
-
+			###
+			
 			runningTime: (startraw, endraw) ->
 				start = new Date startraw
 				end = new Date endraw

@@ -27,7 +27,6 @@ from accounts.views import TeamLoginRequiredMixin
 def checkCorrectSolution(problem, stdin, stdout, stderr, exitCode):
 	stdoutMatch = problem.outputSubmit == stdout
 	exitCodeCorrect = exitCode == 0
-	fdsafsd
 	return stdoutMatch and exitCodeCorrect
 
 # Forms ========================================================
@@ -178,7 +177,7 @@ class ProblemExecutionView(TeamLoginRequiredMixin, View):
 			startTime = now,
 			endTime = now,
 			stdin = "",
-			stdout = "<<AWAITING EXECUTION>>",
+			stdout = "--AWAITING EXECUTION--",
 			stderr = "",
 			diff = "",
 			filename = "",
